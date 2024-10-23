@@ -40,10 +40,22 @@ const Checklist = () => {
             checked: false,
         },
     ]);
+    const handleChange = (key) => {
+        setPeople(prevPeople => {
+            return prevPeople.map(person => {
+                if (person.key === key) {
+                    return {
+                        ...person,
+                        checked: !person.checked
+                    };
+                }
+                return person;
+            });
+        })};
     return (
         <>
         <RegisterPerson/>
-        <PersonList personProps={people} setPeople={setPeople} />
+        <PersonList personProps={people} handleChange={handleChange} />
         </>
     );
 }

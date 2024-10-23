@@ -1,10 +1,10 @@
 import PersonItem from 'components/PersonItem';
 
-const PersonList = ({personProps, setPeople }) => {
+const PersonList = ({personProps, handleChange }) => {
     return (
         <ul>{
             personProps.map((person) => (
-                <PersonItem key={person.key} itemProp={person} setPeople={setPeople} />
+                <PersonItem key={person.key} itemProp={person} handleChange={handleChange} />
             ))
         }</ul>
     );
