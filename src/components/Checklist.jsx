@@ -54,7 +54,7 @@ const Checklist = () => {
         })};
     return (
         <>
-        <RegisterPerson/>
+        <RegisterPerson handleChange={handleChange} />
         <PersonList personProps={people} handleChange={handleChange} />
         </>
     );

@@ -1,28 +1,34 @@
-//import QRC from 'https://github.com/mebjas/html5-qrcode/releases/download/v2.3.8/html5-qrcode.min.js';
+import QRScanner from 'components/QRScanner';
 
-const RegisterPerson = () => {
-//    QRC.HTML5Qrcode.getCameras().then(devices => {
-//        if (devices && devices.length) {
-//            const cameraId = devices[0].id;
-//            const config = { fps: 10, qrbox: 250 };
-//            const html5QrCode = new QRC.HTML5Qrcode("reader");
-//            html5QrCode.start(
-//                cameraId,
-//                config,
-//                qrCodeMessage => {
-//                    console.log(qrCodeMessage);
-//                    html5QrCode.stop();
-//                },
-//                errorMessage => {
-//                    console.log(errorMessage);
-//                })
-//                .catch(err => {
-//                    console.log(err);
-//                });
-//        }
-//    });
+const RegisterPerson = ( { handleChange }) => {
+    const beep = (freq = 440, duration= 90, vol=50) => {
+        var context = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator = context.createOscillator();
+        var gain = context.createGain();
+        gain.gain.setValueAtTime(0,context.currentTime);
+        gain.gain.linearRampToValueAtTime(vol/100,context.currentTime + 0.002);
+        oscillator.connect(gain);
+        oscillator.frequency.value = freq;
+        oscillator.type = "square";
+        gain.connect(context.destination);
+        oscillator.start(context.currentTime);
+        oscillator.stop(context.currentTime + (duration / 1000));
+        oscillator.onended = () => {
+            context.close();
+        };
+    }
+    const onNewScanResult = (qrCodeMessage) => {
+        console.log(qrCodeMessage);
+        beep(440,190,25);
+        beep(660,50,25);
+    };
     return (
-        <div><button>Scan</button></div>
+        <div><QRScanner 
+        fps={10}
+        qrbox={250}
+        disableFlip={false}
+        qrCodeSuccessCallback={onNewScanResult}/>
+        <button>Scan</button></div>
     );
 }
 export default RegisterPerson;
