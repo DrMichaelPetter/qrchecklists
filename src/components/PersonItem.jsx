@@ -4,7 +4,7 @@ const PersonItem = ({itemProp, handleChange}) => {
         <li><input 
             type="checkbox" 
             checked={itemProp.checked} 
-            onChange={()=> handleChange(person.key)}/> {person.name} ({person.hof[0]}, K{person.kurs})
+            onChange={()=> handleChange(person.key)}/> ({person.hof[0]}, K{person.kurs}) {person.name} 
         </li>
     );
 }

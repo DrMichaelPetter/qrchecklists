@@ -1,6 +1,10 @@
 import QRScanner from 'components/QRScanner';
+import { useState } from 'react';
 
 const RegisterPerson = ( { handleChange }) => {
+
+    const [qractive,toggleQR] = useState(false);
+
     const beep = (freq = 440, duration= 90, vol=50) => {
         var context = new (window.AudioContext || window.webkitAudioContext)();
         var oscillator = context.createOscillator();
@@ -18,17 +22,31 @@ const RegisterPerson = ( { handleChange }) => {
         };
     }
     const onNewScanResult = (qrCodeMessage) => {
-        console.log(qrCodeMessage);
-        beep(440,190,25);
-        beep(660,50,25);
+        const messages = qrCodeMessage = qrCodeMessage.split(";");
+        if (messages[0] === "FA25") {
+            const key = parseInt(messages[1]);
+            handleChange(key);
+            beep(440,190,25);
+            beep(660,50,25);
+        } else {
+            console.log("unrecognized strange QR code " + qrCodeMessage);
+            beep(660,50,25);
+            beep(880,250,25);
+            beep(440,250,25);
+        }
     };
-    return (
-        <div><QRScanner 
+    const scanner = () => { return qractive ? <QRScanner 
         fps={10}
         qrbox={250}
         disableFlip={false}
-        qrCodeSuccessCallback={onNewScanResult}/>
-        <button>Scan</button></div>
+        qrCodeSuccessCallback={onNewScanResult}
+        toggleQR={toggleQR} 
+        /> : <button onClick={()=> toggleQR((prev)=> true)}>Scan</button>
+    }
+
+    return (
+        <div>{scanner()}
+        </div>
     );
 }
 export default RegisterPerson;
