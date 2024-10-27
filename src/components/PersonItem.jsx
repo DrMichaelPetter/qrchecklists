@@ -1,10 +1,13 @@
+import {BsPersonDash} from 'react-icons/bs';
+import {BsPersonAdd}  from 'react-icons/bs';
+
 const PersonItem = ({itemProp, handleChange}) => {
     const person = itemProp;  
     return (
-        <li><input 
-            type="checkbox" 
-            checked={itemProp.checked} 
-            onChange={()=> handleChange(person.key)}/> ({person.hof[0]}, K{person.kurs}) {person.name} 
+        <li>
+            { (!itemProp.checked) ? <button onClick={() => handleChange(person.key)}><BsPersonAdd /></button> : <></>}
+            ({person.hof[0]}, K{person.kurs}) {person.name} 
+         { (itemProp.checked) ? <button onClick={() => handleChange(person.key)}><BsPersonDash /></button> : <></>}
         </li>
     );
 }

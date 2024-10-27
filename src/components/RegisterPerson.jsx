@@ -1,3 +1,4 @@
+import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
@@ -41,7 +42,7 @@ const RegisterPerson = ( { handleChange }) => {
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
-        /> : <button onClick={()=> toggleQR((prev)=> true)}>Scan</button>
+        /> : <button onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>
     }
 
     return (
