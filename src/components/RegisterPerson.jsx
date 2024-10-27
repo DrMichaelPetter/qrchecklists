@@ -36,18 +36,15 @@ const RegisterPerson = ( { handleChange }) => {
             beep(440,250,25);
         }
     };
-    const scanner = () => { return qractive ? <QRScanner 
+
+    return (
+        qractive ? <QRScanner 
         fps={10}
         qrbox={250}
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
         /> : <button onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>
-    }
-
-    return (
-        <div>{scanner()}
-        </div>
     );
 }
 export default RegisterPerson;
