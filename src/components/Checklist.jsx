@@ -36,12 +36,6 @@ const Checklist = () => {
                 acc=acc.sort(sortPeople);
                 setPeople(acc);
             });
-
-//            setPeople(a => [...a,{key:1,name:'Michael Petter',hof:'Murrerhof',kurs:1,checked:false}]);
-//            setPeople(a => [...a,{key:2,name:'Tobias Neckel',hof: 'Alpenblick',kurs: 2,checked: false}]);
-//            setPeople(a => [...a,{key:3,name:'Julia Pelzer',hof: 'Alpenblick',kurs: 4,checked: false}]);
-//            setPeople(a => [...a,{key:4,name:'Thomas Zeiser',hof: 'Rabensteinerhof',kurs: 5,checked: false}]);
-//            setPeople(a => [...a,{key:5,name:'Marc Windsheimer',hof: 'Feldrand',kurs: 3,checked: false}]);
         }
         console.log("Initializing people") ;
         return () => { ignore = true; };
