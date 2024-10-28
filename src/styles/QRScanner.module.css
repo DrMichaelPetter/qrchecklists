@@ -1,0 +1,21 @@
+.container{
+    position: relative;
+    width: 100%;
+}
+.btn {
+  position: absolute;
+  background: none;
+  top: 22%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: #ff5005;
+  font-size: 3rem;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.btn:hover {
+  color: orange;
+}
