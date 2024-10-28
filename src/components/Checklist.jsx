@@ -2,6 +2,18 @@ import RegisterPerson from 'components/RegisterPerson';
 import PersonList from 'components/PersonList';
 import { useState,useEffect } from 'react';
 
+const sortPeople = (a,b) => {
+    if (a.hof < b.hof) return -1;
+    if (a.hof > b.hof) return 1;
+
+    if (a.kurs < b.kurs) return -1;
+    if (a.kurs > b.kurs) return 1;
+
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+}
+
 const Checklist = () => {
     const [people,setPeople] = useState([]);
     useEffect(() => {
@@ -12,14 +24,17 @@ const Checklist = () => {
                 console.log('loaded csv '+ text);
                 const rows = text.split('\n');
                 var i=0;
+                var acc = [];
                 rows.slice(1).forEach(row => {
                     const columns = row.split(',');
                     if (columns.length === 5) {
                         i++;
-                        setPeople(a => [...a,{key:parseInt(i),name:columns[0]+" "+columns[1],hof:columns[3],kurs:parseInt(columns[4]),checked:false}]);
+                        acc.push({key:parseInt(i),name:columns[0]+" "+columns[1],hof:columns[3],kurs:parseInt(columns[4]),checked:false});
                         console.log(i);
                     }
                 });
+                acc=acc.sort(sortPeople);
+                setPeople(acc);
             });
 
 //            setPeople(a => [...a,{key:1,name:'Michael Petter',hof:'Murrerhof',kurs:1,checked:false}]);
