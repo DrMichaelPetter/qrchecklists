@@ -1,13 +1,17 @@
 .item {
-    font-size: 1rem;
+    font-size: 1.5rem;
     list-style-type: none;
     border-bottom: 1px solid #e0e0e0;
     background: #f0efef;
+    border-radius:10px;
+    margin-bottom:5px;
+
 }
 .metadata {
     display: inline;
 }
 .leftbutton {
+    font-size:1.5rem;
     float:left;
     margin-right: 10px;
     outline: none;
@@ -15,14 +19,27 @@
     padding: 0;
     background:none;
     size: auto;
+    color: rgb(90, 195, 90);
 }
 .leftbutton:hover {
-    background:#27e406;
+
+    color: darkgreen;
+    border-radius: 5px;
 }
 .rightbutton {
+    color: lightcoral;
+    font-size:1.5rem;
     float: right;
     margin-left:10px;
     outline: none;
     border: none;
     padding: 0;
+    margin-right:5px;
+    background: none;
 }
+.rightbutton:hover {
+
+    color: red;
+    border-radius: 5px;
+}
+

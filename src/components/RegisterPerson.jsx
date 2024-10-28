@@ -4,7 +4,7 @@ import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
-const RegisterPerson = ( { handleChange }) => {
+const RegisterPerson = ( { handleChange , people}) => {
 
     const [qractive,toggleQR] = useState(false);
 
@@ -28,14 +28,18 @@ const RegisterPerson = ( { handleChange }) => {
         const messages = qrCodeMessage = qrCodeMessage.split(";");
         if (messages[0] === "FA25") {
             const key = parseInt(messages[1]);
+            if (people.filter(person => person.key === key && person.checked===true).length > 0) {
+                if (!window.confirm("Unregister " + messages[2] + " ?")){
+                    beep(330,190,25);
+                    return;
+                }
+            }
             handleChange(key);
-            beep(440,190,25);
-            beep(660,50,25);
+            beep(880,190,25);
+
         } else {
             console.log("unrecognized strange QR code " + qrCodeMessage);
-            beep(660,50,25);
-            beep(880,250,25);
-            beep(440,250,25);
+            beep(330,190,25);
         }
     };
 
@@ -47,7 +51,7 @@ const RegisterPerson = ( { handleChange }) => {
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
         aspectRatio={1}
-        /> : <IconContext.Provider value={{size: '300px'}}><button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button></IconContext.Provider>
+        /> : <IconContext.Provider value={{size: '180px'}}><button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button></IconContext.Provider>
     );
 }
 export default RegisterPerson;

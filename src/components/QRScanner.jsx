@@ -39,10 +39,11 @@ const QRScanner = (props) => {
 
         Html5Qrcode.getCameras().then(devices => {
             if (devices && devices.length) {
-                const cameraId = devices[0].id;
+                //const cameraId = devices[0].id;
                 html5QrCode = new Html5Qrcode(qrcodeRegionId,verbose);
                 html5QrCode.start(
-                    cameraId,
+                    //cameraId,
+                    { facingMode: "environment" },
                     config,
                     qrCodeMessage => {
                         props.qrCodeSuccessCallback(qrCodeMessage);

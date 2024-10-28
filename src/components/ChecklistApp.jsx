@@ -30,8 +30,7 @@ const ChecklistApp = () => {
     return (
         <div className="wrapper">
             <div className="lists">
-            <h1>Ferienakademie-Checklists</h1>
-            <p>Die Ferienakademie-Checklists sind Listen um Personen auf FA-Events zu tracken.</p>
+            <h1 className="title">FA Checkmarks</h1>
             <Checklist mapping={mapping}/>
             </div>
         </div>

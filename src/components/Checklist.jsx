@@ -30,8 +30,9 @@ const Checklist = () => {
         })};
     return (
         <>
-        <RegisterPerson handleChange={handleChange} />
-        <PersonList personProps={people} handleChange={handleChange} />
+        <RegisterPerson handleChange={handleChange} people={people} />
+        <PersonList personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
+        <PersonList personProps={people.filter(peopl => !peopl.checked)} handleChange={handleChange} />
         </>
     );
 }
