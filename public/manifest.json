@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FA Checkmarks",
+  "name": "Ferienakademie Strichliste",
   "icons": [
     {
       "src": "favicon.ico",
