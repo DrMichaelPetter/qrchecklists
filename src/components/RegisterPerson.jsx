@@ -1,3 +1,5 @@
+import styles from 'styles/RegisterPerson.module.css';
+import { IconContext } from 'react-icons';
 import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
@@ -44,7 +46,8 @@ const RegisterPerson = ( { handleChange }) => {
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
-        /> : <button onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>
+        aspectRatio={1}
+        /> : <IconContext.Provider value={{size: '300px'}}><button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button></IconContext.Provider>
     );
 }
 export default RegisterPerson;

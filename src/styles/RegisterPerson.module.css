@@ -1,0 +1,17 @@
+
+.scanbutton {
+    float: center;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    width: 95%;
+    height:400px;
+    background: #FAFAFA;
+    border-radius:40px;
+    box-shadow: 10px 10px 5px lightgrey;
+    margin-bottom: 20px;
+}
+.scanbutton:hover {
+    background: #F1F1F1;
+}
