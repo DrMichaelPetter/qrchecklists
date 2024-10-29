@@ -3,11 +3,9 @@
     float: center;
     outline: none;
     border: none;
-    background: none;
     padding: 0;
     width: 95%;
     height:200px;
-    background: #FAFAFA;
     background: rgb(254, 250, 254);
     border-radius:40px;
     box-shadow: 10px 10px 5px lightgrey;

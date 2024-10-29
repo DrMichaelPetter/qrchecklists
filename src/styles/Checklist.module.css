@@ -1,0 +1,15 @@
+.btn {
+    font-weight: bold;
+    width: 80px;
+    background: rgb(254, 250, 254);
+    border: none;
+    font-size: 3rem;
+    box-shadow: 10px 10px 5px  rgb(131, 130, 130);
+    border-radius: 15px;
+    padding-top:15px;
+    margin-bottom: 20px;
+}
+.btn:hover {
+    background: rgb(250,245,250);
+    color: purple;
+}

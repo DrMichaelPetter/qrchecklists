@@ -1,6 +1,8 @@
 import RegisterPerson from 'components/RegisterPerson';
 import PersonList from 'components/PersonList';
 import { useState,useEffect } from 'react';
+import { BsCloudUpload } from 'react-icons/bs';
+import styles from 'styles/Checklist.module.css';
 
 const sortPeople = (a,b) => {
     if (a.hof < b.hof) return -1;
@@ -16,6 +18,7 @@ const sortPeople = (a,b) => {
 
 const Checklist = () => {
     const [people,setPeople] = useState([]);
+    const [checked,setChecked] = useState(0n);
     useEffect(() => {
         let ignore = false;
         if (!ignore){
@@ -40,6 +43,9 @@ const Checklist = () => {
         return () => { ignore = true; };
     },[]);
     const handleChange = (key) => {
+        /* global BigInt */
+        setChecked(checked ^ (1n<<BigInt(key))); // toggle implementation
+        //console.log(checked);
         setPeople(prevPeople => {
             return prevPeople.map(person => {
                 if (person.key === key) {
@@ -53,9 +59,10 @@ const Checklist = () => {
         })};
     return (
         <>
+        <button className={styles.btn}><BsCloudUpload /></button>
         <RegisterPerson handleChange={handleChange} people={people} />
-        <PersonList personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
-        <PersonList personProps={people.filter(peopl => !peopl.checked)} handleChange={handleChange} />
+        <PersonList checked={checked} personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
+        <PersonList checked={checked} personProps={people.filter(peopl => !peopl.checked)} handleChange={handleChange} />
         </>
     );
 }

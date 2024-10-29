@@ -1,6 +1,5 @@
 import styles from 'styles/StatsItem.module.css'
-import { BsMortarboardFill, BsPerson, BsHouse } from 'react-icons/bs';
-import { IconContext } from 'react-icons';
+import { BsPerson } from 'react-icons/bs';
 
 const hoefe = (personen) => {
     if (personen.length === 0) return <></>;
@@ -10,7 +9,6 @@ const hoefe = (personen) => {
     let hofmap = hoefe.reduce((acc, val) => {
         return ({...acc, [val]:(acc[val]||0)+1});
     },{});
-    console.log("mylog 2 "+JSON.stringify(hofmap));
     return Object.keys(hofmap).map((key) => (
         <>{hofmap[key]}&middot;<div className={styles.colored}>K{key}</div> </>)
     );//<BsMortarboardFill />

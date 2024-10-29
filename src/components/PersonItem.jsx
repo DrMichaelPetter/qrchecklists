@@ -3,7 +3,7 @@ import { IconContext } from 'react-icons';
 import { BsXSquareFill} from 'react-icons/bs';
 import { BsPlusCircleFill}  from 'react-icons/bs';
 import { BsHouse } from 'react-icons/bs';
-import { BsMortarboardFill } from 'react-icons/bs';
+import { BsMortarboard } from 'react-icons/bs';
 import { BsPerson } from 'react-icons/bs';
 
 
@@ -14,7 +14,7 @@ const PersonItem = ({itemProp, handleChange}) => {
         <li className={styles.item} style={itemProp.checked ? { background: 'rgb(244,255,244)'}: {}}>
             
             { (!itemProp.checked) ? <button className={styles.leftbutton} onClick={() => handleChange(person.key)}><BsPlusCircleFill /></button> : <></>}
-            <div className={styles.metadata}><BsHouse />{person.hof[0]}</div> <div className={styles.metadata}><BsMortarboardFill />{person.kurs}</div> <div className={styles.metadata}><BsPerson />{person.name}</div>
+            <div className={styles.metadata}><BsHouse />{person.hof[0]}</div> <div className={styles.metadata}><BsMortarboard />{person.kurs}</div> <div className={styles.metadata}>{person.name}</div>
             { (itemProp.checked) ? <button className={styles.rightbutton} onClick={() => handleChange(person.key)}><BsXSquareFill /></button> : <></>}
         </li>
         </IconContext.Provider>
