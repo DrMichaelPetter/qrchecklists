@@ -21,7 +21,7 @@ const Checklist = () => {
         if (!ignore){
             if (!(people.length === 0)) return;
             fetch('./teilnehmer.csv').then(response => response.text()).then(text => {
-                console.log('loaded csv '+ text);
+                //console.log('loaded csv '+ text);
                 const rows = text.split('\n');
                 var i=0;
                 var acc = [];
@@ -30,7 +30,6 @@ const Checklist = () => {
                     if (columns.length === 5) {
                         i++;
                         acc.push({key:parseInt(i),name:columns[0]+" "+columns[1],hof:columns[3],kurs:parseInt(columns[4]),checked:false});
-                        console.log(i);
                     }
                 });
                 acc=acc.sort(sortPeople);

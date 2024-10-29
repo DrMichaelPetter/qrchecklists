@@ -1,0 +1,9 @@
+.item {
+    list-style-type: none;
+}
+.colored {
+    font-size: .8rem;
+    display:inline;
+    color: #c022cf;
+    margin-bottom:5px;
+}
