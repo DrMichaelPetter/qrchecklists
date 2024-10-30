@@ -1,6 +1,6 @@
 import { BsFillXCircleFill } from "react-icons/bs";
 import styles from 'styles/QRScanner.module.css';
-import { Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode , Html5QrcodeSupportedFormats} from 'html5-qrcode';
 import { useEffect } from 'react';
 
 const qrcodeRegionId = "html5qr-code-full-region";
@@ -42,7 +42,11 @@ const QRScanner = (props) => {
         Html5Qrcode.getCameras().then(devices => {
             if (devices && devices.length) {
                 //const cameraId = devices[0].id;
-                html5QrCode = new Html5Qrcode(qrcodeRegionId,verbose);
+                let configuration = {
+                    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+                    verbose: verbose,
+                };
+                html5QrCode = new Html5Qrcode(qrcodeRegionId,configuration);
                 html5QrCode.start(
                     //cameraId,
                     { facingMode: "environment" },
