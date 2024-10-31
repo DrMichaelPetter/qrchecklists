@@ -1,9 +1,16 @@
 .btn {
     font-weight: bold;
-    width: 80px;
+    @media(max-width: 1005px) {
+        width: 80px;
+        border-radius: 15px;
+    }
+    @media(min-width: 1005px) {
+        width: 100%;
+        border-radius: 40px;
+        width: 98%;
+    }
     border: none;
     font-size: 3rem;
-    border-radius: 15px;
     padding-top:15px;
     margin-bottom: 20px;
     background: var(--tum-grey-9);
@@ -12,4 +19,14 @@
 .btn:hover {
     background: var(--tum-pink-4);
     color: var(--tum-pink-dark);
+}
+.listslayout {
+    display: grid;
+    @media(min-width: 1005px) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5px;
+    }
+    @media(max-width: 1005px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

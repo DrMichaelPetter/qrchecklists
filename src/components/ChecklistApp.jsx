@@ -29,7 +29,7 @@ const ChecklistApp = () => {
 
     return (
         <div className="wrapper">
-            <div className="lists">
+            <div className="appbody">
             <h1 className="title">FA Checkmarks</h1>
             <Checklist mapping={mapping}/>
             </div>

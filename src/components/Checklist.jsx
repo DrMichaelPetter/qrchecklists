@@ -59,10 +59,14 @@ const Checklist = () => {
         })};
     return (
         <>
+        <div className={styles.listslayout}>
         <button className={styles.btn}><BsCloudUpload /></button>
         <RegisterPerson handleChange={handleChange} people={people} />
+        </div>
+        <div className={styles.listslayout}>
         <PersonList checked={checked} personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
         <PersonList checked={checked} personProps={people.filter(peopl => !peopl.checked)} handleChange={handleChange} />
+        </div>
         </>
     );
 }

@@ -51,7 +51,8 @@ const RegisterPerson = ( { handleChange , people}) => {
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
         aspectRatio={1.0}
-        /> : <IconContext.Provider value={{size: '180px'}}><button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button></IconContext.Provider>
+        /> : <button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>
     );
+    //size: '180px'
 }
 export default RegisterPerson;

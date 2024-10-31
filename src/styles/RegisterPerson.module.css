@@ -1,10 +1,17 @@
 .scanbutton {
+    @media(max-width: 1005px) {
+        font-size:12rem;
+        padding-top:30px;
+    }
+    @media(min-width: 1005px) {
+        font-size:4rem;
+        padding-top:20px;
+    }
     float: center;
     outline: none;
     border: none;
-    padding: 0;
-    width: 95%;
-    height:200px;
+
+    width: 98%;
     border-radius:40px;
     margin-bottom: 20px;
     background: var(--tum-grey-9);
