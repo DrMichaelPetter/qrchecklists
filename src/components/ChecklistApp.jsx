@@ -1,4 +1,5 @@
 import Checklist from 'components/Checklist';
+import SideBar from 'components/Sidebar';
 import { useEffect,useState } from 'react';
 
 const ChecklistApp = () => {
@@ -29,6 +30,7 @@ const ChecklistApp = () => {
 
     return (
         <div className="wrapper">
+            <SideBar />
             <div className="appbody">
             <h1 className="title">FA Checkmarks</h1>
             <Checklist mapping={mapping}/>
