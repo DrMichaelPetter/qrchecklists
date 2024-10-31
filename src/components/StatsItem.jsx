@@ -1,6 +1,7 @@
 import styles from 'styles/StatsItem.module.css'
 import { BsPerson } from 'react-icons/bs';
 
+
 const hoefe = (personen) => {
     if (personen.length === 0) return <></>;
     let hoefe= personen.map((person) => {
