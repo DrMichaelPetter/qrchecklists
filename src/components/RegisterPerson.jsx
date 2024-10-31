@@ -1,5 +1,4 @@
 import styles from 'styles/RegisterPerson.module.css';
-import { IconContext } from 'react-icons';
 import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';

@@ -57,6 +57,13 @@ const Checklist = () => {
                 return person;
             });
         })};
+    const lists = (mypeople) => {
+        let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
+        let hoefe = Object.keys(hofmap).sort().map((key) => (
+            <PersonList checked={checked} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
+        ));
+        return (<>{hoefe}</>);
+    };
     return (
         <>
         <div className={styles.listslayout}>
@@ -65,7 +72,11 @@ const Checklist = () => {
         </div>
         <div className={styles.listslayout}>
         <PersonList checked={checked} personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
-        <PersonList checked={checked} personProps={people.filter(peopl => !peopl.checked)} handleChange={handleChange} />
+        <div>
+        {
+            lists(people.filter(peopl => !peopl.checked))
+        }
+        </div>
         </div>
         </>
     );
