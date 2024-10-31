@@ -1,8 +1,8 @@
 .item {
     font-size: 1.5rem;
     list-style-type: none;
-    border-bottom: 1px solid #e0e0e0;
-    background: #f0efef;
+    border-bottom: 1px solid var(--tum-grey-7);
+    background: var(--tum-grey-9);
     border-radius:10px;
     margin-bottom:5px;
 
@@ -19,15 +19,14 @@
     padding: 0;
     background:none;
     size: auto;
-    color: rgb(90, 195, 90);
+    color: var(--checkmarks-green);
 }
 .leftbutton:hover {
-
-    color: darkgreen;
+    color: var(--checkmarks-darkgreen);
     border-radius: 5px;
 }
 .rightbutton {
-    color: lightcoral;
+    color: var(--tum-red);
     font-size:1.5rem;
     float: right;
     margin-left:10px;
@@ -39,7 +38,7 @@
 }
 .rightbutton:hover {
 
-    color: red;
+    color: var(--tum-red-dark);
     border-radius: 5px;
 }
 

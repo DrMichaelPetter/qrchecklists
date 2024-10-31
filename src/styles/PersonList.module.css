@@ -1,5 +1,5 @@
 .personbox {
-    border: 1px solid #ccc;
+    border: 1px solid var(--tum-grey-7);
     border-radius: 5px;
     padding: 7px;
     margin-bottom: 5px;

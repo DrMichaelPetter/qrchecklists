@@ -9,7 +9,7 @@
   left: 80%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  color: #ff5005;
+  color: var(--tum-red-dark);
   font-size: 3rem;
   padding: 12px 24px;
   border: none;
@@ -17,5 +17,5 @@
   border-radius: 5px;
 }
 .btn:hover {
-  color: orange;
+  color: var(--tum-orange);
 }

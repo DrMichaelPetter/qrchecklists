@@ -4,6 +4,6 @@
 .colored {
     font-size: .8rem;
     display:inline;
-    color: #c022cf;
+    color: var(--tum-pink);
     margin-bottom:5px;
 }
