@@ -1,6 +1,6 @@
 
 import styles from 'styles/Breadcrumbbar.module.css';
-import { BsCloudUpload, BsShare, BsNodePlus } from 'react-icons/bs';
+import { BsShare, BsNodePlus } from 'react-icons/bs';
 const Breadcrumbbar = () => {
     return (<nav className={styles.navbar}>
         <div className={styles.breadcrumb}>#all</div>

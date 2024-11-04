@@ -20,6 +20,10 @@
     background: var(--tum-pink-4);
     color: var(--tum-pink-dark);
 }
+.btn:disabled {
+    background: var(--tum-pink-6);
+    color: var(--tum-grey-8);
+}
 .listslayout {
     display: grid;
     @media(min-width: 1005px) {
