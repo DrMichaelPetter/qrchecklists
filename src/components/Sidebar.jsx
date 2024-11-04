@@ -1,15 +1,23 @@
 import styles from 'styles/Sidebar.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HiCog, HiOutlineHome } from "react-icons/hi";
 import { FaHashtag } from "react-icons/fa";
 import { BsCloud } from "react-icons/bs";
 
 const SideBar = () => {
     const [showBar, setShowBar] = useState(false);
-    
+    const [minscreen, setMinscreen] = useState(
+        window.matchMedia("(min-width: 1920px)").matches
+    )
+    useEffect(() => {
+      window
+      .matchMedia("(min-width: 1920px)")
+      .addEventListener('change', e => setMinscreen( e.matches ));
+    }, []);
+
     return (
         <>
-        <nav className={styles.sidebar} style={ {width:showBar?'100%':'0px'}}>
+        <nav className={styles.sidebar} style={ {width:(minscreen?('440px'):(showBar?'100%':'0px'))}}>
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
             <div class={styles.overlayContent}>
               <a  className={styles.majorItems} href="#"><HiOutlineHome /> Home</a>
