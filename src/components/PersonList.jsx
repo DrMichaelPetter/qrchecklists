@@ -5,7 +5,7 @@ import StatsItem from 'components/StatsItem';
 const PersonList = ({personProps, handleChange }) => {
     return (
         <ul className={styles.personbox}>{
-            <StatsItem itemProp={personProps} />
+            <StatsItem itemProp={personProps} handleChange={handleChange} />
         }
         {
             personProps.map((person) => (
