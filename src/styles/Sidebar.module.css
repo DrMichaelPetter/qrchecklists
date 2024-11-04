@@ -79,6 +79,7 @@
   
 }
 .minorMenu {
+  list-style-type: none;
   text-align: center;
   @media (min-width: 1920px) {
     text-align: left;
