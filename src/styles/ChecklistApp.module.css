@@ -1,0 +1,14 @@
+.wrapper {
+  width: 100%;
+  padding: 1rem 20px 3rem;
+}
+.appbody{
+  @media (max-width: 1005px) {
+    max-width:  500px;
+  };
+  @media (min-width: 1005px) {
+    max-width:  1000px;
+  };
+  margin: 0 auto;
+}
+
