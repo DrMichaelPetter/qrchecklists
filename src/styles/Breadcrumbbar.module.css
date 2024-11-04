@@ -1,0 +1,25 @@
+.navbar {
+    justify-content: space-between;
+    align-items: left;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+.breadcrumb {
+    display: inline-block;
+    font-weight: 600;
+    font-size:1.25rem;
+    transform: skew(-7deg);
+    background: var(--tum-pink-4);
+    color: var(--tum-blue-dark);
+    padding: 10px;
+    padding-left:20px;
+    padding-right:20px;
+    margin-right: 5px;
+    box-shadow: 5px 5px 3px  var(--tum-grey-8);
+}
+
+.breadcrumb:hover {
+    background: var(--tum-pink-3);
+    color: var(--tum-blue-dark-1);
+}
