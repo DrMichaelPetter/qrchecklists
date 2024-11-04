@@ -1,8 +1,13 @@
 .burger {
+  display: inline;
   border: none;
   background: none;
   padding: 10px;
   font-size:5rem;
+  margin-right: 10px;
+  @media (max-width: 1005px) {
+    font-size: 3rem;
+  }
 }
 .burger:hover {
   cursor: pointer;
@@ -31,6 +36,9 @@
   position: absolute;
   top: 15px;
   right: 35px;
+  @media (max-width: 1005px) {
+    font-size: 4rem;
+  }
 }
 .closebtn:hover {
   cursor: pointer;
@@ -50,6 +58,12 @@
   color: var(--tum-grey-7);
   display: block;
   transition: 0.3s;
+  @media (max-width: 1005px) {
+    font-size: 2rem;
+  }
+}
+.minorMenu {
+  text-align: center;
 }
 .minorItems {
   padding: 8px;
@@ -58,4 +72,7 @@
   color: var(--tum-grey-7);
   display: block;
   transition: 0.3s;
+  @media (max-width: 1005px) {
+    font-size: 1.4rem;
+  }
 }

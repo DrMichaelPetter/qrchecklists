@@ -31,9 +31,8 @@ const ChecklistApp = () => {
 
     return (
         <div className={styles.wrapper}>
-            <SideBar />
             <div className={styles.appbody}>
-            <h1 className="title">FA Checkmarks</h1>
+            <SideBar /><h1 className={styles.title}>FA Checkmarks</h1>
             <Checklist mapping={mapping}/>
             </div>
         </div>
