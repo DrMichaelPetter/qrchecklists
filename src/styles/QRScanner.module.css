@@ -1,12 +1,13 @@
 .container{
     position: relative;
     width: 100%;
+    padding: none;
 }
 .btn {
   position: absolute;
   background: none;
-  top: 22%;
-  left: 80%;
+  top: 15px;
+  right: 35px;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   color: var(--tum-red-dark);

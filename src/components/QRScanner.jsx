@@ -1,6 +1,7 @@
 import { BsFillXCircleFill } from "react-icons/bs";
 import styles from 'styles/QRScanner.module.css';
 import { Html5Qrcode , Html5QrcodeSupportedFormats} from 'html5-qrcode';
+import { ImCross } from "react-icons/im";
 import { useEffect } from 'react';
 
 const qrcodeRegionId = "html5qr-code-full-region";
@@ -71,20 +72,13 @@ const QRScanner = (props) => {
             });
         };
 
-//        const html5QrcodeScanner = new Html5QrcodeScanner(qrcodeRegionId, config, verbose);
-//        html5QrcodeScanner.render(props.qrCodeSuccessCallback, props.qrCodeErrorCallback);
-//        // cleanup function when component will unmount
-//        return () => {
-//            html5QrcodeScanner.clear().catch(error => {
-//                console.error("Failed to clear html5QrcodeScanner. ", error);
-//            });
-//        };
+
     }, []);
 
     return (
-        <div className="styles.container">
+        <div className={styles.container}>
         <div id={qrcodeRegionId} />
-        <button className={styles.btn} onClick={()=> toggleQR(false)}><BsFillXCircleFill /></button>
+        <button className={styles.btn} onClick={()=> toggleQR(false)}><ImCross /></button>
         </div>
     );
 };
