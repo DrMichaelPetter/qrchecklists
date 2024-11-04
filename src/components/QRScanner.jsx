@@ -57,7 +57,7 @@ const QRScanner = (props) => {
                         toggleQR(false);
                     },
                     errorMessage => {
-                        console.log(errorMessage);
+//                        console.log(errorMessage);
                     })
                     .catch(err => {
                         console.log(err);
