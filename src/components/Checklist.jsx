@@ -19,7 +19,7 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({lists}) => {
+const Checklist = ({lists,switchTo}) => {
     const [people,setPeople] = useState([]);
     const [checked,setChecked] = useState(0n);
     useEffect(() => {
@@ -69,7 +69,7 @@ const Checklist = ({lists}) => {
     };
     return (
         <>
-        <Breadcrumbbar lists={lists} />
+        <Breadcrumbbar lists={lists} switchTo={switchTo} />
         <div className={styles.listslayout}>
         <button className={styles.btn} disabled={!useOnlineStatus()} ><AiOutlineCloudSync /></button>
         <RegisterPerson handleChange={handleChange} people={people} />

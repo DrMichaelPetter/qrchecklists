@@ -3,14 +3,14 @@ import styles from 'styles/Breadcrumbbar.module.css';
 import { FaPlusCircle } from "react-icons/fa";
 import { BsShare } from 'react-icons/bs';
 import { HiUserGroup } from "react-icons/hi";
-const Breadcrumbbar = ({lists}) => {
+const Breadcrumbbar = ({lists,switchTo}) => {
     
     const restorepath = (lists) => {
         var path = [];
         var current = lists["__current"];
         while (current !== undefined) {
             let name = (lists[current].tag===undefined)?lists[current].name:"# "+lists[current].tag;
-            path.unshift(<div className={styles.breadcrumb}>{name}</div>);
+            path.unshift(<div onClick={()=>{console.log(current);switchTo(current)}} className={styles.breadcrumb}>{name}</div>);
             current = lists[current].prev;
         }
         return path;

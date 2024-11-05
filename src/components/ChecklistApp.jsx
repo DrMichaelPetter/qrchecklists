@@ -8,8 +8,6 @@ const ChecklistApp = () => {
 
     var [lists, setLists] = useState({ __current: 'test2' ,all: { name: 'all', state: 1n }, test: {name: 'testname', prev: 'all', state: 0n }, test3: {tag: 'testtag', name: 'testtagname', state: 0n }, test2: {name: 'testname 2', prev: 'test', state: 0n } });
 
-
-    console.log(lists);
     useEffect(() => {
         async function fetchData() {
             try {
@@ -28,7 +26,6 @@ const ChecklistApp = () => {
 
         }
         fetchData().then((data) => {
-            console.log(data);
             setMapping(data);
         });
        
@@ -42,7 +39,7 @@ const ChecklistApp = () => {
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
             <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkmarks</h1>
-            <Checklist lists={lists} />
+            <Checklist lists={lists} switchTo={switchTo} />
             </div>
         </div>
     );

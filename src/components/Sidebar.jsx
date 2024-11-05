@@ -26,7 +26,7 @@ const SideBar = ({lists,switchTo}) => {
         <>
         <nav className={styles.sidebar} style={ {width:(minscreen?('440px'):(showBar?'100%':'0px'))}}>
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
-            <div class={styles.overlayContent}>
+            <div className={styles.overlayContent}>
               <a  className={styles.majorItems} href="#"><HiOutlineHome /> Home</a>
               <a  className={styles.majorItems} href="#"><BsCloud /> Shared event lists</a>
               <ul className={styles.minorMenu}>
