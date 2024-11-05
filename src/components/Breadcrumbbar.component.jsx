@@ -10,7 +10,10 @@ const Breadcrumbbar = ({lists,switchTo}) => {
         var current = lists["__current"];
         while (current !== undefined) {
             let name = (lists[current].tag===undefined)?lists[current].name:"# "+lists[current].tag;
-            path.unshift(<div onClick={()=>{console.log(current);switchTo(current)}} className={styles.breadcrumb}>{name}</div>);
+            let thiss=current;
+            path.unshift(<div onClick={()=>{
+                switchTo(thiss);
+            }} className={styles.breadcrumb}>{name}</div>);
             current = lists[current].prev;
         }
         return path;
