@@ -3,6 +3,7 @@
     align-items: left;
     padding: 10px 20px;
     margin-bottom: 10px;
+    display: flex;
 }
 
 .breadcrumb {
@@ -29,4 +30,8 @@
 .breadcrumb:hover {
     background: var(--tum-pink-3);
     color: var(--tum-blue-dark-1);
+}
+
+.breadcrumbspacer {
+    flex-grow: 1;
 }

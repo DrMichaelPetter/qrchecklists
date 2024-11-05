@@ -5,6 +5,11 @@ import styles from 'styles/ChecklistApp.module.css';
 
 const ChecklistApp = () => {
     var [mapping, setMapping] = useState([]);
+
+    var [lists, setLists] = useState({ __current: 'test2' ,all: { name: 'all', state: 0 }, test: {name: 'test', prev: 'all', state: 0 }, test2: {name: 'test2', prev: 'test', state: 0 } });
+
+
+    console.log(lists);
     useEffect(() => {
         async function fetchData() {
             try {
@@ -32,8 +37,8 @@ const ChecklistApp = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <SideBar /><h1 className={styles.title}>FA Checkmarks</h1>
-            <Checklist mapping={mapping}/>
+            <SideBar lists={lists} /><h1 className={styles.title}>FA Checkmarks</h1>
+            <Checklist lists={lists} />
             </div>
         </div>
     );
