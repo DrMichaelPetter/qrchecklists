@@ -8,8 +8,9 @@ const Breadcrumbbar = ({lists}) => {
     const restorepath = (lists) => {
         var path = [];
         var current = lists["__current"];
-        while (current !== "all") {
-            path.unshift(<div className={styles.breadcrumb}>{lists[current].name}</div>);
+        while (current !== undefined) {
+            let name = (lists[current].tag===undefined)?lists[current].name:"# "+lists[current].tag;
+            path.unshift(<div className={styles.breadcrumb}>{name}</div>);
             current = lists[current].prev;
         }
         return path;
@@ -17,7 +18,6 @@ const Breadcrumbbar = ({lists}) => {
         
     
     return (<nav className={styles.navbar}>
-        <div className={styles.breadcrumb}><HiUserGroup /> all</div>
         { restorepath(lists) }
         <div className={styles.breadcrumb}><FaPlusCircle /></div>
         <div className={styles.breadcrumbspacer}></div>

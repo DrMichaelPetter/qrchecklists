@@ -7,7 +7,7 @@ import { MdEventAvailable } from "react-icons/md";
 import { TbCloudPlus } from "react-icons/tb";
 import { HiUserGroup } from "react-icons/hi";
 
-const SideBar = ({lists}) => {
+const SideBar = ({lists,switchTo}) => {
     const [showBar, setShowBar] = useState(false);
     const [minscreen, setMinscreen] = useState(
         window.matchMedia("(min-width: 1920px)").matches
@@ -18,6 +18,10 @@ const SideBar = ({lists}) => {
       .addEventListener('change', e => setMinscreen( e.matches ));
     }, []);
 
+    const endSidebar = () => {
+        if (!minscreen) setShowBar((bar) =>false);
+    }
+
     return (
         <>
         <nav className={styles.sidebar} style={ {width:(minscreen?('440px'):(showBar?'100%':'0px'))}}>
@@ -26,17 +30,25 @@ const SideBar = ({lists}) => {
               <a  className={styles.majorItems} href="#"><HiOutlineHome /> Home</a>
               <a  className={styles.majorItems} href="#"><BsCloud /> Shared event lists</a>
               <ul className={styles.minorMenu}>
-                { Object.keys(lists).filter((k)=>!(["all","__current"].includes(k))).map((key) =>
-                <li><a className={styles.minorItems} href="#"><FaHashtag /> {lists[key].name}</a></li>
+                { Object
+                    .keys(lists)
+                    .filter((k)=>!(["all","__current"].includes(k)))
+                    .filter((k)=>lists[k].tag!==undefined)
+                    .map((key) =>
+                <li><a className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaHashtag /> {lists[key].tag}</a></li>
                 )}
                 <li><a className={styles.minorItems} href="#"><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></a></li>
               </ul>
               <a  className={styles.majorItems} href="#"><MdEventAvailable /> Personal event lists</a>
               <ul className={styles.minorMenu}>
-                <li><a className={styles.minorItems} href="#"><HiUserGroup /> all</a></li>
+                <li><a className={styles.minorItems} onClick={()=>{switchTo("all");endSidebar()}}><HiUserGroup /> all</a></li>
                 {
-                  Object.keys(lists).filter((k)=>!(["all","__current"].includes(k))).map((key) =>
-                <li><a className={styles.minorItems} href="#"><FaRegCalendarAlt /> {lists[key].name}</a></li>
+                  Object
+                    .keys(lists)
+                    .filter((k)=>!(["all","__current"].includes(k)))
+                    .filter((k)=>lists[k].tag===undefined)
+                    .map((key) =>
+                <li><a className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaRegCalendarAlt /> {lists[key].name}</a></li>
                 )}
               </ul>
               <a  className={styles.majorItems} href="#"><HiCog /> Settings</a>

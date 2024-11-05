@@ -6,7 +6,7 @@ import styles from 'styles/ChecklistApp.module.css';
 const ChecklistApp = () => {
     var [mapping, setMapping] = useState([]);
 
-    var [lists, setLists] = useState({ __current: 'test2' ,all: { name: 'all', state: 0 }, test: {name: 'test', prev: 'all', state: 0 }, test2: {name: 'test2', prev: 'test', state: 0 } });
+    var [lists, setLists] = useState({ __current: 'test2' ,all: { name: 'all', state: 1n }, test: {name: 'testname', prev: 'all', state: 0n }, test3: {tag: 'testtag', name: 'testtagname', state: 0n }, test2: {name: 'testname 2', prev: 'test', state: 0n } });
 
 
     console.log(lists);
@@ -34,10 +34,14 @@ const ChecklistApp = () => {
        
     }, []);
 
+    const switchTo = (key) => {
+        setLists({ ...lists, __current: key });
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <SideBar lists={lists} /><h1 className={styles.title}>FA Checkmarks</h1>
+            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkmarks</h1>
             <Checklist lists={lists} />
             </div>
         </div>
