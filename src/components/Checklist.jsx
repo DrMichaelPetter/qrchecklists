@@ -19,9 +19,9 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({lists,switchTo,branchOff}) => {
+const Checklist = ({isCurrent,lists,toggleCurrent,switchTo,branchOff}) => {
     const [people,setPeople] = useState([]);
-    const [checked,setChecked] = useState(0n);
+
     useEffect(() => {
         let ignore = false;
         if (!ignore){
@@ -46,27 +46,18 @@ const Checklist = ({lists,switchTo,branchOff}) => {
         return () => { ignore = true; };
     },[]);
     const handleChange = (key) => {
-        /* global BigInt */
-        setChecked(checked ^ (1n<<BigInt(key))); // toggle implementation
-        //console.log(checked);
-        setPeople(prevPeople => {
-            return prevPeople.map(person => {
-                if (person.key === key) {
-                    return {
-                        ...person,
-                        checked: !person.checked
-                    };
-                }
-                return person;
-            });
-        })};
+            toggleCurrent(key);
+        };
     const personlists = (mypeople) => {
         let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
         let hoefe = Object.keys(hofmap).sort().map((key) => (
-            <PersonList key={key} checked={checked} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
+            <PersonList key={key}  isCurrent={isCurrent} checked={lists[lists.__current].state} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
         ));
         return (<>{hoefe}</>);
     };
+    const instate = (key) => {
+        return isCurrent(key);
+    }
     return (
         <>
         <Breadcrumbbar lists={lists} switchTo={switchTo} branchOff={branchOff} />
@@ -75,14 +66,15 @@ const Checklist = ({lists,switchTo,branchOff}) => {
         <RegisterPerson handleChange={handleChange} people={people} />
         </div>
         <div className={styles.listslayout}>
-        <PersonList checked={checked} personProps={people.filter(peopl => peopl.checked)} handleChange={handleChange} />
+        <PersonList isCurrent={isCurrent} personProps={people.filter(peopl => instate(peopl.key))} handleChange={handleChange} />
         <div>
         {
-            personlists(people.filter(peopl => !peopl.checked))
+            personlists(people.filter(peopl => !instate(peopl.key)))
         }
         </div>
         </div>
         </>
     );
+
 }
 export default Checklist;

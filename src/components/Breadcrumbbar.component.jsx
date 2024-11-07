@@ -1,8 +1,6 @@
 
 import styles from 'styles/Breadcrumbbar.module.css';
-import { FaPlusCircle } from "react-icons/fa";
 import { BsShare } from 'react-icons/bs';
-import { HiUserGroup } from "react-icons/hi";
 import InstaName from 'components/InstaName.component';
 const Breadcrumbbar = ({lists,switchTo,branchOff}) => {
     

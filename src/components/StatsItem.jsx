@@ -4,6 +4,7 @@ import { BsPerson } from 'react-icons/bs';
 const swapCourse = (personen,handleChange, kurs) => {
     let targets = personen.filter((person) => person.kurs+"" === kurs);
     if (window.confirm("Wirklich alle " + targets.length + " Teilnehmer aus K" + kurs + " übertragen ?"))
+    console.log("Swpapping ");
     targets.forEach(element => {
             handleChange(element.key);    
         });

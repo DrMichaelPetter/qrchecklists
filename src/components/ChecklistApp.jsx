@@ -4,6 +4,7 @@ import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 
 const ChecklistApp = () => {
+    /* global BigInt */
     var [mapping, setMapping] = useState([]);
 
     var [lists, setLists] = useState({ __current: 'test2' ,
@@ -18,7 +19,7 @@ const ChecklistApp = () => {
             try {
                 const response = await fetch(process.env.PUBLIC_URL+'/teilnehmer.csv');
                 const data = await response.text();
-                var i = 0;
+                var i = 1;
                 const mymapping=data.split('\n').slice(1).map((line) => {
                             const [name,hof,kurs] = line.split(',');
                             i++;
@@ -31,8 +32,13 @@ const ChecklistApp = () => {
 
         }
         fetchData().then((data) => {
-            setMapping(data);
+        setMapping(data);
+//        const state = (1n << BigInt(data.length)) -1n;
+        const state = 16n-1n;
+        setLists({ ...lists, all: {name: 'all' , state: state} });
+
         });
+
        
     }, []);
 
@@ -46,11 +52,20 @@ const ChecklistApp = () => {
         return newkey;
     }
 
+    const toggleCurrent = (key) => {
+        console.log('toggling '+key);
+        setLists((l)=> ({ ...l, [l.__current]: { ...l[lists.__current], state: l[lists.__current].state ^ (1n << BigInt(key-1)) } }));
+    }
+    const isCurrent = (key) => {
+        return lists[lists.__current].state & (1n << BigInt(key-1));
+    }
+
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
             <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkmarks</h1>
-            <Checklist lists={lists} switchTo={switchTo} branchOff={branchOff} />
+            <Checklist lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} switchTo={switchTo} branchOff={branchOff} />
             </div>
         </div>
     );
