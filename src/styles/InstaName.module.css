@@ -1,0 +1,32 @@
+.instaName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:2rem;
+}
+.namefield {
+    height:2.5rem;
+    font-size:1rem;
+}
+.cancel{
+    color: red;
+    margin-left:10px;
+}
+.cancel :hover{
+    color: darkred;
+}
+.commit{
+    color: green;
+    margin-left:10px;
+}
+.commit :hover{
+    color: darkgreen;
+}
+
+.add{
+    color: orangered;
+    margin-left:10px;
+}
+.add :hover{
+    color: orange;
+}

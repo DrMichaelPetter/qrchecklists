@@ -6,7 +6,12 @@ import styles from 'styles/ChecklistApp.module.css';
 const ChecklistApp = () => {
     var [mapping, setMapping] = useState([]);
 
-    var [lists, setLists] = useState({ __current: 'test2' ,all: { name: 'all', state: 1n }, test: {name: 'testname', prev: 'all', state: 0n }, test3: {tag: 'testtag', name: 'testtagname', state: 0n }, test2: {name: 'testname 2', prev: 'test', state: 0n } });
+    var [lists, setLists] = useState({ __current: 'test2' ,
+        all:   { name: 'all',        state: 1n  }, 
+        test:  { name: 'testname',   state: 0n, prev: 'all' }, 
+        test3: { tag:  'testtag',    state: 0n, name: 'testtagname' }, 
+        test2: { name: 'testname 2', state: 0n, prev: 'test' } 
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -35,11 +40,17 @@ const ChecklistApp = () => {
         setLists({ ...lists, __current: key });
     }
 
+    const branchOff = (newname,key) => {
+        let newkey = Math.random().toString(36).substring(7);
+        setLists({ ...lists, [newkey]: { name: newname, state: 0n, prev: key }, __current: newkey });
+        return newkey;
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
             <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkmarks</h1>
-            <Checklist lists={lists} switchTo={switchTo} />
+            <Checklist lists={lists} switchTo={switchTo} branchOff={branchOff} />
             </div>
         </div>
     );

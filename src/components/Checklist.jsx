@@ -19,7 +19,7 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({lists,switchTo}) => {
+const Checklist = ({lists,switchTo,branchOff}) => {
     const [people,setPeople] = useState([]);
     const [checked,setChecked] = useState(0n);
     useEffect(() => {
@@ -63,13 +63,13 @@ const Checklist = ({lists,switchTo}) => {
     const personlists = (mypeople) => {
         let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
         let hoefe = Object.keys(hofmap).sort().map((key) => (
-            <PersonList checked={checked} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
+            <PersonList key={key} checked={checked} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
         ));
         return (<>{hoefe}</>);
     };
     return (
         <>
-        <Breadcrumbbar lists={lists} switchTo={switchTo} />
+        <Breadcrumbbar lists={lists} switchTo={switchTo} branchOff={branchOff} />
         <div className={styles.listslayout}>
         <button className={styles.btn} disabled={!useOnlineStatus()} ><AiOutlineCloudSync /></button>
         <RegisterPerson handleChange={handleChange} people={people} />

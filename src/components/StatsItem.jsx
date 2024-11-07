@@ -25,7 +25,7 @@ const hoefe = (personen,handleChange) => {
 const StatsItem = ({itemProp, handleChange}) => {
     const person = itemProp;  
     return (
-        <li className={styles.item}>
+        <li  className={styles.item}>
         {person.length}<BsPerson />&ensp; {hoefe(person,handleChange)} 
         </li>
     );
