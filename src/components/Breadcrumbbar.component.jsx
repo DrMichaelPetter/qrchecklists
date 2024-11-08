@@ -4,9 +4,9 @@ import { FiShare2 } from "react-icons/fi";
 import InstaName from 'components/InstaName.component';
 import useOnlineStatus from 'components/OnlineStatus.component';
 import { AiOutlineCloudSync } from 'react-icons/ai';
-import { RxReset } from "react-icons/rx";
+import { GrUserNew } from 'react-icons/gr';
 import { FaRegClone } from "react-icons/fa";
-const Breadcrumbbar = ({lists,switchTo,branchOff}) => {
+const Breadcrumbbar = ({reset,lists,switchTo,branchOff}) => {
     
     const restorepath = (lists) => {
         var path = [];
@@ -21,14 +21,14 @@ const Breadcrumbbar = ({lists,switchTo,branchOff}) => {
         }
         return path;
     }
-        
+    const onlineStatus = useOnlineStatus();
 //        { restorepath(lists) }    
     return (<nav className={styles.navbar}>
-        <button className={styles.btn} ><RxReset /></button>
-        <div className={styles.btn}><FaRegClone /><InstaName branchOff={branchOff} pred={lists.__current} /></div>
+        <button className={styles.btn} onClick={()=>reset()}><GrUserNew /></button>
+        <div className={styles.btn}><InstaName branchOff={branchOff} pred={lists.__current} /></div>
         <div className={styles.breadcrumbspacer}></div>
-        <button className={styles.btn} disabled={!useOnlineStatus()} ><AiOutlineCloudSync /></button>
-        <button className={styles.btn} disabled={!useOnlineStatus()} ><FiShare2 /></button>
+        {(lists[lists["__current"]].tag !== undefined) && <button className={styles.btn} disabled={!onlineStatus} ><AiOutlineCloudSync /></button>}
+        {(lists[lists["__current"]].tag === undefined) && <button className={styles.btn} disabled={!onlineStatus} ><FiShare2 /></button>}
     </nav>);
 }
 

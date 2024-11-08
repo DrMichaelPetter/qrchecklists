@@ -22,3 +22,12 @@
         font-size: 1.8rem;
       }
   }
+.titlebar {
+  @media (min-width: 1920px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+.icon {
+  vertical-align: -10%;
+}

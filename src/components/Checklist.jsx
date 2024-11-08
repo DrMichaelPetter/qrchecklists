@@ -19,7 +19,7 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}) => {
+const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}) => {
     const [people,setPeople] = useState([]);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const Checklist = ({isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}
 
     return (
         <>
-        <Breadcrumbbar lists={lists} switchTo={switchTo} branchOff={branchOff} />
+        <Breadcrumbbar reset={reset} lists={lists} switchTo={switchTo} branchOff={branchOff} />
         <RegisterPerson handleChange={handleChange} people={people} />
         <div className={styles.listslayout}>
         </div>

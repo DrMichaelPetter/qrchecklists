@@ -1,7 +1,8 @@
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaRegClone, FaCheckCircle } from "react-icons/fa";
+import { IoMdArrowRoundForward } from "react-icons/io";
+import { BsClipboardPlus } from "react-icons/bs";
 import { useState } from 'react';
 import { MdCancel } from 'react-icons/md';
-import { FaCheckCircle } from "react-icons/fa";
 import styles from 'styles/InstaName.module.css';
 const InstaName = ({branchOff,pred}) => {
     const [input,setInput] = useState(false);
@@ -16,7 +17,7 @@ const InstaName = ({branchOff,pred}) => {
     return (
         <>
         <div className={styles.instaName}>
-        {!input && <FaPlusCircle className={styles.add} onClick={()=> setInput((myin)=>true)} />}
+        {!input && <div onClick={()=> setInput((myin)=>true)} ><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div>}
         {input && <>
                 <input className={styles.namefield} type="text" placeholder="MyCheckmarks" onKeyDown={(e)=>{ if (e.key==='Enter') finalize();}} onChange={handleName} />
                 <MdCancel className={styles.cancel} onClick={()=> setInput((myin)=>false)} />

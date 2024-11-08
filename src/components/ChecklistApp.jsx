@@ -57,6 +57,12 @@ const ChecklistApp = () => {
     const switchTo = (key) => {
         setLists((lsts)=>({ ...lsts, __current: key }));
     }
+    const reset = () => {
+        setLists((lsts)=>{
+            const current = {...lsts[lsts.__current],state:0n};
+            return { ...lsts, [lsts.__current]: current };
+        });
+    }
 
     const branchOff = (newname,key) => {
         let newkey = createCheckpoint(newname,key);
@@ -78,8 +84,11 @@ const ChecklistApp = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkpoint: <VscChecklist /> {lists[lists.__current].name}</h1>
-            <Checklist lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
+            <div className={styles.titlebar}>
+                <SideBar lists={lists} switchTo={switchTo} />
+                <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
+            </div>
+            <Checklist reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
             </div>
         </div>
     );
