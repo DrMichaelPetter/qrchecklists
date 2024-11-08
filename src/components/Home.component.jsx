@@ -2,7 +2,7 @@ import { BsClipboardPlusFill } from "react-icons/bs";
 import { FaHashtag } from "react-icons/fa";
 import styles from 'styles/Home.module.css';
 import { useState } from 'react';
-import { FaCheckCircle } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 const Home = () => {
     const [inputcheckpoint,setInputcheckpoint] = useState(false);
     const [name,setName] = useState("");
@@ -15,9 +15,8 @@ const Home = () => {
         <div className={styles.content}>
             <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
             <h1 className={styles.title}>Ferienakademie Checkpoint Checker</h1>
-            <div className={styles.contentItem} onClick={()=> setInputcheckpoint((myin)=>true)} >
-                {!inputcheckpoint &&<><BsClipboardPlusFill className={styles.megaicon}/>Start Fresh</>}
-                { inputcheckpoint && <><input autofocus onChange={handleCName} className={styles.input} type="text" placeholder="Super Checkpoint"  ></input><FaCheckCircle className={styles.commit} onClick={finalizeCName} /></>}
+            <div className={styles.contentItem}>
+                <Link to="/newcheckpoint" state={{ prev: "all"}}><BsClipboardPlusFill className={styles.megaicon}/>Start Fresh</Link>
                 </div>
 
             <div className={styles.contentItem}><FaHashtag className={styles.megaicon}/> Retrieve from Cloud</div>

@@ -44,3 +44,7 @@
     border: 1px solid var(--tum-blue-dark-4);
     box-sizing: border-box;
 }
+.commit {
+    font-size: 3rem;
+    color: var(--tum-green)
+}

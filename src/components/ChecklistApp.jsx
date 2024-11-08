@@ -6,6 +6,7 @@ import { VscChecklist } from "react-icons/vsc";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import Home from 'components/Home.component';
+import CreateCheckpoint from 'components/CreateCheckpoint.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -19,8 +20,8 @@ const ChecklistApp = () => {
             [newkey]: { 
                 name: newcheckpointname, 
                 state: 0n, 
-                prevstate: lsts[lsts.__current].state,
-                prev: lsts.__current }
+                prevstate: lsts[lastcheckpointkey].state,
+                prev: lastcheckpointkey }
         }));
         return newkey;
     };
@@ -44,7 +45,7 @@ const ChecklistApp = () => {
         }
         fetchData().then((data) => {
             const state = (1n << BigInt(data.length)) -1n;
-            setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: 0n, prevstate: state } }));
+            setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: state, prevstate: state } }));
 
         });
 
@@ -93,6 +94,7 @@ const ChecklistApp = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
+                    <Route path="/newcheckpoint" element={<CreateCheckpoint switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                 </Routes>
             </Router>
             </div>

@@ -39,7 +39,7 @@ const SideBar = ({lists,switchTo}) => {
             <div className={styles.overlayContent}>
               <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
               <NavLink to="/"><div className={styles.majorItems}><HiOutlineHome /> Home</div></NavLink>
-              <div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud /> Shared checkpoints {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
+              {Object.keys(lists).filter((k)=>((!(["all","__current"].includes(k))&&lists[k].tag!==undefined))).length>0 && <><div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud /> Shared checkpoints {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
                 {tags && <ul  className={styles.minorMenu}>
                   { Object
                       .keys(lists)
@@ -49,10 +49,9 @@ const SideBar = ({lists,switchTo}) => {
                   <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag /> {lists[key].tag}</div></li>
                   )}
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we would retrieve a checkpoint via tag from the webservice")}><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></div></li>
-                </ul>}
-              <div  className={styles.majorItems} onClick={()=>setCheckpoints((s)=>!s)}><MdEventAvailable /> My checkpoints {checkpoints && <GoTriangleDown />}{!checkpoints && <GoTriangleLeft />}</div>
+                </ul>}</>}
+              {Object.keys(lists).filter((k)=>((!(["all","__current"].includes(k))&&lists[k].tag===undefined))).length>0 && <><div  className={styles.majorItems} onClick={()=>setCheckpoints((s)=>!s)}><MdEventAvailable /> My checkpoints {checkpoints && <GoTriangleDown />}{!checkpoints && <GoTriangleLeft />}</div>
                 {checkpoints && <ul className={styles.minorMenu}>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo("all");endSidebar();navigate("/checkpoint")}}><HiUserGroup />  &middot; &middot; &middot; <BsClipboardPlusFill /></div></li>
                   {
                     Object
                       .keys(lists)
@@ -61,7 +60,7 @@ const SideBar = ({lists,switchTo}) => {
                       .map((key) =>
                   <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
                   )}
-                </ul>}
+                </ul>}</>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog /> Settings {settings && <GoTriangleDown />}{!settings && <GoTriangleLeft />}</div>
                 {settings && <ul className={styles.minorMenu}>
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we can configure webservice base URL, user name, etc")}><FaWrench /> General</div></li>
