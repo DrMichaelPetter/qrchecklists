@@ -4,15 +4,27 @@ import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 
 const ChecklistApp = () => {
+
+
     /* global BigInt */
     var [mapping, setMapping] = useState([]);
 
-    var [lists, setLists] = useState({ __current: 'test2' ,
+    var [lists, setLists] = useState({ __current: 'test' ,
         all:   { name: 'all',        state: 1n  }, 
-        test:  { name: 'testname',   state: 0n, prev: 'all' }, 
-        test3: { tag:  'testtag',    state: 0n, name: 'testtagname' }, 
-        test2: { name: 'testname 2', state: 0n, prev: 'test' } 
+        test:  { name: 'testname',   state: 0n, prev: 'all', prevstate: 1n }
     });
+
+    const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
+        let newkey = Math.random().toString(36).substring(7);
+        setLists((lsts)=> ({ ...lsts, 
+            [newkey]: { 
+                name: newcheckpointname, 
+                state: 0n, 
+                prevstate: lsts[lsts.__current].state,
+                prev: lsts.__current }
+        }));
+        return newkey;
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -43,17 +55,16 @@ const ChecklistApp = () => {
     }, []);
 
     const switchTo = (key) => {
-        setLists({ ...lists, __current: key });
+        setLists((lsts)=>({ ...lsts, __current: key }));
     }
 
     const branchOff = (newname,key) => {
-        let newkey = Math.random().toString(36).substring(7);
-        setLists({ ...lists, [newkey]: { name: newname, state: 0n, prev: key }, __current: newkey });
+        let newkey = createCheckpoint(newname,key);
+        switchTo(newkey);
         return newkey;
     }
 
     const toggleCurrent = (key) => {
-        console.log('toggling '+key);
         setLists((l)=> ({ ...l, [l.__current]: { ...l[lists.__current], state: l[lists.__current].state ^ (1n << BigInt(key-1)) } }));
     }
     const isCurrent = (key) => {
