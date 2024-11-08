@@ -9,7 +9,13 @@ import { TbCloudPlus } from "react-icons/tb";
 import { HiUserGroup } from "react-icons/hi";
 import { FaGithub , FaRegTrashAlt , FaWrench } from "react-icons/fa";
 import { RxReset } from "react-icons/rx";
+import { GoTriangleDown } from "react-icons/go";
+import { GoTriangleLeft } from "react-icons/go";
 const SideBar = ({lists,switchTo}) => {
+    const [tags, setTags] = useState(false);
+    const [checkpoints, setCheckpoints] = useState(false);
+    const [settings, setSettings] = useState(false);
+
     const [showBar, setShowBar] = useState(false);
     const [minscreen, setMinscreen] = useState(
         window.matchMedia("(min-width: 1920px)").matches
@@ -30,20 +36,20 @@ const SideBar = ({lists,switchTo}) => {
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
             <div className={styles.overlayContent}>
               <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
-              <div className={styles.majorItems}><HiOutlineHome /> Home</div>
-              <div className={styles.majorItems}><BsCloud /> Shared checkpoints</div>
-              <ul  className={styles.minorMenu}>
-                { Object
-                    .keys(lists)
-                    .filter((k)=>!(["all","__current"].includes(k)))
-                    .filter((k)=>lists[k].tag!==undefined)
-                    .map((key) =>
-                <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaHashtag /> {lists[key].tag}</div></li>
-                )}
-                <li><div className={styles.minorItems}><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></div></li>
-              </ul>
-              <div  className={styles.majorItems}><MdEventAvailable /> My checkpoints</div>
-                <ul className={styles.minorMenu}>
+              <div className={styles.majorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we show a generic home screen with buttons to create fresh checkpoints and retrieve shared checkpoints from the webservice and show online status")}><HiOutlineHome /> Home</div>
+              <div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud /> Shared checkpoints {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
+                {tags && <ul  className={styles.minorMenu}>
+                  { Object
+                      .keys(lists)
+                      .filter((k)=>!(["all","__current"].includes(k)))
+                      .filter((k)=>lists[k].tag!==undefined)
+                      .map((key) =>
+                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaHashtag /> {lists[key].tag}</div></li>
+                  )}
+                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we would retrieve a checkpoint via tag from the webservice")}><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></div></li>
+                </ul>}
+              <div  className={styles.majorItems} onClick={()=>setCheckpoints((s)=>!s)}><MdEventAvailable /> My checkpoints {checkpoints && <GoTriangleDown />}{!checkpoints && <GoTriangleLeft />}</div>
+                {checkpoints && <ul className={styles.minorMenu}>
                   <li><div className={styles.minorItems} onClick={()=>{switchTo("all");endSidebar()}}><HiUserGroup />  &middot; &middot; &middot; <BsClipboardPlusFill /></div></li>
                   {
                     Object
@@ -53,14 +59,14 @@ const SideBar = ({lists,switchTo}) => {
                       .map((key) =>
                   <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
                   )}
-                </ul>
-              <div  className={styles.majorItems} ><HiCog /> Settings</div>
-                <ul className={styles.minorMenu}>
-                  <li><div className={styles.minorItems}><FaWrench /> General</div></li>
-                  <li><div className={styles.minorItems}><RxReset /> Reset App</div></li>
-                  <li><div className={styles.minorItems}><FaRegTrashAlt /> Delete Checkpoints</div></li>
+                </ul>}
+              <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog /> Settings {settings && <GoTriangleDown />}{!settings && <GoTriangleLeft />}</div>
+                {settings && <ul className={styles.minorMenu}>
+                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we can configure webservice base URL, user name, etc")}><FaWrench /> General</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we clear app data -- not the webservice though")}><RxReset /> Reset App</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we open a dialog to remove checkpoints")}><FaRegTrashAlt /> Delete Checkpoints</div></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub /> Sources</a></li>
-                </ul>
+                </ul>}
             </div>            
         </nav>
         <button className={styles.burger} onClick={()=> setShowBar((bar) =>!bar)}>&#9776;</button>

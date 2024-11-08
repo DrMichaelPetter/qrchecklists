@@ -1,6 +1,6 @@
 import styles from 'styles/PersonItem.module.css'
 import { IconContext } from 'react-icons';
-import { BsPlusCircleFill, BsMortarboard, BsFillXCircleFill } from 'react-icons/bs';
+import { BsPlusCircleFill, BsFillXCircleFill } from 'react-icons/bs';
 import HofSymbol from 'components/HofSymbol';
 import KursSymbol from 'components/KursSymbol';
 //import { BsXSquareFill, BsPerson } from 'react-icons/bs';

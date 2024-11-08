@@ -5,11 +5,7 @@ import styles from 'styles/ChecklistApp.module.css';
 import { VscChecklist } from "react-icons/vsc";
 
 const ChecklistApp = () => {
-
-
     /* global BigInt */
-    var [mapping, setMapping] = useState([]);
-
     var [lists, setLists] = useState({ __current: 'all' ,
         all:   { name: 'all', state: 0n, prevstate: 0n },
     });
@@ -44,10 +40,8 @@ const ChecklistApp = () => {
 
         }
         fetchData().then((data) => {
-        setMapping(data);
-        const state = (1n << BigInt(data.length)) -1n;
-//        const state = 16n-1n;
-        setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: 0n, prevstate: state } }));
+            const state = (1n << BigInt(data.length)) -1n;
+            setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: 0n, prevstate: state } }));
 
         });
 

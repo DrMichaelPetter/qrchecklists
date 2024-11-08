@@ -1,11 +1,8 @@
 import RegisterPerson from 'components/RegisterPerson';
 import PersonList from 'components/PersonList';
 import { useState,useEffect } from 'react';
-import { BsCloudUpload } from 'react-icons/bs';
-import { AiOutlineCloudSync } from 'react-icons/ai';
 import styles from 'styles/Checklist.module.css';
 import Breadcrumbbar from 'components/Breadcrumbbar.component';
-import useOnlineStatus from 'components/OnlineStatus.component';
 
 const sortPeople = (a,b) => {
     if (a.hof < b.hof) return -1;
@@ -44,7 +41,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,bran
         }
         console.log("Initializing people") ;
         return () => { ignore = true; };
-    },[]);
+    },[people.length]);
     const handleChange = (key) => {
             toggleCurrent(key);
         };
