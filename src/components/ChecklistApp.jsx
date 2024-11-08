@@ -9,9 +9,8 @@ const ChecklistApp = () => {
     /* global BigInt */
     var [mapping, setMapping] = useState([]);
 
-    var [lists, setLists] = useState({ __current: 'test' ,
-        all:   { name: 'all',        state: 1n  }, 
-        test:  { name: 'testname',   state: 0n, prev: 'all', prevstate: 1n }
+    var [lists, setLists] = useState({ __current: 'all' ,
+        all:   { name: 'all', state: 0n, prevstate: 0n },
     });
 
     const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
@@ -45,8 +44,8 @@ const ChecklistApp = () => {
         }
         fetchData().then((data) => {
         setMapping(data);
-//        const state = (1n << BigInt(data.length)) -1n;
-        const state = 16n-1n;
+        const state = (1n << BigInt(data.length)) -1n;
+//        const state = 16n-1n;
         setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: 0n, prevstate: state } }));
 
         });
@@ -70,13 +69,16 @@ const ChecklistApp = () => {
     const isCurrent = (key) => {
         return lists[lists.__current].state & (1n << BigInt(key-1));
     }
+    const isPrevious = (key) => {
+        return lists[lists.__current].prevstate & (1n << BigInt(key-1));
+    }
 
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkmarks</h1>
-            <Checklist lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} switchTo={switchTo} branchOff={branchOff} />
+            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkpoints</h1>
+            <Checklist lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
             </div>
         </div>
     );

@@ -32,8 +32,15 @@
   }
 }
 
+.logo {
+  width: 200px;
+  margin: 0px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .closebtn {
-  font-size:8rem;
+  font-size:4rem;
   font-weight: bold;
   color: white;
   background: none;
@@ -54,7 +61,7 @@
 }
 .overlayContent {
   position: relative;
-  top: 25%;
+  top: 5%;
   width: 100%;
   text-align: center;
   margin-top: 30px;
@@ -66,15 +73,15 @@
 .majorItems {
   padding: 8px;
   text-decoration: none;
-  font-size: 4rem;
+  font-size: 2rem;
   color: var(--tum-grey-7);
   display: block;
   transition: 0.3s;
   @media (max-width: 1005px) {
-    font-size: 2rem;
+
   }
   @media (min-width: 1920px) {
-    font-size: 2rem;
+
   }
   
 }
@@ -87,9 +94,10 @@
   }
 }
 .minorItems {
+  cursor: pointer;
   padding: 8px;
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 1.4rem;
   color: var(--tum-grey-7);
   display: block;
   transition: 0.3s;
@@ -100,3 +108,4 @@
     font-size: 1.4rem;
   }
 }
+

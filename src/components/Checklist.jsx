@@ -19,7 +19,7 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({isCurrent,lists,toggleCurrent,switchTo,branchOff}) => {
+const Checklist = ({isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}) => {
     const [people,setPeople] = useState([]);
 
     useEffect(() => {
@@ -55,9 +55,7 @@ const Checklist = ({isCurrent,lists,toggleCurrent,switchTo,branchOff}) => {
         ));
         return (<>{hoefe}</>);
     };
-    const instate = (key) => {
-        return isCurrent(key);
-    }
+
     return (
         <>
         <Breadcrumbbar lists={lists} switchTo={switchTo} branchOff={branchOff} />
@@ -66,10 +64,10 @@ const Checklist = ({isCurrent,lists,toggleCurrent,switchTo,branchOff}) => {
         <RegisterPerson handleChange={handleChange} people={people} />
         </div>
         <div className={styles.listslayout}>
-        <PersonList isCurrent={isCurrent} personProps={people.filter(peopl => instate(peopl.key))} handleChange={handleChange} />
+        <PersonList isCurrent={isCurrent} personProps={people.filter(peopl => isCurrent(peopl.key))} handleChange={handleChange} />
         <div>
         {
-            personlists(people.filter(peopl => !instate(peopl.key)))
+            personlists(people.filter(peopl => !isCurrent(peopl.key) && isPrevious(peopl.key)))
         }
         </div>
         </div>
