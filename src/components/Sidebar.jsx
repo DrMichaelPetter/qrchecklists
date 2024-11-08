@@ -11,6 +11,7 @@ import { FaGithub , FaRegTrashAlt , FaWrench } from "react-icons/fa";
 import { RxReset } from "react-icons/rx";
 import { GoTriangleDown } from "react-icons/go";
 import { GoTriangleLeft } from "react-icons/go";
+import { NavLink, useNavigate } from 'react-router-dom';
 const SideBar = ({lists,switchTo}) => {
     const [tags, setTags] = useState(false);
     const [checkpoints, setCheckpoints] = useState(false);
@@ -29,6 +30,7 @@ const SideBar = ({lists,switchTo}) => {
     const endSidebar = () => {
         if (!minscreen) setShowBar((bar) =>false);
     }
+    const navigate = useNavigate();
 
     return (
         <>
@@ -36,7 +38,7 @@ const SideBar = ({lists,switchTo}) => {
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
             <div className={styles.overlayContent}>
               <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
-              <div className={styles.majorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we show a generic home screen with buttons to create fresh checkpoints and retrieve shared checkpoints from the webservice and show online status")}><HiOutlineHome /> Home</div>
+              <NavLink to="/"><div className={styles.majorItems}><HiOutlineHome /> Home</div></NavLink>
               <div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud /> Shared checkpoints {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
                 {tags && <ul  className={styles.minorMenu}>
                   { Object
@@ -44,20 +46,20 @@ const SideBar = ({lists,switchTo}) => {
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag!==undefined)
                       .map((key) =>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaHashtag /> {lists[key].tag}</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag /> {lists[key].tag}</div></li>
                   )}
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we would retrieve a checkpoint via tag from the webservice")}><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></div></li>
                 </ul>}
               <div  className={styles.majorItems} onClick={()=>setCheckpoints((s)=>!s)}><MdEventAvailable /> My checkpoints {checkpoints && <GoTriangleDown />}{!checkpoints && <GoTriangleLeft />}</div>
                 {checkpoints && <ul className={styles.minorMenu}>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo("all");endSidebar()}}><HiUserGroup />  &middot; &middot; &middot; <BsClipboardPlusFill /></div></li>
+                  <li><div className={styles.minorItems} onClick={()=>{switchTo("all");endSidebar();navigate("/checkpoint")}}><HiUserGroup />  &middot; &middot; &middot; <BsClipboardPlusFill /></div></li>
                   {
                     Object
                       .keys(lists)
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag===undefined)
                       .map((key) =>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar()}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
                   )}
                 </ul>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog /> Settings {settings && <GoTriangleDown />}{!settings && <GoTriangleLeft />}</div>

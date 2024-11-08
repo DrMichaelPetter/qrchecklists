@@ -3,6 +3,9 @@ import SideBar from 'components/Sidebar';
 import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 import { VscChecklist } from "react-icons/vsc";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import Home from 'components/Home.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -74,15 +77,24 @@ const ChecklistApp = () => {
         return lists[lists.__current].prevstate & (1n << BigInt(key-1));
     }
 
+    const ChecklistWithTitle = () => {
+        return (<><div className={styles.titlebar}>
+            <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
+         </div><Checklist reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
+       </>);
+    }
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <div className={styles.titlebar}>
-                <SideBar lists={lists} switchTo={switchTo} />
-                <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
-            </div>
-            <Checklist reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
+            
+            <Router>
+            <SideBar lists={lists} switchTo={switchTo} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/checkpoint" element={<ChecklistWithTitle />} />
+                </Routes>
+            </Router>
             </div>
         </div>
     );
