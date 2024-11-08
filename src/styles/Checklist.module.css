@@ -1,11 +1,10 @@
 .btn {
     font-weight: 300;
     @media(max-width: 1005px) {
-        width: 80px;
+        width: 100%;
         border-radius: 15px;
     }
     @media(min-width: 1005px) {
-        width: 100%;
         border-radius: 40px;
         width: 98%;
     }

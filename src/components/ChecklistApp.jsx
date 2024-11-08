@@ -2,6 +2,7 @@ import Checklist from 'components/Checklist';
 import SideBar from 'components/Sidebar';
 import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
+import { VscChecklist } from "react-icons/vsc";
 
 const ChecklistApp = () => {
 
@@ -77,7 +78,7 @@ const ChecklistApp = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
-            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkpoints</h1>
+            <SideBar lists={lists} switchTo={switchTo} /><h1 className={styles.title}>FA Checkpoint: <VscChecklist /> {lists[lists.__current].name}</h1>
             <Checklist lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
             </div>
         </div>

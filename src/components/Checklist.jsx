@@ -59,9 +59,8 @@ const Checklist = ({isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}
     return (
         <>
         <Breadcrumbbar lists={lists} switchTo={switchTo} branchOff={branchOff} />
-        <div className={styles.listslayout}>
-        <button className={styles.btn} disabled={!useOnlineStatus()} ><AiOutlineCloudSync /></button>
         <RegisterPerson handleChange={handleChange} people={people} />
+        <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
         <PersonList isCurrent={isCurrent} personProps={people.filter(peopl => isCurrent(peopl.key))} handleChange={handleChange} />

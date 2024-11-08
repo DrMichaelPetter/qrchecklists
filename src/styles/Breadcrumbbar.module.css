@@ -35,3 +35,28 @@
 .breadcrumbspacer {
     flex-grow: 1;
 }
+
+.btn {
+    display: flex;
+    font-weight: 300;
+    @media(max-width: 1005px) {
+    }
+    @media(min-width: 1005px) {
+    }
+    border: none;
+    font-size: 3rem;
+    padding: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 15px;
+    background: var(--tum-grey-9);
+    box-shadow: 10px 10px 5px  var(--tum-grey-7);
+}
+.btn:hover {
+    background: var(--tum-pink-4);
+    color: var(--tum-pink-dark);
+}
+.btn:disabled {
+    background: var(--tum-pink-6);
+    color: var(--tum-grey-8);
+}

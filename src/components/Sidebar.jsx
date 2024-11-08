@@ -6,8 +6,8 @@ import { BsCloud } from "react-icons/bs";
 import { MdEventAvailable } from "react-icons/md";
 import { TbCloudPlus } from "react-icons/tb";
 import { HiUserGroup } from "react-icons/hi";
-import { FaGithub } from "react-icons/fa";
-
+import { FaGithub , FaRegTrashAlt } from "react-icons/fa";
+import { RxReset } from "react-icons/rx";
 const SideBar = ({lists,switchTo}) => {
     const [showBar, setShowBar] = useState(false);
     const [minscreen, setMinscreen] = useState(
@@ -55,8 +55,10 @@ const SideBar = ({lists,switchTo}) => {
               </ul>
               <a  className={styles.majorItems} href="#"><HiCog /> Settings</a>
               <ul className={styles.minorMenu}>
-                <li><a className={styles.minorItems} href="#">General</a></li>
-                <li><a className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub /> Sources</a></li>
+              <li><a className={styles.minorItems} href="#">General</a></li>
+              <li><a className={styles.minorItems} href="#"><RxReset /> Reset App</a></li>
+              <li><a className={styles.minorItems} href="#"><FaRegTrashAlt /> Delete Checkpoints</a></li>
+              <li><a className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub /> Sources</a></li>
               </ul>
             </div>            
         </nav>
