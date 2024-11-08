@@ -19,7 +19,7 @@ const Home = () => {
                 <Link to="/newcheckpoint" state={{ prev: "all"}}><BsClipboardPlusFill className={styles.megaicon}/>Start Fresh</Link>
                 </div>
 
-            <div className={styles.contentItem}><FaHashtag className={styles.megaicon}/> Retrieve from Cloud</div>
+            <div className={styles.contentItem} onClick={()=>alert("[PLACEHOLDER] Here, we would start a dialog to select a Server-based checkpoint by its tag")}><FaHashtag className={styles.megaicon}/> Retrieve from Cloud</div>
         </div>
     );
 }
