@@ -47,7 +47,7 @@ const ChecklistApp = () => {
         setMapping(data);
 //        const state = (1n << BigInt(data.length)) -1n;
         const state = 16n-1n;
-        setLists({ ...lists, all: {name: 'all' , state: state} });
+        setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: 0n, prevstate: state } }));
 
         });
 
@@ -65,7 +65,7 @@ const ChecklistApp = () => {
     }
 
     const toggleCurrent = (key) => {
-        setLists((l)=> ({ ...l, [l.__current]: { ...l[lists.__current], state: l[lists.__current].state ^ (1n << BigInt(key-1)) } }));
+        setLists((l)=> ({ ...l, [l.__current]: { ...l[l.__current], state: l[l.__current].state ^ (1n << BigInt(key-1)) } }));
     }
     const isCurrent = (key) => {
         return lists[lists.__current].state & (1n << BigInt(key-1));
