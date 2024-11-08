@@ -19,7 +19,7 @@ const InstaName = ({branchOff,pred}) => {
         <div className={styles.instaName}>
         {!input && <div onClick={()=> setInput((myin)=>true)} ><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div>}
         {input && <>
-                <input className={styles.namefield} type="text" placeholder="MyCheckmarks" onKeyDown={(e)=>{ if (e.key==='Enter') finalize();}} onChange={handleName} />
+                <input autoFocus className={styles.namefield} type="text" placeholder="MyCheckmarks" onKeyDown={(e)=>{ if (e.key==='Enter') finalize();}} onChange={handleName} />
                 <MdCancel className={styles.cancel} onClick={()=> setInput((myin)=>false)} />
                 <FaCheckCircle className={styles.commit} onClick={finalize} />
             </>
