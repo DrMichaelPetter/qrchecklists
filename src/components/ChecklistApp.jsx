@@ -27,6 +27,11 @@ const ChecklistApp = () => {
     };
 
     useEffect(() => {
+        const tmp = JSON.stringify(lists,(key,val)=>typeof(val)==="bigint"?val.toString():val);
+        localStorage.setItem("checkpoints",tmp);
+    },[lists])
+
+    useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch(process.env.PUBLIC_URL+'/teilnehmer.csv');
