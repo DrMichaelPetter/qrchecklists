@@ -11,7 +11,7 @@ import { FaGithub , FaRegTrashAlt , FaWrench } from "react-icons/fa";
 import { RxReset } from "react-icons/rx";
 import { GoTriangleDown } from "react-icons/go";
 import { GoTriangleLeft } from "react-icons/go";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const SideBar = ({lists,switchTo}) => {
     const [tags, setTags] = useState(false);
     const [checkpoints, setCheckpoints] = useState(false);
@@ -38,7 +38,7 @@ const SideBar = ({lists,switchTo}) => {
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
             <div className={styles.overlayContent}>
               <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
-              <NavLink to="/"><div className={styles.majorItems}><HiOutlineHome /> Home</div></NavLink>
+              <Link to="/"><div className={styles.majorItems}><HiOutlineHome /> Home</div></Link>
               {Object.keys(lists).filter((k)=>((!(["all","__current"].includes(k))&&lists[k].tag!==undefined))).length>0 && <><div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud /> Shared checkpoints {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
                 {tags && <ul  className={styles.minorMenu}>
                   { Object

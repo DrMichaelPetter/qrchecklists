@@ -14,7 +14,11 @@
 .contentItem:hover {
     color: var(--tum-blue-dark-4);
 }
+.icon {
+    vertical-align: -10%;
+}
 .megaicon {
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
     padding: 3px;
     margin: 0 auto;    
     text-align: center;
@@ -22,6 +26,7 @@
     font-size: 8rem;
     display: block;
 }
+
 .logo {
     width: 200px;
     margin: 0px;
