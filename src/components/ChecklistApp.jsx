@@ -10,6 +10,21 @@ import CreateCheckpoint from 'components/CreateCheckpoint.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
+
+    const loadLists = () => {
+        let listscandidate = localStorage.getItem("checkpoints");
+        let newlists=JSON.parse(listscandidate,(key,val)=>(key==="state" || key=="prevstate")?BigInt(val):val);
+        return newlists;
+    }
+
+    const clearLists = () => {
+        let allstate=lists.all.state;
+        localStorage.clear();
+        setLists((lists)=> ({
+            __current:"all", 
+            all: {name: "all", state: allstate, prevstate: allstate}}));
+    }
+
     var [lists, setLists] = useState({ __current: 'all' ,
         all:   { name: 'all', state: 0n, prevstate: 0n },
     });
@@ -95,7 +110,7 @@ const ChecklistApp = () => {
             <div className={styles.appbody}>
             
             <Router>
-            <SideBar lists={lists} switchTo={switchTo} />
+            <SideBar lists={lists} switchTo={switchTo} clearState={clearLists}/>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />

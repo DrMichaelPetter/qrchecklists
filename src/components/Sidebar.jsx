@@ -12,7 +12,7 @@ import { RxReset } from "react-icons/rx";
 import { GoTriangleDown } from "react-icons/go";
 import { GoTriangleLeft } from "react-icons/go";
 import { Link, useNavigate } from 'react-router-dom';
-const SideBar = ({lists,switchTo}) => {
+const SideBar = ({lists,switchTo,clearState}) => {
     const [tags, setTags] = useState(false);
     const [checkpoints, setCheckpoints] = useState(false);
     const [settings, setSettings] = useState(false);
@@ -64,8 +64,8 @@ const SideBar = ({lists,switchTo}) => {
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog /> Settings {settings && <GoTriangleDown />}{!settings && <GoTriangleLeft />}</div>
                 {settings && <ul className={styles.minorMenu}>
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we can configure webservice base URL, user name, etc")}><FaWrench /> General</div></li>
-                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we clear app data -- not the webservice though")}><RxReset /> Reset App</div></li>
-                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we open a dialog to remove checkpoints")}><FaRegTrashAlt /> Delete Checkpoints</div></li>
+
+                  <li><div className={styles.minorItems} onClick={()=>{clearState();navigate("/");}}><FaRegTrashAlt /> Delete Checkpoints</div></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub /> Sources</a></li>
                 </ul>}
             </div>            
@@ -74,4 +74,6 @@ const SideBar = ({lists,switchTo}) => {
         </>
     );
 }
+
+//<li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we clear app data -- not the webservice though")}><RxReset /> Reset App</div></li>
 export default SideBar;
