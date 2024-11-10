@@ -1,0 +1,44 @@
+.modal {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: var(--tum-grey-1);
+    overflow-x: hidden;
+    text-align: center;
+  }
+.icon {
+    font-size: 12rem;
+    font-weight: bold;
+    color: var(--tum-white);
+    background: none;
+    border:none;
+}
+.message {
+    position: relative;
+    top: 15%;
+    margin:2rem;
+    padding: 2rem;
+    font-size: 3rem;
+    color: var(--tum-white)
+}
+.choice {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem;
+}
+.choiceBtn {
+    border: none;
+    display: inline;
+    background: none;
+    color: var(--tum-white);
+    font-size: 2rem;
+    padding: 1rem;
+    margin: 3rem;
+}
+.choiceBtn:hover {
+    cursor: pointer;
+    color: var(--tum-green);
+}
