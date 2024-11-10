@@ -25,7 +25,7 @@ const CreateCheckpoint = ({createCheckpoint,switchTo}) => {
             <h1 className={styles.title}>Derive New Checkpoint from <VscChecklist  className={styles.icon} /> {location.state.prev}</h1>
             <div className={styles.contentItem} >
                 <LuSubtitles className={styles.megaicon} />
-                <input autofocus onChange={handleCName} className={styles.input} type="text" placeholder="Fancy Name" onKeyDown={(e)=>{ if (e.key==='Enter') finalizeCName();}} ></input>
+                <input autoFocus onChange={handleCName} className={styles.input} type="text" placeholder="Fancy Name" onKeyDown={(e)=>{ if (e.key==='Enter') finalizeCName();}} ></input>
                 <FaCheckCircle className={styles.commit} onClick={finalizeCName} /><FaTimesCircle className={styles.cancel} onClick={()=>cancel()}/>
                 </div>
         </div>

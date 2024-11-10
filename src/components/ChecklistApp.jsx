@@ -13,7 +13,13 @@ const ChecklistApp = () => {
 
     const loadLists = () => {
         let listscandidate = localStorage.getItem("checkpoints");
-        let newlists=JSON.parse(listscandidate,(key,val)=>(key==="state" || key=="prevstate")?BigInt(val):val);
+        if (listscandidate === null) {
+            return ({ __current: 'all' ,
+                all:   { name: 'all', state: 0n, prevstate: 0n },
+            });
+        }
+        let newlists=JSON.parse(listscandidate,(key,val)=>(key==="state" || key==="prevstate")?BigInt(val):val);
+//        console.log("loaded from local storage: "+listscandidate);
         return newlists;
     }
 
@@ -25,9 +31,10 @@ const ChecklistApp = () => {
             all: {name: "all", state: allstate, prevstate: allstate}}));
     }
 
-    var [lists, setLists] = useState({ __current: 'all' ,
-        all:   { name: 'all', state: 0n, prevstate: 0n },
-    });
+    var [lists, setLists] = useState(loadLists);
+    //{ __current: 'all' ,
+    //    all:   { name: 'all', state: 0n, prevstate: 0n },
+    //});
 
     const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
         let newkey = Math.random().toString(36).substring(7);

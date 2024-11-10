@@ -1,6 +1,9 @@
 .item {
     list-style-type: none;
 }
+.stat {
+    display: inline;
+}
 .colored {
     font-size: .8rem;
     display:inline;

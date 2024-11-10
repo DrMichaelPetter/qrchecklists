@@ -19,7 +19,7 @@ const hoefe = (personen,handleChange) => {
         return ({...acc, [val]:(acc[val]||0)+1});
     },{});
     return Object.keys(hofmap).map((key) => (
-        <>{hofmap[key]}&middot;<div onClick={()=>swapCourse(personen,handleChange,key)} className={styles.colored}>K{key}</div> </>)
+        <div className={styles.stat} key={key}>{hofmap[key]}&middot;<div  onClick={()=>swapCourse(personen,handleChange,key)} className={styles.colored}>K{key}</div> </div>)
     );//<BsMortarboardFill />
 }
 

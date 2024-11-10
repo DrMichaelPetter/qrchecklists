@@ -46,7 +46,7 @@ const SideBar = ({lists,switchTo,clearState}) => {
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag!==undefined)
                       .map((key) =>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag /> {lists[key].tag}</div></li>
+                  <li><div key={key} className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag /> {lists[key].tag}</div></li>
                   )}
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we would retrieve a checkpoint via tag from the webservice")}><FaHashtag />  &middot; &middot; &middot; <TbCloudPlus /></div></li>
                 </ul>}</>}
@@ -58,14 +58,13 @@ const SideBar = ({lists,switchTo,clearState}) => {
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag===undefined)
                       .map((key) =>
-                  <li><div className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
+                  <li><div key={key} className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaRegCalendarAlt /> {lists[key].name}</div></li>
                   )}
                 </ul>}</>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog /> Settings {settings && <GoTriangleDown />}{!settings && <GoTriangleLeft />}</div>
                 {settings && <ul className={styles.minorMenu}>
                   <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we can configure webservice base URL, user name, etc")}><FaWrench /> General</div></li>
-
-                  <li><div className={styles.minorItems} onClick={()=>{clearState();navigate("/");}}><FaRegTrashAlt /> Delete Checkpoints</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>{clearState();navigate("/");}}><FaRegTrashAlt /> Delete All Checkpoints</div></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub /> Sources</a></li>
                 </ul>}
             </div>            
