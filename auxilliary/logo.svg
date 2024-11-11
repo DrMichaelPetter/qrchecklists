@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="40.975533mm"
+   height="40.975533mm"
+   viewBox="0 0 40.975533 40.975533"
+   version="1.1"
+   id="svg2070"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview2072"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.914906"
+     inkscape:cx="153.02118"
+     inkscape:cy="198.38103"
+     inkscape:window-width="3072"
+     inkscape:window-height="1700"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2067">
+    <rect
+       x="83.068642"
+       y="396.76208"
+       width="650.34003"
+       height="209.85762"
+       id="rect2193" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-18.023965,-96.345723)">
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:1.39123"
+       id="path2249"
+       cx="38.51173"
+       cy="116.83349"
+       r="19.79215" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,1.2932235,-1.1055148)"
+       id="text2191"
+       style="font-size:96px;line-height:1.25;font-family:'Nimbus Sans';-inkscape-font-specification:'Nimbus Sans';white-space:pre;shape-inside:url(#rect2193)"><tspan
+         x="83.068359"
+         y="478.74572"
+         id="tspan3920"><tspan
+           style="font-weight:bold;-inkscape-font-specification:'Nimbus Sans Bold'"
+           id="tspan3918">FA</tspan></tspan></text>
+  </g>
+</svg>
