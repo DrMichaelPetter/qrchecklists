@@ -1,20 +1,12 @@
 import { BsClipboardPlusFill } from "react-icons/bs";
 import { FaHashtag } from "react-icons/fa";
 import styles from 'styles/Home.module.css';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from 'components/OnlineStatus.component';
 import { MdOutlineAirplanemodeActive, MdOutlineSignalWifi4Bar } from "react-icons/md";
 
 const Home = () => {
-    const [inputcheckpoint,setInputcheckpoint] = useState(false);
-    const [name,setName] = useState("");
-    const handleCName = (e) => {
-        setName(e.target.value);
-    }
     const isOnline = useOnlineStatus();
-    const finalizeCName = () => {
-    }
     return (
         <div className={styles.content}>
             <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />

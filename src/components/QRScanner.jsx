@@ -32,7 +32,7 @@ const QRScanner = (props) => {
         const verbose = props.verbose === true;
         // Suceess callback is required.
         if (!(props.qrCodeSuccessCallback)) {
-            throw "qrCodeSuccessCallback is required callback.";
+            throw new Error("qrCodeSuccessCallback is required callback.");
         }
 
         var html5QrCode = null;;

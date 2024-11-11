@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from 'components/Home.component';
 import CreateCheckpoint from 'components/CreateCheckpoint.component';
 import YesNoDialog from 'components/YesnoDialog.component';
+import DeleteCheckpoints from './DeleteCheckpoints.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -105,6 +106,17 @@ const ChecklistApp = () => {
     const isPrevious = (key) => {
         return lists[lists.__current].prevstate & (1n << BigInt(key-1));
     }
+    const delCheckpoint = (key) => {
+        setLists((lsts)=>{
+            let newlists = {...lsts};
+            delete newlists[key];
+            return newlists;
+        });
+    }
+    const rename = (key,newname) => {
+        setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], name: newname } }));
+    }
+
 
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
@@ -123,7 +135,8 @@ const ChecklistApp = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/newcheckpoint" element={<CreateCheckpoint switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
+                    <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
+                    <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>
             </Router>
             </div>

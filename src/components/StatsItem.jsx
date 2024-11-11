@@ -1,6 +1,5 @@
 import styles from 'styles/StatsItem.module.css'
 import { BsPerson } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 
 const swapCourse = (personen,handleChange, kurs) => {
     let targets = personen.filter((person) => person.kurs+"" === kurs);
@@ -10,9 +9,6 @@ const swapCourse = (personen,handleChange, kurs) => {
             handleChange(element.key);    
         });
 };
-
-const onAnswer = (yes) => {
-}
 
 const hoefe = (personen,handleChange) => {
     if (personen.length === 0) return <></>;

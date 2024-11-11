@@ -1,0 +1,61 @@
+.checkpointList{
+    list-style-type: none;
+    background: none;
+}
+.checkpointItem{
+    cursor: pointer;
+    padding: 8px;
+    display: block;
+    padding-left: 30px;
+}
+.deleteButton{
+    border: none;
+    background: none;
+    color: red;
+    
+}
+.deleteButton:hover{
+    cursor: pointer;
+    color: var(--tum-red-dark);
+}
+.icon {
+    display: inline;
+    color: red;
+    font-size: 3rem;
+    vertical-align: -15%;
+    margin-right: 10px;
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+}
+.cloudicon {
+    display: inline;
+    font-size: 3rem;
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+    vertical-align: -20%;
+    color: var(--tum-blue-light);
+}
+.checkpointname {
+    display: inline;
+    font-size: 2rem;
+    color: var(--tum-blue-dark-3);
+}
+.editicon {
+    display: inline;
+    color: darkgreen;
+    font-size: 3rem;
+    vertical-align: -15%;
+    margin-right: 10px;
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+}
+.cloneicon {
+    display: inline;
+    color: purple;
+    font-size: 2.5rem;
+    vertical-align: -10%;
+    margin-right: 10px;
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+}
+.title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--tum-blue-dark-4);
+}
