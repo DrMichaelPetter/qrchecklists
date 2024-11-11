@@ -1,26 +1,28 @@
 import styles from 'styles/YesnoDialog.module.css';
 import { MdCancel, MdQuestionMark } from "react-icons/md";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 const YesNoDialog = ({onAnswer,text}) => {
-    const [show, setShow] = useState(true);
-    const [yes, setYes] = useState(false);
-
-    useEffect(() => {
-            onAnswer(yes);
-    }, [show]);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const answer = (yes) => {
+        let state = location.state;
+        let followup = state.followup;
+        console.log("Answered: "+yes);
+        navigate(followup);
+    };
 
     return (<>
-        {show&& <div className={styles.modal}>
+       <div className={styles.modal}>
         <div className={styles.message}>
             <div className={styles.icon}><MdQuestionMark /></div>
-            {text}
+            { location.state.text}
         <div className={styles.choice}>
-            <button className={styles.choiceBtn} onClick={()=>{setYes((y)=>true) ;setShow(false);}}><IoCheckmarkCircle /> Yes</button>
-            <button className={styles.choiceBtn} onClick={()=>{setYes((y)=>false);setShow(false);}}><MdCancel /> No</button>
+            <button className={styles.yesBtn} onClick={()=>{answer(true);}}><IoCheckmarkCircle /> Yes</button>
+            <button className={styles.noBtn}  onClick={()=>{answer(false);}}><MdCancel /> No</button>
         </div>
         </div>
-        </div>}
+        </div>
     </>)
 }
 

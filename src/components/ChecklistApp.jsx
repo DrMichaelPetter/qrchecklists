@@ -121,7 +121,7 @@ const ChecklistApp = () => {
             <SideBar lists={lists} switchTo={switchTo} clearState={clearLists}/>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/yesno" element={<YesNoDialog text={"Are you sure, you want to add 1 p to the list"} onAnswer={(p)=>{console.log(p);}}/>} />
+                    <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                 </Routes>

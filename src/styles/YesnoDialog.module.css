@@ -12,13 +12,13 @@
 .icon {
     font-size: 12rem;
     font-weight: bold;
-    color: var(--tum-white);
+    color: var(--tum-yellow);
     background: none;
     border:none;
 }
 .message {
     position: relative;
-    top: 15%;
+    top: 10%;
     margin:2rem;
     padding: 2rem;
     font-size: 3rem;
@@ -29,7 +29,7 @@
     justify-content: space-around;
     margin: 2rem;
 }
-.choiceBtn {
+.yesBtn {
     border: none;
     display: inline;
     background: none;
@@ -38,7 +38,20 @@
     padding: 1rem;
     margin: 3rem;
 }
-.choiceBtn:hover {
+.yesBtn:hover {
     cursor: pointer;
     color: var(--tum-green);
+}
+.noBtn {
+    border: none;
+    display: inline;
+    background: none;
+    color: var(--tum-white);
+    font-size: 2rem;
+    padding: 1rem;
+    margin: 3rem;
+}
+.noBtn:hover {
+    cursor: pointer;
+    color: var(--tum-red-dark);
 }

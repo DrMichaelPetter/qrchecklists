@@ -1,5 +1,6 @@
 import styles from 'styles/StatsItem.module.css'
 import { BsPerson } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const swapCourse = (personen,handleChange, kurs) => {
     let targets = personen.filter((person) => person.kurs+"" === kurs);
@@ -9,6 +10,9 @@ const swapCourse = (personen,handleChange, kurs) => {
             handleChange(element.key);    
         });
 };
+
+const onAnswer = (yes) => {
+}
 
 const hoefe = (personen,handleChange) => {
     if (personen.length === 0) return <></>;
@@ -22,7 +26,7 @@ const hoefe = (personen,handleChange) => {
         <div className={styles.stat} key={key}>{hofmap[key]}&middot;<div  onClick={()=>swapCourse(personen,handleChange,key)} className={styles.colored}>K{key}</div> </div>)
     );//<BsMortarboardFill />
 }
-
+//    <Link to="/yesno" state={{ followup: "/checkpoint", text: "Are you sure, you want to remove K1?"}}>aaaa</Link>
 const StatsItem = ({itemProp, handleChange}) => {
     const person = itemProp;  
     return (
