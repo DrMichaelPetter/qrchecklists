@@ -1,9 +1,9 @@
 import { BsClipboardPlusFill } from "react-icons/bs";
-import { FaHashtag } from "react-icons/fa";
+import { FaHashtag, FaHiking } from "react-icons/fa";
 import styles from 'styles/Home.module.css';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from 'components/OnlineStatus.component';
-import { MdOutlineAirplanemodeActive, MdOutlineSignalWifi4Bar } from "react-icons/md";
+import { MdOutlineSignalWifi4Bar } from "react-icons/md";
 
 const Home = () => {
     const isOnline = useOnlineStatus();
@@ -21,7 +21,7 @@ const Home = () => {
                 </>
             }
             {  !isOnline &&
-                <div className={styles.information}><MdOutlineAirplanemodeActive className={styles.megaicon}/>offline mode</div>
+                <div className={styles.information}><FaHiking className={styles.megaicon}/>offline mode</div>
             }
         </div>
     );
