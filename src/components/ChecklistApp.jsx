@@ -92,6 +92,13 @@ const ChecklistApp = () => {
         });
     }
 
+    const subscribeTo = (tag) => {
+        let newkey = createCheckpoint("#"+tag,"all");
+        setLists((lsts)=>({ ...lsts, [newkey]: { ...lsts[newkey], tag: tag } }));
+        switchTo(newkey);
+        return newkey;
+    }
+
     const branchOff = (newname,key) => {
         let newkey = createCheckpoint(newname,key);
         switchTo(newkey);
@@ -139,7 +146,7 @@ const ChecklistApp = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/cloud" element={<RegisterCloud lists={lists} switchTo={switchTo} />} />
+                    <Route path="/cloud" element={<RegisterCloud lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>

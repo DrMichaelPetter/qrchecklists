@@ -16,7 +16,7 @@ const Home = () => {
             </div>
             {  isOnline &&
                 <>
-                <div className={styles.contentItem}><Link to="/cloud"><FaHashtag className={styles.megaicon}/> Retrieve from Cloud</Link></div>
+                <div className={styles.contentItem}><Link to="/cloud"><FaHashtag className={styles.megaicon}/> Manage Cloud Checkpoints</Link></div>
                 <div className={styles.information}><MdOutlineSignalWifi4Bar className={styles.megaicon}/>online mode</div>
                 </>
             }
