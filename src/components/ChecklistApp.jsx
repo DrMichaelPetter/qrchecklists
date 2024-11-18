@@ -8,7 +8,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from 'components/Home.component';
 import CreateCheckpoint from 'components/CreateCheckpoint.component';
 import YesNoDialog from 'components/YesnoDialog.component';
-import DeleteCheckpoints from './DeleteCheckpoints.component';
+import DeleteCheckpoints from 'components/DeleteCheckpoints.component';
+import RegisterCloud from 'components/RegisterCloud.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -129,12 +130,16 @@ const ChecklistApp = () => {
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
             
-            <Router>
+            <Router future={{
+                v7_relativeSplatPath: true,
+                v7_startTransition: true,
+            }}>
             <SideBar lists={lists} switchTo={switchTo} clearState={clearLists}/>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
+                    <Route path="/cloud" element={<RegisterCloud lists={lists} switchTo={switchTo} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>
