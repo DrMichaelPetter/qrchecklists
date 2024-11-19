@@ -10,9 +10,20 @@ import CreateCheckpoint from 'components/CreateCheckpoint.component';
 import YesNoDialog from 'components/YesnoDialog.component';
 import DeleteCheckpoints from 'components/DeleteCheckpoints.component';
 import RegisterCloud from 'components/RegisterCloud.component';
+import Settings from './Settings.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
+
+    const loadSettings = () => {
+        let settingscandidate = localStorage.getItem("settings");
+        if (settingscandidate === null) {
+            return ({
+                webservice: "https://www2.in.tum.de/~petter/webservice/",
+            });
+        }
+        return JSON.parse(settingscandidate);
+    }
 
     const loadLists = () => {
         let listscandidate = localStorage.getItem("checkpoints");
@@ -34,10 +45,9 @@ const ChecklistApp = () => {
             all: {name: "all", state: allstate, prevstate: allstate}}));
     }
 
-    var [lists, setLists] = useState(loadLists);
-    //{ __current: 'all' ,
-    //    all:   { name: 'all', state: 0n, prevstate: 0n },
-    //});
+    var [settings,setSettings] = useState(loadSettings);
+
+    var [lists, setLists] = useState(loadLists());
 
     const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
         let newkey = Math.random().toString(36).substring(7);
@@ -127,6 +137,7 @@ const ChecklistApp = () => {
     const sync = (key) => {
 //        console.log("syncing to "+key);
         let tag = lists[key].tag;
+        const baseurl = settings.webservice;
         fetch(baseurl+tag, {
             method: 'GET',
             headers: { 'Accept': 'application/json', },
@@ -140,7 +151,6 @@ const ChecklistApp = () => {
             }); 
         });
     }
-    const baseurl = "https://www2.in.tum.de/~petter/webservice/";
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
             <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
@@ -160,8 +170,9 @@ const ChecklistApp = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
+                    <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/cloud" element={<RegisterCloud  sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
+                    <Route path="/cloud" element={<RegisterCloud  settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>

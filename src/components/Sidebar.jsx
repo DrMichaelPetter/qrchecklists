@@ -62,7 +62,7 @@ const SideBar = ({lists,switchTo,clearState}) => {
                 </ul>}</>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog  className={styles.icon}/> Settings {settings && <GoTriangleDown  className={styles.icon}/>}{!settings && <GoTriangleLeft  className={styles.icon}/>}</div>
                 {settings && <ul className={styles.minorMenu}>
-                  <li><div className={styles.minorItems} onClick={()=>window.alert("PLACEHOLDER: Here, we can configure webservice base URL, user name, etc")}><FaWrench  className={styles.icon}/> General</div></li>
+                  <li><div className={styles.minorItems} onClick={()=>{endSidebar();navigate("/settings")}}><FaWrench  className={styles.icon}/> General</div></li>
                   <li><div className={styles.minorItems} onClick={()=>{navigate("/deletecheckpoint");endSidebar();}}><PiListMagnifyingGlassLight className={styles.icon}/> Manage Checkpoints</div></li>
                   <li><div className={styles.minorItems} onClick={()=>{clearState();navigate("/");}}><FaRegTrashAlt  className={styles.icon}/> Delete All Checkpoints</div></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists/wiki/FA-Checkpoint-Checker"><MdHelpCenter  className={styles.icon}/> Documentation</a></li>

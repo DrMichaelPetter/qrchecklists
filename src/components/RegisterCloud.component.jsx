@@ -4,9 +4,9 @@ import { BsCloudDownload } from 'react-icons/bs';
 import { GoLink, GoUnlink } from 'react-icons/go';
 import { MdRefresh } from 'react-icons/md';
 
-const RegisterCloud = ({lists,switchTo,delCheckpoint,subscribeTo,sync}) => {
+const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync}) => {
     /* global BigInt */
-    const baseurl = "https://www2.in.tum.de/~petter/webservice/";
+    const baseurl = settings.webservice;
     const [servertags,setServertags] = useState({});
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const RegisterCloud = ({lists,switchTo,delCheckpoint,subscribeTo,sync}) => {
             .then(data => { setServertags(JSON.parse(JSON.stringify(data))); });
         };
         initialList();
-    },[]);
+    },[baseurl]);
 
     const findTag = (tag) => {
         for(let key in lists)
