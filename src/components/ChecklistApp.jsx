@@ -92,9 +92,9 @@ const ChecklistApp = () => {
         });
     }
 
-    const subscribeTo = (tag) => {
+    const subscribeTo = (tag,state,prevstate) => {
         let newkey = createCheckpoint("#"+tag,"all");
-        setLists((lsts)=>({ ...lsts, [newkey]: { ...lsts[newkey], tag: tag } }));
+        setLists((lsts)=>({ ...lsts, [newkey]: { ...lsts[newkey], tag: tag , state: state, prevstate: prevstate} }));
         switchTo(newkey);
         return newkey;
     }
@@ -124,12 +124,27 @@ const ChecklistApp = () => {
     const rename = (key,newname) => {
         setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], name: newname } }));
     }
-
-
+    const sync = (key) => {
+//        console.log("syncing to "+key);
+        let tag = lists[key].tag;
+        fetch(baseurl+tag, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json', },
+        }).then(response => response.json())
+        .then(data => { 
+            const state = BigInt(data.state);
+            const prevstate = BigInt(data.prevstate);
+            setLists((lsts)=>{
+                const mystate = state | lsts[key].state;
+                return ({ ...lsts, [key]: { ...lsts[key], state: mystate, prevstate: prevstate } })
+            }); 
+        });
+    }
+    const baseurl = "https://www2.in.tum.de/~petter/webservice/";
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
             <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
-         </div><Checklist reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
+         </div><Checklist sync={sync} reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
        </>);
     }
 
@@ -146,7 +161,7 @@ const ChecklistApp = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/cloud" element={<RegisterCloud lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
+                    <Route path="/cloud" element={<RegisterCloud  sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>

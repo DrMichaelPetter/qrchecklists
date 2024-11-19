@@ -13,17 +13,39 @@
     display: block;
 }
 .icon {
-    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+    cursor: pointer;
+    filter: drop-shadow(2px 2px 1px var(--tum-blue-light));
     vertical-align: -10%;
+    color: var(--tum-blue-dark-4);
+    margin-right: 20px;
+}
+.additionalicon{
+    cursor: pointer;
+    filter: drop-shadow(2px 2px 1px var(--tum-blue-light));
+    float: right;
+    font-size: 2.5rem;
+    vertical-align: -15%;
+    color: var(--tum-purple);
 }
 .btn{
-    cursor: pointer;
+    color: var(--tum-orange-dark);
+}
+.btn .icon {
+    color: green;
+}
+.btndel{
+    float:left;
+    color: var(--tum-blue-dark-4);
+}
+.btndel .icon {
+    color: red;
 }
 .listpoint {
     list-style-type: none;
     overflow: hidden;
     padding: 1rem;
     font-size: 2rem;
+    color: var(--tum-blue-dark);
 }
 .listpoint:nth-child(odd) {
     background-color: var(--tum-blue-light-3);

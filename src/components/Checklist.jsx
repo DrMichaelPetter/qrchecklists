@@ -16,7 +16,7 @@ const sortPeople = (a,b) => {
     return 0;
 }
 
-const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff}) => {
+const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,branchOff,sync}) => {
     const [people,setPeople] = useState([]);
 
     useEffect(() => {
@@ -39,7 +39,6 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,bran
                 setPeople(acc);
             });
         }
-        console.log("Initializing people") ;
         return () => { ignore = true; };
     },[people.length]);
     const handleChange = (key) => {
@@ -55,7 +54,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,switchTo,bran
 
     return (
         <>
-        <Breadcrumbbar reset={reset} lists={lists} switchTo={switchTo} branchOff={branchOff} />
+        <Breadcrumbbar reset={reset} lists={lists} switchTo={switchTo} branchOff={branchOff} sync={sync}/>
         <RegisterPerson handleChange={handleChange} people={people} />
         <div className={styles.listslayout}>
         </div>
