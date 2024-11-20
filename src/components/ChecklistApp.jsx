@@ -20,6 +20,7 @@ const ChecklistApp = () => {
         if (settingscandidate === null) {
             return ({
                 webservice: "https://www2.in.tum.de/~petter/webservice/",
+                qrprefix: "FA25",
             });
         }
         return JSON.parse(settingscandidate);
@@ -154,7 +155,17 @@ const ChecklistApp = () => {
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
             <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
-         </div><Checklist sync={sync} reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} switchTo={switchTo} branchOff={branchOff} />
+         </div><Checklist 
+            settings={settings} 
+            sync={sync} 
+            reset={reset} 
+            lists={lists} 
+            toggleCurrent={toggleCurrent} 
+            isCurrent={isCurrent} 
+            isPrevious={isPrevious} 
+            switchTo={switchTo} 
+            branchOff={branchOff} 
+            />
        </>);
     }
 
@@ -170,11 +181,11 @@ const ChecklistApp = () => {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
-                    <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} />} />
+                    <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
                     <Route path="/cloud" element={<RegisterCloud  settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
-                    <Route path="/deletecheckpoint" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
+                    <Route path="/managecheckpoints" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>
             </Router>
             </div>

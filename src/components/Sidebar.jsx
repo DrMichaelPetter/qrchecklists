@@ -6,7 +6,7 @@ import { HiCog, HiOutlineHome } from "react-icons/hi";
 import { BsCloud } from "react-icons/bs";
 import { MdHelpCenter } from "react-icons/md";
 import { TbCloudPlus } from "react-icons/tb";
-import { FaHashtag, FaGithub , FaRegTrashAlt , FaWrench } from "react-icons/fa";
+import { FaHashtag, FaGithub , FaWrench } from "react-icons/fa";
 import { GoTriangleDown , GoTriangleLeft } from "react-icons/go";
 import { LuClipboard, LuClipboardList } from 'react-icons/lu';
 import { PiListMagnifyingGlassLight } from "react-icons/pi";
@@ -59,12 +59,11 @@ const SideBar = ({lists,switchTo,clearState}) => {
                       .map((key) =>
                   <li><div key={key} className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><LuClipboardList className={styles.icon}/> {lists[key].name}</div></li>
                   )}
+                  <li><div className={styles.minorItems} onClick={()=>{navigate("/managecheckpoints");endSidebar();}}> <LuClipboardList className={styles.icon}/> &middot; &middot; &middot; <PiListMagnifyingGlassLight className={styles.icon}/></div></li>
                 </ul>}</>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog  className={styles.icon}/> Settings {settings && <GoTriangleDown  className={styles.icon}/>}{!settings && <GoTriangleLeft  className={styles.icon}/>}</div>
                 {settings && <ul className={styles.minorMenu}>
                   <li><div className={styles.minorItems} onClick={()=>{endSidebar();navigate("/settings")}}><FaWrench  className={styles.icon}/> General</div></li>
-                  <li><div className={styles.minorItems} onClick={()=>{navigate("/deletecheckpoint");endSidebar();}}><PiListMagnifyingGlassLight className={styles.icon}/> Manage Checkpoints</div></li>
-                  <li><div className={styles.minorItems} onClick={()=>{clearState();navigate("/");}}><FaRegTrashAlt  className={styles.icon}/> Delete All Checkpoints</div></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists/wiki/FA-Checkpoint-Checker"><MdHelpCenter  className={styles.icon}/> Documentation</a></li>
                   <li><a   className={styles.minorItems} href="https://github.com/DrMichaelPetter/qrchecklists"><FaGithub  className={styles.icon}/> Sources</a></li>
                 </ul>}

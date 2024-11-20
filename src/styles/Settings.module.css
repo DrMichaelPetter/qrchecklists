@@ -28,3 +28,26 @@
     background-color: var(--tum-blue-light-4);
     color: var(--tum-blue-dark);
 }
+.icon {
+    cursor: pointer;
+    filter: drop-shadow(2px 2px 1px var(--tum-blue-light-2));
+    vertical-align: -15%;
+    color: red;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size:3rem;
+}
+.connectionicon {
+    filter: drop-shadow(2px 2px 1px var(--tum-blue-light-2));
+    vertical-align: -15%;
+    color: var(--tum-orange-dark);
+    margin-right: 20px;
+    font-weight: bold;
+    font-size:3rem;
+}
+.center {
+    text-align: center;
+}
+.input {
+    font-family: "Monotype.com", monospace;
+}

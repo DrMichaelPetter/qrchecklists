@@ -9,8 +9,10 @@
     margin: 0 auto;    
     text-align: center;
     justify-content: center;
-    font-size: 8rem;
+    font-size: 10rem;
     display: block;
+    color: var(--tum-orange-dark);
+    font-weight: 800;
 }
 .icon {
     cursor: pointer;

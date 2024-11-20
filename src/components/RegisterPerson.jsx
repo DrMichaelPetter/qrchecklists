@@ -3,7 +3,7 @@ import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
-const RegisterPerson = ( { handleChange , people}) => {
+const RegisterPerson = ( { handleChange , people, settings }) => {
 
     const [qractive,toggleQR] = useState(false);
 
@@ -25,7 +25,7 @@ const RegisterPerson = ( { handleChange , people}) => {
     }
     const onNewScanResult = (qrCodeMessage) => {
         const messages = qrCodeMessage = qrCodeMessage.split(";");
-        if (messages[0] === "FA25") {
+        if (messages[0] === settings.qrprefix) {
             const key = parseInt(messages[1]);
             if (people.filter(person => person.key === key && person.checked===true).length > 0) {
                 if (!window.confirm("Unregister " + messages[2] + " ?")){

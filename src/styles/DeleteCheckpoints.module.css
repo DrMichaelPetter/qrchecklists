@@ -8,6 +8,12 @@
     display: block;
     padding-left: 30px;
 }
+.checkpointItem:nth-child(odd) {
+    background-color: var(--tum-blue-light-3);
+}
+.checkpointItem:nth-child(even) {
+    background-color: var(--tum-blue-light-4);
+}
 .deleteButton{
     border: none;
     background: none;
@@ -17,6 +23,16 @@
 .deleteButton:hover{
     cursor: pointer;
     color: var(--tum-red-dark);
+}
+.megaicon {
+    filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
+    padding: 3px;
+    margin: 0 auto;    
+    text-align: center;
+    justify-content: center;
+    font-size: 10rem;
+    display: block;
+    color: var(--tum-orange-dark);
 }
 .icon {
     display: inline;
@@ -40,13 +56,14 @@
 }
 .editicon {
     display: inline;
-    color: darkgreen;
+    color: var(--tum-blue-dark-3);
     font-size: 3rem;
     vertical-align: -15%;
     margin-right: 10px;
     filter: drop-shadow(5px 5px 1px var(--tum-grey-7));
 }
 .cloneicon {
+    float: right;
     display: inline;
     color: purple;
     font-size: 2.5rem;
