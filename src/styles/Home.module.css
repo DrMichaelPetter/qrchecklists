@@ -46,9 +46,10 @@
     padding: 12px 20px;
     margin: 8px 0;
     font-size: 2rem;
-    display: inline-block;
+    display: inline;
     border: 1px solid var(--tum-blue-dark-4);
     box-sizing: border-box;
+    float:left;
 }
 .commit {
     margin: 20px;
@@ -62,4 +63,15 @@
 }
 .information {
     color: orange;
+}
+.hashicon {
+    font-size:3rem;
+    vertical-align: -30%;
+}
+.maxedout {
+    margin-top:30px;
+    display: grid;
+    grid-template-columns: 50px auto;
+    grid-gap: 5px;
+    width:100%;
 }

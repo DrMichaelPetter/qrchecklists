@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import InstaName from 'components/InstaName.component';
 import useOnlineStatus from 'components/OnlineStatus.component';
 import { MdRefresh } from 'react-icons/md';
-const Breadcrumbbar = ({reset,lists,switchTo,branchOff,sync}) => {
+const Breadcrumbbar = ({reset,lists,branchOff,sync}) => {
         const onlineStatus = useOnlineStatus();
     return (<nav className={styles.navbar}>
         <button className={styles.btn} onClick={()=>reset()}><GrUserNew /></button>
@@ -17,7 +17,7 @@ const Breadcrumbbar = ({reset,lists,switchTo,branchOff,sync}) => {
         {false&&<div className={styles.btn}><InstaName branchOff={branchOff} pred={lists.__current} /></div>}
         <div className={styles.breadcrumbspacer}></div>
         {(lists[lists["__current"]].tag !== undefined) && <button className={styles.btn} disabled={!onlineStatus} onClick={()=>{sync(lists["__current"]);}}><MdRefresh /></button>}
-        {(lists[lists["__current"]].tag === undefined) && <button className={styles.btn} disabled={!onlineStatus} onClick={()=>window.alert("PLACEHOLDER: Here, we would create a TAG and share it via Webservice")}><FiShare2 /></button>}
+        {(lists[lists["__current"]].tag === undefined) && <Link to="/share" state={{prev: lists.__current}}><div className={styles.btn} disabled={!onlineStatus}><FiShare2 /></div></Link>}
     </nav>);
 }
 

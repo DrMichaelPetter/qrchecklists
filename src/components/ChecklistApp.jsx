@@ -11,6 +11,7 @@ import YesNoDialog from 'components/YesnoDialog.component';
 import DeleteCheckpoints from 'components/DeleteCheckpoints.component';
 import RegisterCloud from 'components/RegisterCloud.component';
 import Settings from './Settings.component';
+import ShareCheckpoint from './ShareCheckpoint.component';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -34,7 +35,6 @@ const ChecklistApp = () => {
             });
         }
         let newlists=JSON.parse(listscandidate,(key,val)=>(key==="state" || key==="prevstate")?BigInt(val):val);
-//        console.log("loaded from local storage: "+listscandidate);
         return newlists;
     }
 
@@ -47,7 +47,6 @@ const ChecklistApp = () => {
     }
 
     var [settings,setSettings] = useState(loadSettings);
-
     var [lists, setLists] = useState(loadLists());
 
     const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
@@ -61,11 +60,12 @@ const ChecklistApp = () => {
         }));
         return newkey;
     };
+    const jsonstringify = (obj) => JSON.stringify(obj,(key,val)=>typeof(val)==="bigint"?val.toString():val);
 
     useEffect(() => {
-        const tmp = JSON.stringify(lists,(key,val)=>typeof(val)==="bigint"?val.toString():val);
-        localStorage.setItem("checkpoints",tmp);
-    },[lists])
+        localStorage.setItem("checkpoints",jsonstringify(lists));
+        localStorage.setItem("settings",jsonstringify(settings));
+    },[lists,settings])
 
     useEffect(() => {
         async function fetchData() {
@@ -119,12 +119,9 @@ const ChecklistApp = () => {
     const toggleCurrent = (key) => {
         setLists((l)=> ({ ...l, [l.__current]: { ...l[l.__current], state: l[l.__current].state ^ (1n << BigInt(key-1)) } }));
     }
-    const isCurrent = (key) => {
-        return lists[lists.__current].state & (1n << BigInt(key-1));
-    }
-    const isPrevious = (key) => {
-        return lists[lists.__current].prevstate & (1n << BigInt(key-1));
-    }
+    const isCurrent = (key) => lists[lists.__current].state & (1n << BigInt(key-1));
+    const isPrevious = (key) => lists[lists.__current].prevstate & (1n << BigInt(key-1));
+    
     const delCheckpoint = (key) => {
         setLists((lsts)=>{
             let newlists = {...lsts};
@@ -136,21 +133,22 @@ const ChecklistApp = () => {
         setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], name: newname } }));
     }
     const sync = (key) => {
-//        console.log("syncing to "+key);
-        let tag = lists[key].tag;
+        const tag = lists[key].tag;
         const baseurl = settings.webservice;
+
         fetch(baseurl+tag, {
-            method: 'GET',
+            method: 'POST',
             headers: { 'Accept': 'application/json', },
+            body: jsonstringify({ tag: lists[key].tag, state: lists[key].state}),
         }).then(response => response.json())
-        .then(data => { 
+        .then(data => {
             const state = BigInt(data.state);
-            const prevstate = BigInt(data.prevstate);
-            setLists((lsts)=>{
-                const mystate = state | lsts[key].state;
-                return ({ ...lsts, [key]: { ...lsts[key], state: mystate, prevstate: prevstate } })
-            }); 
+            setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], state: state} }));
         });
+    }
+    const share = (tag,key) => {
+        const baseurl = settings.webservice;
+        window.alert("Share this link: "+baseurl+key);
     }
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
@@ -163,7 +161,6 @@ const ChecklistApp = () => {
             toggleCurrent={toggleCurrent} 
             isCurrent={isCurrent} 
             isPrevious={isPrevious} 
-            switchTo={switchTo} 
             branchOff={branchOff} 
             />
        </>);
@@ -184,6 +181,7 @@ const ChecklistApp = () => {
                     <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
                     <Route path="/cloud" element={<RegisterCloud  settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
+                    <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/managecheckpoints" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>
