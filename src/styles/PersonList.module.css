@@ -1,4 +1,5 @@
 .personbox {
+    position: relative;
     border: 1px solid var(--tum-grey-7);
     border-radius: 5px;
     padding: 7px;
@@ -10,3 +11,14 @@
     border: 1px solid darkgreen;
     background-color: var(--tum-green-4);
 }
+.label {
+    border: 1px solid var(--tum-blue-dark);
+    background-color: white;
+    padding: .125em;
+    padding-left:.5em;
+    padding-right:.5em;
+    border-radius: 5px;
+    position: absolute;
+    top:-0.75em;
+    right:.75em;
+ }

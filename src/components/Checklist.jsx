@@ -47,7 +47,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     const personlists = (mypeople) => {
         let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
         let hoefe = Object.keys(hofmap).sort().map((key) => (
-            <PersonList key={key} chosen={false} isCurrent={isCurrent} checked={lists[lists.__current].state} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
+            <PersonList label={key} key={key} chosen={false} isCurrent={isCurrent} checked={lists[lists.__current].state} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
         ));
         return (<>{hoefe}</>);
     };
@@ -59,7 +59,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
-        <PersonList isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key))} handleChange={handleChange} />
+        <PersonList label="Checked" isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key))} handleChange={handleChange} />
         <div>
         {
             personlists(people.filter(peopl => !isCurrent(peopl.key) && isPrevious(peopl.key)))
