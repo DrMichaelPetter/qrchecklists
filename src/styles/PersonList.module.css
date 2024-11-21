@@ -3,4 +3,10 @@
     border-radius: 5px;
     padding: 7px;
     margin-bottom: 5px;
+    border: 1px solid darkred;
+    background-color: var(--tum-pink-4);
+}
+.personbox[aria-current="true"] {
+    border: 1px solid darkgreen;
+    background-color: var(--tum-green-4);
 }

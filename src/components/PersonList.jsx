@@ -2,9 +2,9 @@ import styles from 'styles/PersonList.module.css';
 import PersonItem from 'components/PersonItem';
 import StatsItem from 'components/StatsItem';
 
-const PersonList = ({personProps, handleChange, isCurrent }) => {
+const PersonList = ({personProps, handleChange, isCurrent,chosen }) => {
     return (
-        <ul className={styles.personbox}>{
+        <ul aria-current={chosen} className={styles.personbox}>{
             <StatsItem itemProp={personProps} handleChange={handleChange} />
         }
         {
