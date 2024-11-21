@@ -13,18 +13,18 @@
 }
 
 .title {
-    display: inline;
     font-size: 3rem;
-    font-weight: 1000;
     text-align: center;
     margin-bottom:1rem;
     @media (max-width: 1005px) {
         font-size: 1.8rem;
       }
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--tum-blue-dark-4);
   }
 .titlebar {
   @media (min-width: 1920px) {
-    display: flex;
     justify-content: center;
   }
 }

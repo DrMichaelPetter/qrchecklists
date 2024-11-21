@@ -148,7 +148,18 @@ const ChecklistApp = () => {
     }
     const share = (tag,key) => {
         const baseurl = settings.webservice;
-        window.alert("Share this link: "+baseurl+key);
+        fetch(baseurl+"*share", {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', },
+            body: jsonstringify({ tag: tag, state: lists[key].state, prev: lists[key].prevstate}),
+        }).then(response => response.json())
+        .then(data => {
+            //console.dir(data);
+            const state = BigInt(data.state);
+            const prevstate = BigInt(data.prevstate);
+            let newkey = subscribeTo(tag,state,prevstate);
+            switchTo(newkey);
+        });
     }
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>

@@ -2,17 +2,19 @@ import { useState } from "react";
 import { BsShare } from "react-icons/bs";
 import { FaCheckCircle, FaHashtag, FaTimesCircle } from "react-icons/fa";
 import { VscChecklist } from "react-icons/vsc";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from 'styles/Home.module.css';
 
 const ShareCheckpoint = ({ lists,share }) => {
     var [tag, setTag] = useState("");
     const location = useLocation();
+    const navigate = useNavigate();
     const handleCName = (e) => {
         setTag(e.target.value);
     }
     const finalizeCName = () => {
         share(tag,location.state.prev);
+        navigate("/checkpoint");
     }
     const cancel = () => {
         window.history.back();
