@@ -2,20 +2,17 @@
     position: relative;
     width: 100%;
     padding: none;
+    margin-bottom:1em;
 }
 .btn {
   position: absolute;
   background: none;
-  top: 15px;
-  right: 35px;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  color: var(--tum-red-dark);
+  top: 0.5em;
+  right: 0.5em;
+  color: red;
   font-size: 3rem;
-  padding: 12px 24px;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
 }
 .btn:hover {
   color: var(--tum-orange);
