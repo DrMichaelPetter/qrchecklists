@@ -51,7 +51,7 @@
 }
 .checkpointname {
     display: inline;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--tum-blue-dark-3);
 }
 .editicon {

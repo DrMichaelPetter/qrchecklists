@@ -15,7 +15,7 @@
 }
 .table{
     width: 100%;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 .table td {
     padding: 10px;
@@ -24,7 +24,7 @@
     width: 100%;
     border: none;
     padding: 15px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     background-color: var(--tum-blue-light-4);
     color: var(--tum-blue-dark);
 }
