@@ -25,11 +25,11 @@
 }
 .listslayout {
     display: grid;
-    @media(min-width: 1005px) {
+    @media(min-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 5px;
     }
-    @media(max-width: 1005px) {
+    @media(max-width: 768px) {
         grid-template-columns: repeat(1, 1fr);
     }
 }
