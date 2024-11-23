@@ -3,7 +3,7 @@ import SideBar from 'components/Sidebar';
 import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 import { VscChecklist } from "react-icons/vsc";
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter as Router, useNavigate } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import Home from 'components/Home.component';
 import CreateCheckpoint from 'components/CreateCheckpoint.component';
@@ -161,6 +161,10 @@ const ChecklistApp = () => {
             switchTo(newkey);
         });
     }
+    const removeTag = (key) => {
+        setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], tag: undefined } }));
+        switchTo('all');
+    } 
     const ChecklistWithTitle = () => {
         return (<><div className={styles.titlebar}>
             <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
@@ -191,7 +195,7 @@ const ChecklistApp = () => {
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/cloud" element={<RegisterCloud  settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
+                    <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
                     <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
                     <Route path="/managecheckpoints" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
