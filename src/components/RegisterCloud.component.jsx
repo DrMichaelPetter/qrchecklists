@@ -31,14 +31,14 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
                 const mytags = JSON.parse(JSON.stringify(data));
                 setServertags((tags)=>mytags); 
                 //console.dir(mytags);
-                Object.keys(mytags).map((tag) => {
+                Object.keys(mytags).forEach((tag) => {
                     const key=findTag(tag);
                     setOrphans((orph)=>orph.filter((item)=>(item!==key)));
                     });
             });
         };
         initialList();
-    },[baseurl]);
+    });
 
     const findTag = (tag) => {
         for(let key in lists)

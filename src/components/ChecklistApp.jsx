@@ -3,7 +3,7 @@ import SideBar from 'components/Sidebar';
 import { useEffect,useState } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 import { VscChecklist } from "react-icons/vsc";
-import { HashRouter as Router, useNavigate } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import Home from 'components/Home.component';
 import CreateCheckpoint from 'components/CreateCheckpoint.component';
