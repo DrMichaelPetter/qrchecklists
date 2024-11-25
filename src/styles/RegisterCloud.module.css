@@ -1,6 +1,7 @@
 .title {
     padding-bottom: 10px;
     margin-bottom: 10px;
+    margin-top: 10px;
     border-bottom: 1px solid var(--tum-blue-dark-4);
 }
 .megaicon {
@@ -20,6 +21,7 @@
     vertical-align: -10%;
     color: var(--tum-blue-dark-4);
     margin-right: 20px;
+    font-size: 2.5rem;
 }
 .additionalicon{
     cursor: pointer;
@@ -28,6 +30,14 @@
     font-size: 2.5rem;
     vertical-align: -15%;
     color: var(--tum-purple);
+}
+.additionaldel{
+    cursor: pointer;
+    filter: drop-shadow(2px 2px 1px var(--tum-blue-light));
+    float: right;
+    font-size: 2.5rem;
+    vertical-align: -15%;
+    color: red;
 }
 .btn{
     color: var(--tum-orange-dark);

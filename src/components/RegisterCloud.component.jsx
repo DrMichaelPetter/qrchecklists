@@ -1,10 +1,10 @@
 import styles from 'styles/RegisterCloud.module.css';
 import { useEffect,useState } from "react";
 import { BsCloudDownload } from 'react-icons/bs';
-import { GoLink, GoUnlink } from 'react-icons/go';
 import { MdRefresh } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { FaWrench } from 'react-icons/fa6';
+import { TbLinkMinus, TbLinkOff, TbLinkPlus } from 'react-icons/tb';
+import { FaRecycle } from 'react-icons/fa';
 
 const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}) => {
     /* global BigInt */
@@ -19,6 +19,12 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
     const navigate = useNavigate();
     const [servertags,setServertags] = useState({});
     const [orphans,setOrphans] = useState(initializeOrphans());
+    const findTag = (tag) => {
+        for(let key in lists)
+            if (lists[key].tag === tag) 
+                return key;
+        return null;
+    }
 
     useEffect(() => {
         const initialList = () => {
@@ -38,14 +44,8 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
             });
         };
         initialList();
-    });
+    },[baseurl]);
 
-    const findTag = (tag) => {
-        for(let key in lists)
-            if (lists[key].tag === tag) 
-                return key;
-        return null;
-    }
     const remove = (tag) => {
         removeTag(tag);
         navigate('/managecheckpoints');
@@ -63,18 +63,37 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
         });
     }
 
+    const deleteFromServer = (tag) => {
+        const password=prompt("Please enter the password to server-side delete the tag");
+        fetch(baseurl+tag, {
+            method: 'DELETE',
+            headers: { 'Accept': 'application/json', },
+            body: JSON.stringify({ password: password }),
+        }).then(response => 
+            {
+                if (!response.ok) {
+                    alert("Error: "+response.statusText);
+                    return;
+                } 
+                navigate('/managecheckpoints');
+            });
+
+    }
+
 return (<>
     <BsCloudDownload className={styles.megaicon} />
     <h1 className={styles.title}>Manage Cloud Subscriptions</h1>
     <ul>{
          Object.keys(servertags).map((tag) => <li className={styles.listpoint} key={tag}>
-            {(findTag(tag)===null) &&   <div className={styles.btn}>     <GoLink className={styles.icon} onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}</div>}
-            {(findTag(tag)!==null) && <><div className={styles.btndel}><GoUnlink className={styles.icon} onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><MdRefresh onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
+            {(findTag(tag)===null) &&   <div className={styles.btn}>     <TbLinkPlus className={styles.icon} onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}</div>}
+            {(findTag(tag)!==null) && <><div className={styles.btndel}><TbLinkMinus className={styles.icon} onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><TbLinkOff onClick={()=>{deleteFromServer(tag);}} className={styles.additionaldel} /><MdRefresh onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
             </li>)
-    }
+    }</ul>
+    {orphans.length!==0 && <h1 className={styles.title}>Orphaned Checkpoints</h1>}
+    <ul>
     {
         orphans.map((tag) => <li className={styles.listpoint} key={tag}>
-            <div className={styles.btn}>     <FaWrench className={styles.icon} onClick={()=>{remove(tag)}}/> #{lists[tag].tag}</div>
+            <div className={styles.btn}>     <FaRecycle className={styles.icon} onClick={()=>{remove(tag)}}/> #{lists[tag].tag}</div>
             </li>)
     }</ul></>);
 }
