@@ -16,8 +16,8 @@ EOT
 
 
 # create QR codes, containing FA25;#id;Vorname;Nachname
-csvcut "$input" | tail -n +2 | nl -w 1 -s"," | awk  -F, '{ print "\"FA25;"$1";"$2";"$3"\" -o " $1 ".svg" }' | xargs -n 3  qrencode -m 1 -l Q -t SVG -s 16
-csvcut "$input" | tail -n +2 | nl -w 1 -s"," | awk  -F, '{ print "\"FA25;"$1"\" -o " $1 "-mini.svg" }' | xargs -n 3  qrencode -m 1 -l L -t SVG -s 16
+csvcut "$input" | tail -n +2 | nl -w 1 -s"," | awk  -F, '{ print "\"FA2025;"$4";"$2";"$3"\" -o " $1 ".svg" }' | xargs -n 3  qrencode -m 1 -l Q -t SVG -s 16
+csvcut "$input" | tail -n +2 | nl -w 1 -s"," | awk  -F, '{ print "\"FA2025;"$4"\" -o " $1 "-mini.svg" }' | xargs -n 3  qrencode -m 1 -l L -t SVG -s 16
 rsvg-convert -h 100 -f png -o logo.png logo.svg
 for i in *.svg; do
     outfile=${i/.svg/.png}

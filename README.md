@@ -8,16 +8,17 @@ Find the basic concepts of the Checkpoint Checker at the [Wiki](https://github.c
 The most basic data that this app is based on is a CSV table with user data. In particular, we need a table with the following columns:
 - First Name
 - Last Name
-- Email
+- intPersonID
 - Hof
 - Kursnummer
+This table can be obtained from the fa-db portal and its Export: QR-Checklists-App item.
 
 ### Generate QR Codes for each FA person:
 ```
 cd auxilliary
 mkdir qr
 cd qr
-ln -s ../../public/teilnehmer.csv
+ln -s ../../public/teilnehmer.csv .
 ln -s ../logo.svg .
 ../createQR.sh
 ```
