@@ -24,7 +24,6 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         if (!ignore){
             if (!(people.length === 0)) return;
             fetch('./teilnehmer.csv').then(response => response.text()).then(text => {
-                //console.log('loaded csv '+ text);
                 const rows = text.split('\n');
                 var i=0;
                 var acc = [];
@@ -32,7 +31,12 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
                     const columns = row.split(',');
                     if (columns.length === 5) {
                         i++;
-                        acc.push({key:parseInt(i),name:columns[0]+" "+columns[1],hof:columns[3],kurs:parseInt(columns[4]),checked:false});
+                        acc.push({key:parseInt(i),
+                                  intPersonID:parseInt(columns[2]),
+                                  name:columns[0]+" "+columns[1],
+                                  hof:columns[3],
+                                  kurs:parseInt(columns[4]),
+                                  checked:false});
                     }
                 });
                 acc=acc.sort(sortPeople);
@@ -41,6 +45,12 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         }
         return () => { ignore = true; };
     },[people.length]);
+    const handleChangeByID = (id) => {
+        const person = people.find((person) => person.intPersonID === id);
+        if (person) {
+            toggleCurrent(person.key);
+        }
+    }
     const handleChange = (key) => {
             toggleCurrent(key);
         };
@@ -55,7 +65,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     return (
         <>
         <Breadcrumbbar reset={reset} lists={lists} branchOff={branchOff} sync={sync} />
-        <RegisterPerson settings={settings} handleChange={handleChange} people={people} />
+        <RegisterPerson settings={settings} handleChange={handleChangeByID} people={people} />
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
