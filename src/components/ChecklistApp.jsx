@@ -22,6 +22,7 @@ const ChecklistApp = () => {
             return ({
                 webservice: "https://www2.in.tum.de/~petter/webservice/",
                 qrprefix: "FA"+((new Date()).getFullYear()),
+                username: "Anonymous"
             });
         }
         return JSON.parse(settingscandidate);

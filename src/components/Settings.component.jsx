@@ -13,9 +13,9 @@ const Settings = ({settings,setSettings,clearState}) => {
      <FaScrewdriverWrench className={styles.megaicon} />
      <h1 className={styles.title}>General Settings</h1>
      <table className={styles.table}>
-     <tr><td>Name:      </td><td><input type="text" className={styles.input} value="Dieter" /></td></tr>
-     <tr><td>Webservice:</td><td><input type="text" className={styles.input} value={settings.webservice} /></td></tr>
-     <tr><td>QR Prefix: </td><td><input type="text" className={styles.input} value={settings.qrprefix} /></td></tr>
+     <tr><td>Name:      </td><td><input type="text" className={styles.input} onChange={(e)=>setSettings((setting)=>({...setting,"username":e.target.value}))} value={settings.username} /></td></tr>
+     <tr><td>Webservice:</td><td><input type="text" className={styles.input} onChange={(e)=>setSettings((setting)=>({...setting,"webservice":e.target.value}))} value={settings.webservice} /></td></tr>
+     <tr><td>QR Prefix: </td><td><input type="text" className={styles.input} onChange={(e)=>setSettings((setting)=>({...setting,"qrprefix":e.target.value}))} value={settings.qrprefix} /></td></tr>
         <tr><td>Online mode: </td><td>
            { isOnline && <MdOutlineSignalWifi4Bar  className={styles.connectionicon}/> }
            { !isOnline &&<FaHiking  className={styles.connectionicon}/> }
