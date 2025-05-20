@@ -7,6 +7,7 @@
     margin-bottom:5px;
 
 }
+
 .metadata {
     display: inline;
 }
@@ -24,6 +25,11 @@
 .leftbutton:hover {
     color: var(--checkmarks-darkgreen);
     border-radius: 5px;
+}
+.warningsym {
+    font-size: 1.5rem;
+    float: right;
+    margin-right: 0px;
 }
 .rightbutton {
     color: var(--tum-red);

@@ -69,10 +69,10 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
-        <PersonList label="Checked" isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key))} handleChange={handleChange} />
+        <PersonList label="Checked" isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key)).map(person=>({...person,"highlighted":!(isPrevious(person.key)>0)}))} handleChange={handleChange} />
         <div>
         {
-            personlists(people.filter(peopl => !isCurrent(peopl.key) && isPrevious(peopl.key)))
+            personlists(people.filter(peopl => !isCurrent(peopl.key) && isPrevious(peopl.key)).map(person=>({...person,"highlighted":false})))
         }
         </div>
         </div>
