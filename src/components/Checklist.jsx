@@ -33,7 +33,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
                         i++;
                         acc.push({key:parseInt(i),
                                   intPersonID:parseInt(columns[2]),
-                                  name:columns[0]+" "+columns[1],
+                                  name:columns[1]+", "+columns[0],
                                   hof:columns[3],
                                   kurs:parseInt(columns[4]),
                                   checked:false});
