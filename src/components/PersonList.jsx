@@ -5,7 +5,7 @@ import StatsItem from 'components/StatsItem';
 const PersonList = ({personProps, handleChange, isCurrent,chosen,label }) => {
     return (
         <ul aria-current={chosen} className={styles.personbox}>
-            <div className={styles.label}>{label}</div>{
+            <div className={styles.label} id={label}>{label}</div>{
             <StatsItem itemProp={personProps} handleChange={handleChange} />
         }
         {

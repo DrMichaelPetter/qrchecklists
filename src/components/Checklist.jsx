@@ -15,7 +15,18 @@ const sortPeople = (a,b) => {
     if (a.name > b.name) return 1;
     return 0;
 }
-
+const HofNav = ({people}) => {
+    const hoefe = [...new Set(people.map(item => item.hof.length>0?item.hof:"Orga"))].sort();
+    return (
+        <ul className={styles.hofnav}>
+            {
+                hoefe.map((hof) => (
+                    <li key={hof} ><button className={styles.hofbutton} onClick={() => document.getElementById(hof).scrollIntoView()}>{hof.slice(0,4)}...</button></li>
+                ))
+            }
+        </ul>
+    );
+}
 const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,sync,settings}) => {
     const [people,setPeople] = useState([]);
 
@@ -57,7 +68,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     const personlists = (mypeople) => {
         let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
         let hoefe = Object.keys(hofmap).sort().map((key) => (
-            <PersonList label={key} key={key} chosen={false} isCurrent={isCurrent} checked={lists[lists.__current].state} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
+            <PersonList label={key.length>0?key:"Orga"} key={key} chosen={false} isCurrent={isCurrent} checked={lists[lists.__current].state} personProps={mypeople.filter((peep)=>(peep.hof===key))} handleChange={handleChange} />    
         ));
         return (<>{hoefe}</>);
     };
@@ -69,8 +80,10 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
+        
         <PersonList label="Checked" isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key)).map(person=>({...person,"highlighted":!(isPrevious(person.key)>0)}))} handleChange={handleChange} />
         <div>
+        <HofNav people={people} />
         {
             personlists(people.filter(peopl => !isCurrent(peopl.key) && isPrevious(peopl.key)).map(person=>({...person,"highlighted":false})))
         }
