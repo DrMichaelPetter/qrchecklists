@@ -4,24 +4,16 @@ Find the basic concepts of the Checkpoint Checker at the [Wiki](https://github.c
 
 ## Basic Configuration
 
+QR checklist App is best executed in (mobile) Chrome or Firefox. Make sure to call it via one of these two browsers to make sure, that you get decent access to your device's camera.
+
 ### Participant data
 The most basic data that this app is based on is a CSV table with user data. In particular, we need a table with the following columns:
 - First Name
 - Last Name
-- intPersonID
+- decoded QR code ID
 - Hof
 - Kursnummer
 This table can be obtained from the fa-db portal and its Export: QR-Checklists-App item.
-
-### Generate QR Codes for each FA person:
-```
-cd auxilliary
-mkdir qr
-cd qr
-ln -s ../../public/teilnehmer.csv .
-ln -s ../logo.svg .
-../createQR.sh
-```
 
 # Developer's guide to Checkpoint Checker
 
