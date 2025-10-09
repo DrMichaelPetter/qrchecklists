@@ -3,8 +3,7 @@ import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
-const RegisterPerson = ( { handleChange , people, settings }) => {
-
+const RegisterPerson = ( { handleChange , people, settings}) => {
     const [qractive,toggleQR] = useState(false);
 
     const beep = (freq = 440, duration= 90, vol=50) => {
@@ -42,15 +41,18 @@ const RegisterPerson = ( { handleChange , people, settings }) => {
         }
     };
 
+
     return (
-        qractive ? <QRScanner 
+        <>
+        {qractive ? <QRScanner 
         fps={10}
         qrbox={250}
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
-        aspectRatio={1.0}
-        /> : <button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>
+        //aspectRatio={1.0}
+        /> : <button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>}
+        </>
     );
     //size: '180px'
 }

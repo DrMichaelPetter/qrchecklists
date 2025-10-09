@@ -2,8 +2,17 @@ import RegisterPerson from 'components/RegisterPerson';
 import PersonList from 'components/PersonList';
 import { useState,useEffect } from 'react';
 import styles from 'styles/Checklist.module.css';
-import Breadcrumbbar from 'components/Breadcrumbbar.component';
-import { FaChevronUp } from 'react-icons/fa';
+import { FaChevronUp, FaRegClone } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import useOnlineStatus from './OnlineStatus.component';
+import { GrUserNew } from 'react-icons/gr';
+import InstaName from './InstaName.component';
+import { IoMdArrowRoundForward } from 'react-icons/io';
+import { BsClipboardPlus } from 'react-icons/bs';
+import { MdRefresh } from 'react-icons/md';
+import { FiShare2 } from 'react-icons/fi';
+
+
 
 const sortPeople = (a,b) => {
     if (a.hof < b.hof) return -1;
@@ -40,20 +49,19 @@ const HofNav = ({people}) => {
 }
 const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,sync,settings}) => {
     const [people,setPeople] = useState([]);
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const [showGoTop, setShowGoTop] = useState(styles.goTop_hidden);
-    const handleVisibleButton = () => {
-        const position = window.pageYOffset;
-        setScrollPosition(position);
-        if (position > 200) {
-            setShowGoTop(styles.goTop);
-        } else {
-            setShowGoTop(styles.goTop_hidden);
-        }
-    };
+    const Breadcrumbbar = () => {
+        const onlineStatus = useOnlineStatus();
+        return (<nav className={styles.navbar}>
+            <button className={styles.btn} onClick={()=>reset()}><GrUserNew /></button>
+            <Link to="/newcheckpoint" state={{prev: lists.__current}}><div className={styles.btn}><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div></Link>
+            {false&&<div className={styles.btn}><InstaName branchOff={branchOff} pred={lists.__current} /></div>}
+            <div className={styles.breadcrumbspacer}></div>
+            {(lists[lists["__current"]].tag !== undefined) && <button className={styles.btn} disabled={!onlineStatus} onClick={()=>{sync(lists["__current"]);}}><MdRefresh /></button>}
+            {(lists[lists["__current"]].tag === undefined) && <Link to="/share" state={{prev: lists.__current}}><div className={styles.btn} disabled={!onlineStatus}><FiShare2 /></div></Link>}
+        </nav>);
+    }
     useEffect(() => {
         let ignore = false;
-        window.addEventListener('scroll', handleVisibleButton);
         if (!ignore){
             if (!(people.length === 0)) return;
             fetch('./teilnehmer.csv').then(response => response.text()).then(text => {
@@ -85,8 +93,8 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         }
     }
     const handleChange = (key) => {
-            toggleCurrent(key);
-        };
+        toggleCurrent(key);
+    };
     const personlists = (mypeople) => {
         let hofmap = mypeople.map((person) => (person.hof)).reduce((acc, val) => ({...acc, [val]: (acc[val] || 0) + 1}), {});
         let hoefe = Object.keys(hofmap).sort().map((key) => (
@@ -97,12 +105,11 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
 
     return (
         <>
-        <Breadcrumbbar reset={reset} lists={lists} branchOff={branchOff} sync={sync} />
+        <Breadcrumbbar />
         <RegisterPerson settings={settings} handleChange={handleChangeByID} people={people} />
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
-        
         <PersonList label="Checked" isCurrent={isCurrent} chosen={true} personProps={people.filter(peopl => isCurrent(peopl.key)).map(person=>({...person,"highlighted":!(isPrevious(person.key)>0)}))} handleChange={handleChange} />
         <div>
         <HofNav people={people} />
@@ -111,7 +118,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         }
         </div>
         </div>
-        <GoTop showGoTop={showGoTop} scrollUp={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
+        <GoTop showGoTop={styles.goTop} scrollUp={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
         </>
     );
 

@@ -7,7 +7,7 @@ import { PiWarningBold } from 'react-icons/pi';
 
 const PersonItem = ({itemProp, handleChange, isCurrent}) => {
     const person = itemProp;
-    console.log("PersonItem",person);
+    //console.log("PersonItem",person);
     return (
         <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
         <li className={styles.item} style={isCurrent(person.key) ? { background: person.highlighted?'var(--checkmarks-highlight)':'var(--checkmarks-highlightgreen)'}: {}}>

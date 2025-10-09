@@ -17,3 +17,39 @@
 .btn:hover {
   color: var(--tum-orange);
 }
+.torch {
+    position: absolute;
+    background: none;
+    bottom: 0.5em;
+    right: 0.5em;
+    color: var(--tum-yellow);
+    font-size: 3rem;
+    border: none;
+    cursor: pointer;
+}
+.torch:hover {
+    color: var(--tum-yellow-dark);
+}
+.massfotos {
+    position: absolute;
+    background: none;
+    top: 0.5em;
+    left: 0.5em;
+    color: pink;
+    font-size: 3rem;
+    border: none;
+    cursor: pointer;
+}
+.massfotos:hover {
+    color: var(--tum-yellow-dark);
+}
+.zoom {
+    position: absolute;
+    background: none;
+    bottom: 0.5em;
+    left: 0.5em;
+    color: greenyellow;
+    font-size: 3rem;
+    border: none;
+    cursor: pointer;
+}
