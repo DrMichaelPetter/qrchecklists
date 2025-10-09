@@ -3,6 +3,7 @@ import PersonList from 'components/PersonList';
 import { useState,useEffect } from 'react';
 import styles from 'styles/Checklist.module.css';
 import Breadcrumbbar from 'components/Breadcrumbbar.component';
+import { FaChevronUp } from 'react-icons/fa';
 
 const sortPeople = (a,b) => {
     if (a.hof < b.hof) return -1;
@@ -15,13 +16,23 @@ const sortPeople = (a,b) => {
     if (a.name > b.name) return 1;
     return 0;
 }
+
+const GoTop = (props) => {
+    return (
+        <div className={props.showGoTop} onClick={props.scrollUp}>
+        <button className={styles.goTop} >
+          <FaChevronUp  className={styles.goTop_text} />
+        </button>
+      </div>
+    );
+}
 const HofNav = ({people}) => {
     const hoefe = [...new Set(people.map(item => item.hof.length>0?item.hof:"Orga"))].sort();
     return (
         <ul className={styles.hofnav}>
             {
                 hoefe.map((hof) => (
-                    <li key={hof} ><button className={styles.hofbutton} onClick={() => document.getElementById(hof).scrollIntoView()}>{hof.slice(0,4)}...</button></li>
+                    <li key={hof} ><button className={styles.hofbutton} onClick={() => document.getElementById(hof).scrollIntoView({ behavior: 'smooth' })}>{hof.slice(0,4)}...</button></li>
                 ))
             }
         </ul>
@@ -29,9 +40,20 @@ const HofNav = ({people}) => {
 }
 const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,sync,settings}) => {
     const [people,setPeople] = useState([]);
-
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [showGoTop, setShowGoTop] = useState(styles.goTop_hidden);
+    const handleVisibleButton = () => {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+        if (position > 200) {
+            setShowGoTop(styles.goTop);
+        } else {
+            setShowGoTop(styles.goTop_hidden);
+        }
+    };
     useEffect(() => {
         let ignore = false;
+        window.addEventListener('scroll', handleVisibleButton);
         if (!ignore){
             if (!(people.length === 0)) return;
             fetch('./teilnehmer.csv').then(response => response.text()).then(text => {
@@ -89,6 +111,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
         }
         </div>
         </div>
+        <GoTop showGoTop={showGoTop} scrollUp={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
         </>
     );
 

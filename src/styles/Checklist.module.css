@@ -53,3 +53,27 @@
     color: var(--tum-pink-dark); 
     border-color: var(--tum-pink-dark);
 }
+
+.goTop_hidden {
+    display: none;
+}
+.goTop {
+    display: block;
+}
+.goTop_text {
+    position: fixed;
+    background: rgba(252,248,241,0.8);
+    box-shadow: 2px 2px 5px var(--tum-grey-7);
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+    bottom: 5%;
+    left:90%;
+    padding:5px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 30px;
+}
+.goTop_text:hover {
+    background: rgba(242,238,231,1);
+}
