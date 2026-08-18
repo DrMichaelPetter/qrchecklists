@@ -1,3 +1,4 @@
+#!.venv/bin/python
 import hashlib
 import logging
 import os
@@ -20,6 +21,7 @@ app = Flask(__name__)
 CORS(app)
 DB_PATH = os.path.join(".", "checkpoints.sqlite3")
 HTPASSWD_PATH = ".htpasswd"  # Path to your .htpasswd file
+AUTH_ENABLED = os.environ.get("auth", "false").strip().lower() == "true"
 
 
 def requires_auth(f):
@@ -27,6 +29,9 @@ def requires_auth(f):
 
     @wraps(f)
     def decorated(*args, **kwargs):
+        if not AUTH_ENABLED:
+            return f(*args, **kwargs)
+
         auth = request.authorization
         if not auth or not auth.username or not auth.password:
             logger.warning(
@@ -41,7 +46,7 @@ def requires_auth(f):
         try:
             # Load the .htpasswd file and check user/password validity
             ht = HtpasswdFile(HTPASSWD_PATH)
-            if not ht.check(auth.username, auth.password):
+            if not ht.check_password(auth.username, auth.password):
                 logger.warning(
                     f"Invalid password for user '{auth.username}' from IP: {request.remote_addr}"
                 )
@@ -186,4 +191,6 @@ def delete_checkpoint(tag):
 
 if __name__ == "__main__":
     logger.info("Starting Flask development server...")
+    if not AUTH_ENABLED:
+         logger.warning("authentication disabled");
     app.run(host='0.0.0.0', debug=True, port=5000)
