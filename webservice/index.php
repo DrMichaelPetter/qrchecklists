@@ -11,7 +11,10 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE');
 
 $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : $method;
 $input = json_decode(file_get_contents('php://input'), true);
-$url = explode("/",trim(substr($_SERVER['PATH_INFO'],strlen("/index.php/"))," "));
+$requestUri = $_SERVER['REQUEST_URI'];
+$scriptName = '/index.php';
+$path = (strpos($requestUri, $scriptName) === 0) ? substr($requestUri, strlen($scriptName)) : $requestUri;
+$url = explode("/", trim($path, "/ "));
 
 
 switch ($method) {
