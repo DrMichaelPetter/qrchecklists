@@ -82,16 +82,16 @@ const ChecklistApp = () => {
                 return mymapping;
             } catch (error) {
                 console.error('Error:',error);
+                return [];
             }
 
         }
-        fetchData().then((data) => {
-            const state = (1n << BigInt(data.length)) -1n;
+        fetchData().then((rows) => {
+            if (rows.length === 0) return;
+            const state = (1n << BigInt(rows.length)) -1n;
             setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: state, prevstate: state } }));
 
         });
-
-       
     }, []);
 
     const switchTo = (key) => {
