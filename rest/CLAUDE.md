@@ -39,7 +39,6 @@ When auth is enabled, a `.htpasswd` file must exist next to `backend.py` (e.g. `
 | GET | `/<tag>` | no | Get one checkpoint, 404 if missing |
 | POST | `/*share` | yes | Insert checkpoint; 409 if tag exists |
 | POST | `/<tag>` | yes | Bitwise-OR `state` with existing state (numeric fallback to raw string); 404 if missing |
-| PUT | `/`, `/<tag>` | no | Always returns 400 (placeholder) |
 | DELETE | `/<tag>` | yes | Deletes checkpoint; requires `password` in JSON body matching a hardcoded SHA-256 hash, else 401 |
 
 ## Known quirks

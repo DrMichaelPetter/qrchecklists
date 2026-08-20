@@ -160,13 +160,6 @@ def update_checkpoint(tag):
     logger.info(f"Updated checkpoint '{tag}' state to: {new_val}")
     return jsonify({"state": new_val})
 
-
-@app.route("/", defaults={"tag": ""}, methods=["PUT"])
-@app.route("/<tag>", methods=["PUT"])
-def handle_put(tag):
-    return jsonify({"message": "User updated successfully"}), 400
-
-
 @app.route("/<tag>", methods=["DELETE"])
 @requires_auth
 def delete_checkpoint(tag):

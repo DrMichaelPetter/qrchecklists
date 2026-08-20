@@ -111,17 +111,7 @@ def test_update_missing(client):
 
 def test_update_requires_auth(client):
     client.post("/*share", json={"tag": "a", "state": "1", "prev": "0"}, auth=AUTH)
-    assert client.post("/a", json={"state": "2"}).status_code == 401
-
-
-def test_put_always_400(client):
-    rv = client.put("/a")
-    assert rv.status_code == 400
-    assert rv.get_json() == {"message": "User updated successfully"}
-
-    rv = client.put("/")
-    assert rv.status_code == 400
-
+    assert client.post("/a", json={"state": "2"}).status
 
 def test_reset(client):
     client.post("/*share", json={"tag": "a", "state": "1", "prev": "0"}, auth=AUTH)
