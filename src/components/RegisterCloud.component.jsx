@@ -67,7 +67,9 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
         const password=prompt("Please enter the password to server-side delete the tag");
         fetch(baseurl+tag, {
             method: 'DELETE',
-            headers: { 'Accept': 'application/json', },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json', },
             body: JSON.stringify({ password: password }),
         }).then(response => 
             {

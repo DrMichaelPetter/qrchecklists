@@ -139,7 +139,9 @@ const ChecklistApp = () => {
 
         fetch(baseurl+tag, {
             method: 'POST',
-            headers: { 'Accept': 'application/json', },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json', },
             body: jsonstringify({ tag: lists[key].tag, state: lists[key].state}),
         }).then(response => response.json())
         .then(data => {
@@ -151,11 +153,13 @@ const ChecklistApp = () => {
         const baseurl = settings.webservice;
         fetch(baseurl+"*share", {
             method: 'POST',
-            headers: { 'Accept': 'application/json', },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json', },
             body: jsonstringify({ tag: tag, state: lists[key].state, prev: lists[key].prevstate}),
         }).then(response => response.json())
         .then(data => {
-            //console.dir(data);
+            console.dir(data);
             const state = BigInt(data.state);
             const prevstate = BigInt(data.prevstate);
             let newkey = subscribeTo(tag,state,prevstate);
