@@ -142,6 +142,24 @@ def test_delete_wrong_password(client):
     assert rv.status_code == 401
     assert rows() == [("a", "1", "0")]
 
+
+def test_cors_headers_on_errors(client):
+    # 404 error
+    rv = client.get("/doesnotexist")
+    assert rv.status_code == 404
+    assert rv.headers.get("Access-Control-Allow-Origin") == "*"
+
+    # 401 error
+    rv = client.post("/*share", json={"tag": "x", "state": "1", "prev": "0"})
+    assert rv.status_code == 401
+    assert rv.headers.get("Access-Control-Allow-Origin") == "*"
+
+    # 409 error
+    client.post("/*share", json={"tag": "a", "state": "1", "prev": "0"}, auth=AUTH)
+    rv = client.post("/*share", json={"tag": "a", "state": "2", "prev": "0"}, auth=AUTH)
+    assert rv.status_code == 409
+    assert rv.headers.get("Access-Control-Allow-Origin") == "*"
+
 if __name__ == "__main__":
     import pytest
     pytest.main(["-v"])

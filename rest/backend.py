@@ -9,6 +9,8 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 from passlib.apache import HtpasswdFile
 
+from werkzeug.exceptions import HTTPException
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -22,6 +24,26 @@ CORS(app)
 DB_PATH = os.path.join(".", "checkpoints.sqlite3")
 HTPASSWD_PATH = ".htpasswd"  # Path to your .htpasswd file
 AUTH_ENABLED = os.environ.get("auth", "false").strip().lower() == "true"
+
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers.setdefault("Access-Control-Allow-Origin", "*")
+    response.headers.setdefault(
+        "Access-Control-Allow-Headers", "Content-Type, Authorization"
+    )
+    response.headers.setdefault(
+        "Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS"
+    )
+    return response
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(e):
+    response = e.get_response()
+    response.data = jsonify({"message": e.description or e.name}).data
+    response.content_type = "application/json"
+    return response
 
 
 def requires_auth(f):
