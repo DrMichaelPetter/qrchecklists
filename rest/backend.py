@@ -13,7 +13,7 @@ from werkzeug.exceptions import HTTPException
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[logging.FileHandler("app.log"), logging.StreamHandler()],
 )
@@ -109,6 +109,10 @@ def query_db(query, args=(), one=False):
 def list_checkpoints():
     rows = query_db("SELECT tag, state, prev FROM checkpoints")
     logger.info("Listed all checkpoints")
+    for r in rows:
+        if r["tag"] is None:
+            logger.warning("Encountered a checkpoint with a NULL tag in the database.")
+        logger.debug(f"Checkpoint: {r['tag']}, State: {r['state']}, Prev: {r['prev']}")
     return jsonify(
         {
             r["tag"]: {
@@ -141,6 +145,7 @@ def get_checkpoint(tag):
         logger.info(f"Checkpoint not found: {tag}")
         abort(404)
     logger.info(f"Retrieved checkpoint: {tag}")
+    logger.debug(f"Checkpoint: {row['tag']}, State: {row['state']}, Prev: {row['prev']}")
     return jsonify(
         {"tag": row["tag"], "state": row["state"], "prevstate": row["prev"]}
     )
@@ -161,6 +166,7 @@ def share_checkpoint():
         (tag, state, prev),
     )
     logger.info(f"Successfully shared new checkpoint: {tag}")
+    logger.debug(f"Checkpoint: {tag}, State: {state}, Prev: {prev}")
     return jsonify({"tag": tag, "state": state, "prevstate": prev})
 
 
@@ -179,6 +185,7 @@ def update_checkpoint(tag):
     except (ValueError, TypeError):
         new_val = str(d.get("state"))
     query_db("UPDATE checkpoints SET state = ? WHERE tag = ?", (new_val, tag))
+    logger.debug(f"Checkpoint '{tag}' updated from state {row['state']} with {d.get('state')} to {new_val}")
     logger.info(f"Updated checkpoint '{tag}' state to: {new_val}")
     return jsonify({"state": new_val})
 
