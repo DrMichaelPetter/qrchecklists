@@ -1,5 +1,5 @@
 import styles from 'styles/RegisterCloud.module.css';
-import { useEffect,useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { BsCloudDownload } from 'react-icons/bs';
 import { MdRefresh } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -19,12 +19,12 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
     const navigate = useNavigate();
     const [servertags,setServertags] = useState({});
     const [orphans,setOrphans] = useState(initializeOrphans());
-    const findTag = (tag) => {
+    const findTag = useCallback((tag) => {
         for(let key in lists)
             if (lists[key].tag === tag) 
                 return key;
         return null;
-    }
+    }, [lists]);
 
     useEffect(() => {
         const initialList = () => {
@@ -35,7 +35,7 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
             .then(response => response.json())
             .then(data => { 
                 const mytags = JSON.parse(JSON.stringify(data));
-                setServertags((tags)=>mytags); 
+                setServertags(mytags); 
                 //console.dir(mytags);
                 Object.keys(mytags).forEach((tag) => {
                     const key=findTag(tag);
@@ -44,7 +44,7 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
             });
         };
         initialList();
-    },[baseurl]);
+    },[baseurl, findTag]);
 
     const remove = (tag) => {
         removeTag(tag);

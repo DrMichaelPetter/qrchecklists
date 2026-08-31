@@ -1,7 +1,7 @@
 import styles from 'styles/QRScanner.module.css';
 import { Html5Qrcode , Html5QrcodeSupportedFormats} from 'html5-qrcode';
 import { ImCross } from "react-icons/im";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoIosFlashlight } from 'react-icons/io';
 import { PiMagnifyingGlassDuotone } from 'react-icons/pi';
 
@@ -23,11 +23,16 @@ const createConfig = (props) => {
     if (props.disableFlip !== undefined) {
         config.disableFlip = props.disableFlip;
     }
+    if (props.showTorchButtonIfSupported !== undefined) {
+        config.showTorchButtonIfSupported = props.showTorchButtonIfSupported;
+    } else {
+        config.showTorchButtonIfSupported = true;
+    }
     return config;
 };
 
 const QRScanner = (props) => {
-    var html5QrCode = null;
+    const html5QrCodeRef = useRef(null);
     useEffect(() => {
         // when component mounts
         const config = createConfig(props);
@@ -43,7 +48,8 @@ const QRScanner = (props) => {
                     formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
                     verbose: verbose,
                 };
-                html5QrCode = new Html5Qrcode(qrcodeRegionId,configuration);
+                const html5QrCode = new Html5Qrcode(qrcodeRegionId,configuration);
+                html5QrCodeRef.current = html5QrCode;
                 var lastsnap = null;
                 html5QrCode.start(
                     //cameraId,
@@ -69,19 +75,22 @@ const QRScanner = (props) => {
 
 
         return () => {
-            html5QrCode.stop().catch(error => {
-                console.error("Failed to stop html5QrCode. ", error);
-                props.toggleQR(false)
-            });
+            if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
+                html5QrCodeRef.current.stop().catch(error => {
+                    console.error("Failed to stop html5QrCode. ", error);
+                    props.toggleQR(false);
+                });
+            }
         };
 
 
-    }, [props]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [oldzoom, setOldZoom] = useState(1);
     const toggleCloseup = () => {
         console.log("toggleCloseup");
-        if (html5QrCode) {
-            const zoom = html5QrCode.getRunningTrackCameraCapabilities().zoomFeature();
+        if (html5QrCodeRef.current) {
+            const zoom = html5QrCodeRef.current.getRunningTrackCameraCapabilities().zoomFeature();
             const value = zoom.value();
             if (value !== null) {
                 if (value !== zoom.max()) {
@@ -97,8 +106,8 @@ const QRScanner = (props) => {
     }
 
     const toggleTorchLight = () => {
-        if (html5QrCode) {
-            const torch = html5QrCode.getRunningTrackCameraCapabilities().torchFeature();
+        if (html5QrCodeRef.current) {
+            const torch = html5QrCodeRef.current.getRunningTrackCameraCapabilities().torchFeature();
             if (torch.value() !== null) {
                 torch.apply(!torch.value());
             }
