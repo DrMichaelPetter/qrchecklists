@@ -21,6 +21,12 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)
+
+if __name__ != "__main__":
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    if gunicorn_logger.handlers:
+        logger.handlers = gunicorn_logger.handlers
+        logger.setLevel(gunicorn_logger.level)
 DB_PATH = os.path.join(".", "checkpoints.sqlite3")
 HTPASSWD_PATH = ".htpasswd"  # Path to your .htpasswd file
 AUTH_ENABLED = os.environ.get("auth", "false").strip().lower() == "true"
@@ -96,6 +102,30 @@ def get_db():
         conn.commit()
     finally:
         conn.close()
+
+
+def init_db():
+    with get_db() as db:
+        cur = db.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='checkpoints';"
+        )
+        existed = cur.fetchone() is not None
+
+        if not existed:
+            db.execute(
+                "CREATE TABLE checkpoints ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "tag VARCHAR, state VARCHAR, prev VARCHAR)"
+            )
+            logger.info("Table 'checkpoints' did not exist and was created.")
+        else:
+            logger.info("Table 'checkpoints' already exists.")
+
+        return existed
+
+
+with app.app_context():
+    init_db()
 
 
 def query_db(query, args=(), one=False):

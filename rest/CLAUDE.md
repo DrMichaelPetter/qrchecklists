@@ -25,7 +25,7 @@ When auth is enabled, a `.htpasswd` file must exist next to `backend.py` (e.g. `
 
 ## Architecture
 
-- `backend.py` — the whole Flask app (routes, auth decorator, DB helpers). SQLite DB lives at `./checkpoints.sqlite3`; `get_db()`/`query_db()` are the only DB access helpers.
+- `backend.py` — the whole Flask app (routes, auth decorator, DB helpers). SQLite DB lives at `./checkpoints.sqlite3`; `init_db()` ensures the `checkpoints` table exists on startup; `get_db()`/`query_db()` are the only DB access helpers.
 - `db.py` — standalone one-off script (creates the table, prints first row); not used by the server.
 - `test_backend.py` — pytest suite. Uses a temp DB + temp `.htpasswd` per test, so the real `checkpoints.sqlite3` is never touched. The `client` fixture enables auth by default; use `monkeypatch.setattr(backend, "AUTH_ENABLED", False)` to test auth-disabled behavior.
 - `setup.sh` — venv bootstrap.

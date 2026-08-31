@@ -16,12 +16,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(backend, "DB_PATH", str(db_path))
     monkeypatch.setattr(backend, "HTPASSWD_PATH", str(ht_path))
 
-    with sqlite3.connect(str(db_path)) as conn:
-        conn.execute(
-            "CREATE TABLE checkpoints ("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "tag VARCHAR, state VARCHAR, prev VARCHAR)"
-        )
+    backend.init_db()
 
     ht = HtpasswdFile(str(ht_path), new=True)
     ht.set_password(*AUTH)
@@ -159,6 +154,25 @@ def test_cors_headers_on_errors(client):
     rv = client.post("/*share", json={"tag": "a", "state": "2", "prev": "0"}, auth=AUTH)
     assert rv.status_code == 409
     assert rv.headers.get("Access-Control-Allow-Origin") == "*"
+
+
+def test_init_db_creates_table(tmp_path, monkeypatch):
+    db_path = tmp_path / "checkpoints.sqlite3"
+    monkeypatch.setattr(backend, "DB_PATH", str(db_path))
+
+    existed_before = backend.init_db()
+    assert existed_before is False
+
+    existed_after = backend.init_db()
+    assert existed_after is True
+
+    with sqlite3.connect(str(db_path)) as conn:
+        cursor = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='checkpoints';"
+        )
+        table = cursor.fetchone()
+        assert table is not None
+        assert table[0] == "checkpoints"
 
 if __name__ == "__main__":
     import pytest
