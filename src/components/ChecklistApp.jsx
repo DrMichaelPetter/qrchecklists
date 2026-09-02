@@ -20,7 +20,7 @@ const ChecklistApp = () => {
         let settingscandidate = localStorage.getItem("settings");
         if (settingscandidate === null) {
             return ({
-                webservice: "https://www2.in.tum.de/~petter/webservice/",
+                webservice: process.env.REACT_APP_WEBSERVICE_URL || "https://www2.in.tum.de/check/backend/",
                 qrprefix: "FA"+((new Date()).getFullYear()),
                 username: "Anonymous"
             });

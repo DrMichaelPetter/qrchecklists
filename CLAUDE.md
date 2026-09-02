@@ -52,7 +52,7 @@ All commands run from the repository root:
   - A checklist's `state`/`prevstate` are **BigInt bitmasks**; person index `i` (1-based) is bit `i-1`: `state & (1n << BigInt(i-1))`.
   - `tag` marks a checkpoint as a cloud subscription (prefixed `#`); `prev` links a branch to its parent.
   - `__current` is the active checklist key.
-- `settings` – `{ webservice, qrprefix, username }`; `webservice` is the base URL of the sync backend (default `https://www2.in.tum.de/~petter/webservice/`).
+- `settings` – `{ webservice, qrprefix, username }`; `webservice` is the base URL of the sync backend (configurable via `REACT_APP_WEBSERVICE_URL` in `.env`, default `https://www2.in.tum.de/check/backend/`).
 - BigInt cannot be `JSON.stringify`-ed directly: use the `jsonstringify` helper (defined in `ChecklistApp.jsx:64`) and the BigInt reviver in `loadLists` (`ChecklistApp.jsx:38`). Files using BigInt carry `/* global BigInt */`.
 - State updates use functional `setLists((lsts) => ...)`; all list mutations live in `ChecklistApp.jsx` and are passed down as callbacks (`toggleCurrent`, `switchTo`, `reset`, `sync`, `share`, `branchOff`, `createCheckpoint`, `delCheckpoint`, `rename`).
 

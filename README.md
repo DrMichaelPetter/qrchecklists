@@ -45,3 +45,38 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## Deploying
+
+Add an nginx config snippet:
+
+```
+       # QR Checkpoint checker for Ferienakademie:
+        location /check {
+                # Password protect app:
+                auth_basic "FA Checkpoint App";
+                auth_basic_user_file /srv/webserver/qrchecklists/htpasswd;
+
+                # Serve the backend:
+                location /check/backend {
+                        auth_basic off;
+                        proxy_pass http://127.0.0.1:5000/;
+                        proxy_set_header Host $host;
+                        proxy_set_header X-Real-IP $remote_addr;
+                        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                        proxy_set_header X-Forwarded-Proto $scheme;
+                }
+                # Serve the frontend:
+                alias /srv/webserver/qrchecklists/webapp/;
+                try_files $uri $uri/ /index.html;
+        }
+```
+
+Build the app with package.json
+```
+    "homepage": "https://www2.in.tum.de/check"
+```
+and .env
+```
+REACT_APP_WEBSERVICE_URL=https://www2.in.tum.de/check/backend/
+```
