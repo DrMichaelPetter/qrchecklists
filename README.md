@@ -44,13 +44,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## Deploying
 
 Add an nginx config snippet:
 
-```
+```conf
        # QR Checkpoint checker for Ferienakademie:
         location /check {
                 # Password protect app:
@@ -73,15 +71,15 @@ Add an nginx config snippet:
 ```
 
 Build the app with package.json
-```
+```json
     "homepage": "https://www2.in.tum.de/check"
 ```
 and .env
-```
+```ini
 REACT_APP_WEBSERVICE_URL=https://www2.in.tum.de/check/backend/
 ```
 Add an /etc/systemd/system/qrcheck.service:
-```
+```ini
 [Unit]
 Description=Gunicorn instance to serve QR Checker Flask backend
 After=network.target
@@ -105,10 +103,18 @@ Restart=always
 WantedBy=multi-user.target
 ```
 then run
-```
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable qrcheck
 sudo systemctl start qrcheck
 
 sudo journalctl -u qrcheck -f
+```
+### Jahresdaten
+
+feed the database output into the app via
+
+```bash
+cp csvcheckliste.csv qrchecklists/public/teilnehmer.csv
+cp csvcheckliste.csv qrchecklists/build/teilnehmer.csv
 ```
