@@ -13,6 +13,7 @@ The most basic data that this app is based on is a CSV table with user data. In 
 - decoded QR code ID
 - Hof
 - Kursnummer
+
 This table can be obtained from the fa-db portal and its Export: QR-Checklists-App item.
 
 # Developer's guide to Checkpoint Checker
@@ -110,9 +111,9 @@ sudo systemctl start qrcheck
 
 sudo journalctl -u qrcheck -f
 ```
-### Jahresdaten
+### Yearly participant data
 
-feed the database output into the app via
+feed the fa-db output into the app via
 
 ```bash
 cp csvcheckliste.csv qrchecklists/public/teilnehmer.csv
