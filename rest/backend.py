@@ -46,6 +46,7 @@ def add_cors_headers(response):
 
 @app.errorhandler(HTTPException)
 def handle_http_exception(e):
+    logger.warning(f"HTTP {e.code} error on {request.path}: {e.description or e.name}")
     response = e.get_response()
     response.data = jsonify({"message": e.description or e.name}).data
     response.content_type = "application/json"
