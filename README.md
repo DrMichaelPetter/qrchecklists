@@ -80,3 +80,35 @@ and .env
 ```
 REACT_APP_WEBSERVICE_URL=https://www2.in.tum.de/check/backend/
 ```
+Add an /etc/systemd/system/qrcheck.service:
+```
+[Unit]
+Description=Gunicorn instance to serve QR Checker Flask backend
+After=network.target
+
+[Service]
+# Run the service under your system username
+User=petter
+Group=tumuser
+
+# Path to your project's root directory
+WorkingDirectory=/home/petter/qrchecklists/rest
+
+# Path to the virtual environment's gunicorn binary and your app module
+# If your main file is app.py and the flask instance is named app, use app:app
+ExecStart=/home/petter/qrchecklists/rest/.venv/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 backend:app
+
+# Automatically restart the service if it crashes
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+then run
+```
+sudo systemctl daemon-reload
+sudo systemctl enable qrcheck
+sudo systemctl start qrcheck
+
+sudo journalctl -u qrcheck -f
+```
