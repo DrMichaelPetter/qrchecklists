@@ -107,22 +107,18 @@ def get_db():
 
 def init_db():
     with get_db() as db:
-        cur = db.execute(
-            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='checkpoints';"
-        )
-        existed = cur.fetchone() is not None
-
-        if not existed:
+        try:
             db.execute(
                 "CREATE TABLE checkpoints ("
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 "tag VARCHAR, state VARCHAR, prev VARCHAR)"
             )
             logger.info("Table 'checkpoints' did not exist and was created.")
-        else:
-            logger.info("Table 'checkpoints' already exists.")
-
-        return existed
+        except sqlite3.OperationalError as e:
+            if "already exists" in str(e).lower():
+                logger.info("Table 'checkpoints' already exists.")
+                return
+            raise e
 
 
 with app.app_context():
@@ -187,15 +183,17 @@ def get_checkpoint(tag):
 def share_checkpoint():
     d = request.get_json(silent=True) or {}
     tag, state, prev = d.get("tag"), d.get("state"), d.get("prev")
-    if query_db("SELECT 1 FROM checkpoints WHERE tag = ?", (tag,), one=True):
-        logger.warning(
-            f"Conflict: Attempted to share existing checkpoint '{tag}'"
+    with get_db() as db:
+        db.execute("BEGIN IMMEDIATE")
+        if db.execute("SELECT 1 FROM checkpoints WHERE tag = ?", (tag,)).fetchone():
+            logger.warning(
+                f"Conflict: Attempted to share existing checkpoint '{tag}'"
+            )
+            abort(409)
+        db.execute(
+            "INSERT INTO checkpoints (tag, state, prev) VALUES (?, ?, ?)",
+            (tag, state, prev),
         )
-        abort(409)
-    query_db(
-        "INSERT INTO checkpoints (tag, state, prev) VALUES (?, ?, ?)",
-        (tag, state, prev),
-    )
     logger.info(f"Successfully shared new checkpoint: {tag}")
     logger.debug(f"Checkpoint: {tag}, State: {state}, Prev: {prev}")
     return jsonify({"tag": tag, "state": state, "prevstate": prev})
@@ -204,30 +202,26 @@ def share_checkpoint():
 @app.route("/<tag>", methods=["POST"])
 @requires_auth
 def update_checkpoint(tag):
-    row = query_db(
-        "SELECT state FROM checkpoints WHERE tag = ?", (tag,), one=True
-    )
-    if not row:
-        logger.info(f"Update failed - Checkpoint not found: {tag}")
-        abort(404)
     d = request.get_json(silent=True) or {}
-    try:
-        new_val = str(int(d.get("state", 0)) | int(row["state"]))
-    except (ValueError, TypeError):
-        new_val = str(d.get("state"))
-    query_db("UPDATE checkpoints SET state = ? WHERE tag = ?", (new_val, tag))
-    logger.debug(f"Checkpoint '{tag}' updated from state {row['state']} with {d.get('state')} to {new_val}")
+    with get_db() as db:
+        db.execute("BEGIN IMMEDIATE")
+        row = db.execute(
+            "SELECT state FROM checkpoints WHERE tag = ?", (tag,)
+        ).fetchone()
+        if not row:
+            logger.info(f"Update failed - Checkpoint not found: {tag}")
+            abort(404)
+        try:
+            new_val = str(int(d.get("state", 0)) | int(row["state"]))
+        except (ValueError, TypeError):
+            new_val = str(d.get("state"))
+        db.execute("UPDATE checkpoints SET state = ? WHERE tag = ?", (new_val, tag))
     logger.info(f"Updated checkpoint '{tag}' state to: {new_val}")
     return jsonify({"state": new_val})
 
 @app.route("/<tag>", methods=["DELETE"])
 @requires_auth
 def delete_checkpoint(tag):
-    if not query_db(
-        "SELECT 1 FROM checkpoints WHERE tag = ?", (tag,), one=True
-    ):
-        logger.info(f"Delete failed - Checkpoint not found: {tag}")
-        abort(404)
     pwd = (request.get_json(silent=True) or {}).get("password", "")
     if (
         hashlib.sha256(pwd.encode()).hexdigest()
@@ -237,7 +231,13 @@ def delete_checkpoint(tag):
             f"Failed deletion attempt on '{tag}' due to incorrect password."
         )
         abort(401)
-    query_db("DELETE FROM checkpoints WHERE tag = ?", (tag,))
+
+    with get_db() as db:
+        cur = db.execute("DELETE FROM checkpoints WHERE tag = ?", (tag,))
+        if cur.rowcount == 0:
+            logger.info(f"Delete failed - Checkpoint not found: {tag}")
+            abort(404)
+
     logger.info(f"Successfully deleted checkpoint: {tag}")
     return jsonify({"message": "User deleted successfully"})
 
