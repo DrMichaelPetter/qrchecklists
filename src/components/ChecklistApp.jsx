@@ -211,10 +211,7 @@ const ChecklistApp = () => {
         <div className={styles.wrapper}>
             <div className={styles.appbody}>
             
-            <Router future={{
-                v7_relativeSplatPath: true,
-                v7_startTransition: true,
-            }}>
+            <Router>
             <SideBar lists={lists} switchTo={switchTo} clearState={clearLists}/>
                 <Routes>
                     <Route path="/" element={<Home />} />
