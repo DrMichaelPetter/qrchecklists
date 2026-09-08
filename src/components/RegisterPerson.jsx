@@ -3,7 +3,7 @@ import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
-const RegisterPerson = ( { handleChange , people, settings}) => {
+const RegisterPerson = ( { handleChange , people, settings, isCurrent}) => {
     const [qractive,toggleQR] = useState(false);
 
     const beep = (freq = 440, duration= 90, vol=50) => {
@@ -23,16 +23,22 @@ const RegisterPerson = ( { handleChange , people, settings}) => {
         };
     }
     const onNewScanResult = (qrCodeMessage) => {
-        const messages = qrCodeMessage = qrCodeMessage.split(";");
+        const messages = qrCodeMessage.split(";");
         if (messages[0] === settings.qrprefix) {
-            const key = parseInt(messages[1]);
-            if (people.filter(person => person.key === key && person.checked===true).length > 0) {
-                if (!window.confirm("Unregister " + messages[2] + " ?")){
+            const scannedID = parseInt(messages[1]);
+            const person = people.find((person) => person.intPersonID === scannedID);
+            if (!person) {
+                console.log("unknown person id " + scannedID);
+                beep(330,190,25);
+                return;
+            }
+            if (isCurrent(person.key)) {
+                if (!window.confirm("Unregister " + (messages[2] ?? person.name) + " ?")){
                     beep(330,190,25);
                     return;
                 }
             }
-            handleChange(key);
+            handleChange(scannedID);
             beep(880,190,25);
 
         } else {

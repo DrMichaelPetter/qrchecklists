@@ -106,7 +106,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     return (
         <>
         <Breadcrumbbar />
-        <RegisterPerson settings={settings} handleChange={handleChangeByID} people={people} />
+        <RegisterPerson settings={settings} isCurrent={isCurrent} handleChange={handleChangeByID} people={people} />
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>
