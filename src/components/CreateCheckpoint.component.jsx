@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
-import  { LuSubtitles } from "react-icons/lu";
+import  { LuCaptions } from "react-icons/lu";
 import styles from 'styles/Home.module.css';
 import { VscChecklist } from 'react-icons/vsc';
 const CreateCheckpoint = ({lists,createCheckpoint,switchTo,showNotice,showError}) => {
@@ -26,7 +26,7 @@ const CreateCheckpoint = ({lists,createCheckpoint,switchTo,showNotice,showError}
         <div className={styles.content}>
             <h1 className={styles.title}>Derive New Checkpoint from <VscChecklist  className={styles.icon} /> {lists[location.state.prev].name}</h1>
             <div className={styles.contentItem} >
-                <LuSubtitles className={styles.megaicon} />
+                <LuCaptions className={styles.megaicon} />
                 <input autoFocus onChange={handleCName} className={styles.input} type="text" placeholder="Fancy Name" onKeyDown={(e)=>{ if (e.key==='Enter') finalizeCName();}} ></input>
                 <FaCheckCircle className={styles.commit} onClick={finalizeCName} /><FaTimesCircle className={styles.cancel} onClick={()=>cancel()}/>
                 </div>
