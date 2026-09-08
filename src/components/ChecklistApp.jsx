@@ -36,6 +36,8 @@ const ChecklistApp = () => {
             });
         }
         let newlists=JSON.parse(listscandidate,(key,val)=>(key==="state" || key==="prevstate")?BigInt(val):val);
+        if (!newlists[newlists.__current] || newlists.__current === '__current')
+            newlists.__current = 'all';
         return newlists;
     }
 
@@ -125,8 +127,11 @@ const ChecklistApp = () => {
     
     const delCheckpoint = (key) => {
         setLists((lsts)=>{
+            if (key === 'all') return lsts;
             let newlists = {...lsts};
             delete newlists[key];
+            if (lsts.__current === key)
+                newlists.__current = 'all';
             return newlists;
         });
     }
@@ -171,8 +176,9 @@ const ChecklistApp = () => {
         switchTo('all');
     } 
     const ChecklistWithTitle = () => {
+        const current = lists[lists.__current] ?? lists.all;
         return (<><div className={styles.titlebar}>
-            <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {lists[lists.__current].name}</h1>
+            <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {current.name}</h1>
          </div><Checklist 
             settings={settings} 
             sync={sync} 
