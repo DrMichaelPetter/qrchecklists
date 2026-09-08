@@ -5,9 +5,9 @@ import { MdRefresh } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { TbLinkMinus, TbLinkOff, TbLinkPlus } from 'react-icons/tb';
 import { FaRecycle } from 'react-icons/fa';
+import { api, toBig } from 'services/api';
 
-const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}) => {
-    /* global BigInt */
+const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag,showError,showNotice}) => {
     const baseurl = settings.webservice;
     const initializeOrphans = () => {
         var orph = [];
@@ -27,59 +27,46 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag}
     }, [lists]);
 
     useEffect(() => {
-        const initialList = () => {
-            fetch(baseurl, {
-                method: 'GET',
-                headers: { 'Accept': 'application/json', },
-            })
-            .then(response => response.json())
-            .then(data => { 
-                const mytags = JSON.parse(JSON.stringify(data));
-                setServertags(mytags); 
-                //console.dir(mytags);
+        const initialList = async () => {
+            try {
+                const mytags = await api(baseurl);
+                setServertags(mytags);
                 Object.keys(mytags).forEach((tag) => {
                     const key=findTag(tag);
                     setOrphans((orph)=>orph.filter((item)=>(item!==key)));
                     });
-            });
+            } catch (e) {
+                showError(e.message);
+            }
         };
         initialList();
-    },[baseurl, findTag]);
+    },[baseurl, findTag, showError]);
 
     const remove = (tag) => {
         removeTag(tag);
         navigate('/managecheckpoints');
     }
 
-    const syncTo = (tag) => {
-        fetch(baseurl+tag, {
-            method: 'GET',
-            headers: { 'Accept': 'application/json', },
-        }).then(response => response.json())
-        .then(data => { 
-            const state = BigInt(data.state);
-            const prevstate = BigInt(data.prevstate);
-            subscribeTo(tag,state,prevstate);
-        });
+    const syncTo = async (tag) => {
+        try {
+            const data = await api(baseurl, tag);
+            subscribeTo(tag, toBig(data.state), toBig(data.prevstate));
+            showNotice(`Added #${tag} from cloud`);
+        } catch (e) {
+            showError(e.message);
+        }
     }
 
-    const deleteFromServer = (tag) => {
+    const deleteFromServer = async (tag) => {
         const password=prompt("Please enter the password to server-side delete the tag");
-        fetch(baseurl+tag, {
-            method: 'DELETE',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json', },
-            body: JSON.stringify({ password: password }),
-        }).then(response => 
-            {
-                if (!response.ok) {
-                    alert("Error: "+response.statusText);
-                    return;
-                } 
-                navigate('/managecheckpoints');
-            });
-
+        if (password === null) return;
+        try {
+            await api(baseurl, tag, { method: 'DELETE', body: JSON.stringify({ password }) });
+            showNotice(`Deleted #${tag} from server`);
+            navigate('/managecheckpoints');
+        } catch (e) {
+            showError(e.message);
+        }
     }
 
 return (<>

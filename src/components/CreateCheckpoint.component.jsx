@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import  { LuSubtitles } from "react-icons/lu";
 import styles from 'styles/Home.module.css';
 import { VscChecklist } from 'react-icons/vsc';
-const CreateCheckpoint = ({lists,createCheckpoint,switchTo}) => {
+const CreateCheckpoint = ({lists,createCheckpoint,switchTo,showNotice,showError}) => {
     const [name, setName] = useState("");
     const handleCName = (e) => {
         setName(e.target.value);
@@ -12,9 +12,11 @@ const CreateCheckpoint = ({lists,createCheckpoint,switchTo}) => {
     const navigate  = useNavigate();
     const location = useLocation();
     const finalizeCName = () => {
+        if (!name || !name.trim()) { showError("Name required"); return; }
         const prev = location.state.prev;
         const ncheck = createCheckpoint(name, prev);
         switchTo(ncheck);
+        showNotice(`Created "${name}"`);
         navigate("/checkpoint");
     }
     const cancel = () => {

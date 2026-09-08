@@ -47,7 +47,7 @@ const HofNav = ({people}) => {
         </ul>
     );
 }
-const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,sync,settings}) => {
+const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,sync,settings,showNotice,showError}) => {
     const [people,setPeople] = useState([]);
     const Breadcrumbbar = () => {
         const onlineStatus = useOnlineStatus();
@@ -106,7 +106,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     return (
         <>
         <Breadcrumbbar />
-        <RegisterPerson settings={settings} isCurrent={isCurrent} handleChange={handleChangeByID} people={people} />
+        <RegisterPerson settings={settings} isCurrent={isCurrent} handleChange={handleChangeByID} people={people} showNotice={showNotice} showError={showError} />
         <div className={styles.listslayout}>
         </div>
         <div className={styles.listslayout}>

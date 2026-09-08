@@ -3,7 +3,7 @@ import {BsQrCodeScan} from 'react-icons/bs';
 import QRScanner from 'components/QRScanner';
 import { useState } from 'react';
 
-const RegisterPerson = ( { handleChange , people, settings, isCurrent}) => {
+const RegisterPerson = ( { handleChange , people, settings, isCurrent, showNotice, showError}) => {
     const [qractive,toggleQR] = useState(false);
 
     const beep = (freq = 440, duration= 90, vol=50) => {
@@ -29,20 +29,22 @@ const RegisterPerson = ( { handleChange , people, settings, isCurrent}) => {
             const person = people.find((person) => person.intPersonID === scannedID);
             if (!person) {
                 console.log("unknown person id " + scannedID);
+                showError("Unknown participant");
                 beep(330,190,25);
                 return;
             }
-            if (isCurrent(person.key)) {
-                if (!window.confirm("Unregister " + (messages[2] ?? person.name) + " ?")){
-                    beep(330,190,25);
-                    return;
-                }
+            const wasChecked = isCurrent(person.key);
+            if (wasChecked && !window.confirm("Unregister " + (messages[2] ?? person.name) + " ?")){
+                beep(330,190,25);
+                return;
             }
             handleChange(scannedID);
             beep(880,190,25);
+            showNotice(`${wasChecked ? "Unregistered" : "Checked"} ${messages[2] ?? person.name}`);
 
         } else {
             console.log("unrecognized strange QR code " + qrCodeMessage);
+            showError("Unrecognized QR code");
             beep(330,190,25);
         }
     };

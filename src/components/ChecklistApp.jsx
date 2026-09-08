@@ -1,6 +1,6 @@
 import Checklist from 'components/Checklist';
 import SideBar from 'components/Sidebar';
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useRef,useCallback } from 'react';
 import styles from 'styles/ChecklistApp.module.css';
 import { VscChecklist } from "react-icons/vsc";
 import { HashRouter as Router } from 'react-router-dom';
@@ -12,6 +12,8 @@ import DeleteCheckpoints from 'components/DeleteCheckpoints.component';
 import RegisterCloud from 'components/RegisterCloud.component';
 import Settings from './Settings.component';
 import ShareCheckpoint from './ShareCheckpoint.component';
+import Toast from 'components/Toast';
+import { api, toBig } from 'services/api';
 
 const ChecklistApp = () => {
     /* global BigInt */
@@ -47,10 +49,21 @@ const ChecklistApp = () => {
         setLists((lists)=> ({
             __current:"all", 
             all: {name: "all", state: allstate, prevstate: allstate}}));
+        showNotice("App data cleared");
     }
 
     var [settings,setSettings] = useState(loadSettings);
     var [lists, setLists] = useState(loadLists());
+
+    const [toast,setToast] = useState(null);
+    const toastTimer = useRef(null);
+    const showToast = useCallback((type,text) => {
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        setToast({ type, text });
+        toastTimer.current = setTimeout(()=> setToast(null), type==="error" ? 5000 : 3000);
+    },[]);
+    const showError = useCallback((text)=> showToast("error", text),[showToast]);
+    const showNotice = useCallback((text)=> showToast("success", text),[showToast]);
 
     const createCheckpoint = (newcheckpointname, lastcheckpointkey) => {
         let newkey = Math.random().toString(36).substring(7);
@@ -100,6 +113,7 @@ const ChecklistApp = () => {
         setLists((lsts)=>({ ...lsts, __current: key }));
     }
     const reset = () => {
+        showNotice(`Cleared "${lists[lists.__current].name}"`);
         setLists((lsts)=>{
             const current = {...lsts[lsts.__current],state:0n};
             return { ...lsts, [lsts.__current]: current };
@@ -126,55 +140,54 @@ const ChecklistApp = () => {
     const isPrevious = (key) => lists[lists.__current].prevstate & (1n << BigInt(key-1));
     
     const delCheckpoint = (key) => {
+        if (key === 'all') return;
+        const name = lists[key] ? lists[key].name : "checkpoint";
         setLists((lsts)=>{
-            if (key === 'all') return lsts;
             let newlists = {...lsts};
             delete newlists[key];
             if (lsts.__current === key)
                 newlists.__current = 'all';
             return newlists;
         });
+        showNotice(`Deleted "${name}"`);
     }
     const rename = (key,newname) => {
         setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], name: newname } }));
+        showNotice(`Renamed to "${newname}"`);
     }
-    const sync = (key) => {
+    const sync = async (key) => {
         const tag = lists[key].tag;
-        const baseurl = settings.webservice;
-
-        fetch(baseurl+tag, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json', },
-            body: jsonstringify({ tag: lists[key].tag, state: lists[key].state}),
-        }).then(response => response.json())
-        .then(data => {
-            const state = BigInt(data.state);
-            setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], state: state} }));
-        });
+        try {
+            const data = await api(settings.webservice, tag, {
+                method: 'POST',
+                body: jsonstringify({ tag, state: lists[key].state }),
+            });
+            setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], state: toBig(data.state) } }));
+        } catch (e) {
+            showError(e.status === 404 ? `#${tag} is gone - re-share it.` : e.message);
+        }
     }
-    const share = (tag,key) => {
+    const share = async (tag,key) => {
+        if (!tag) { showError("Choose a tag first."); return; }
         const baseurl = settings.webservice;
-        fetch(baseurl+"*share", {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json', },
-            body: jsonstringify({ tag: tag, state: lists[key].state, prev: lists[key].prevstate}),
-        }).then(response => response.json())
-        .then(data => {
-            console.dir(data);
-            const state = BigInt(data.state);
-            const prevstate = BigInt(data.prevstate);
-            let newkey = subscribeTo(tag,state,prevstate);
+        try {
+            const data = await api(baseurl, "*share", {
+                method: 'POST',
+                body: jsonstringify({ tag, state: lists[key].state, prev: lists[key].prevstate }),
+            });
+            let newkey = subscribeTo(tag, toBig(data.state), toBig(data.prevstate));
             switchTo(newkey);
-        });
+            showNotice(`Shared as #${tag}`);
+        } catch (e) {
+            showError(e.message);
+        }
     }
     const removeTag = (key) => {
+        const tag = lists[key] ? lists[key].tag : undefined;
         setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], tag: undefined } }));
         switchTo('all');
-    } 
+        if (tag) showNotice(`Unlinked #${tag} (kept locally)`);
+    }
     const ChecklistWithTitle = () => {
         const current = lists[lists.__current] ?? lists.all;
         return (<><div className={styles.titlebar}>
@@ -186,9 +199,11 @@ const ChecklistApp = () => {
             lists={lists} 
             toggleCurrent={toggleCurrent} 
             isCurrent={isCurrent} 
-            isPrevious={isPrevious} 
-            branchOff={branchOff} 
-            />
+             isPrevious={isPrevious} 
+             branchOff={branchOff} 
+             showNotice={showNotice} 
+             showError={showError} 
+             />
        </>);
     }
 
@@ -206,12 +221,13 @@ const ChecklistApp = () => {
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
                     <Route path="/checkpoint" element={<ChecklistWithTitle />} />
-                    <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} />} />
+                    <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} showError={showError} showNotice={showNotice} />} />
                     <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
-                    <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} />} />
+                    <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} showNotice={showNotice} showError={showError} />} />
                     <Route path="/managecheckpoints" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>
             </Router>
+            <Toast toast={toast} onDismiss={()=>setToast(null)} />
             </div>
         </div>
     );
