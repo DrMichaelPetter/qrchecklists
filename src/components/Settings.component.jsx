@@ -4,10 +4,21 @@ import { RxReset } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 import useOnlineStatus from 'components/OnlineStatus.component';
 import { FaHiking } from 'react-icons/fa';
-import { MdOutlineSignalWifi4Bar } from 'react-icons/md';
+import { MdOutlineSignalWifi4Bar, MdOutlineCloudDownload } from 'react-icons/md';
 const Settings = ({settings,setSettings,clearState}) => {
    const navigate = useNavigate();
    const isOnline = useOnlineStatus();
+   const evictCache = async () => {
+      if ('serviceWorker' in navigator) {
+         const regs = await navigator.serviceWorker.getRegistrations();
+         await Promise.all(regs.map((reg) => reg.unregister()));
+      }
+      if (window.caches) {
+         const keys = await caches.keys();
+         await Promise.all(keys.map((key) => caches.delete(key)));
+      }
+      window.location.reload();
+   };
      return(
      <>
      <FaScrewdriverWrench className={styles.megaicon} />
@@ -21,7 +32,8 @@ const Settings = ({settings,setSettings,clearState}) => {
            { !isOnline &&<FaHiking  className={styles.connectionicon}/> }
              </td></tr>
          <tr height="100px"></tr>
-         <tr><td className={styles.center} colspan="2"><div onClick={()=>{clearState();navigate("/");}}><RxReset  className={styles.icon}/> Reset app</div></td></tr>
+          <tr><td className={styles.center} colspan="2"><div onClick={()=>{clearState();navigate("/");}}><RxReset  className={styles.icon}/> Reset app</div></td></tr>
+          <tr><td className={styles.center} colspan="2"><div onClick={evictCache}><MdOutlineCloudDownload  className={styles.icon}/> Reload from web</div></td></tr>
      </table>
      
      </>
