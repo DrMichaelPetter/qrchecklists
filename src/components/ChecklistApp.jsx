@@ -18,15 +18,15 @@ import { api, toBig } from 'services/api';
 const ChecklistApp = () => {
     /* global BigInt */
 
+    const defaultSettings = () => ({
+        webservice: process.env.REACT_APP_WEBSERVICE_URL || "https://www2.in.tum.de/check/backend/",
+        qrprefix: "FA"+((new Date()).getFullYear()),
+        username: "Anonymous"
+    });
+
     const loadSettings = () => {
         let settingscandidate = localStorage.getItem("settings");
-        if (settingscandidate === null) {
-            return ({
-                webservice: process.env.REACT_APP_WEBSERVICE_URL || "https://www2.in.tum.de/check/backend/",
-                qrprefix: "FA"+((new Date()).getFullYear()),
-                username: "Anonymous"
-            });
-        }
+        if (settingscandidate === null) return defaultSettings();
         return JSON.parse(settingscandidate);
     }
 
@@ -49,6 +49,7 @@ const ChecklistApp = () => {
         setLists((lists)=> ({
             __current:"all", 
             all: {name: "all", state: allstate, prevstate: allstate}}));
+        setSettings(defaultSettings());
         showNotice("App data cleared");
     }
 
