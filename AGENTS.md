@@ -16,10 +16,16 @@ tracking checkpoint check-ins.
 **The two are separate, independently running OS processes that share nothing** —
 no shared code, imports, build steps, or runtime. The backend never imports or serves
 frontend code, and there is no server-side rendering. **The only way they interact is
-HTTP**: the browser-side frontend issues `fetch` calls to the backend's REST API at
-`REACT_APP_WEBSERVICE_URL` (e.g. `ChecklistApp.jsx`, `RegisterCloud.component.jsx`).
-The frontend can be served as static files from anywhere; the backend runs as its own
-HTTP server. Treat that HTTP API as the entire frontend↔backend contract.
+HTTP**: all frontend calls to the backend go through the single helper
+`api(baseurl, path, options)` in `src/services/api.js` (plus `toBig()` for state
+parsing); components like `ChecklistApp.jsx` call it, not raw `fetch`. The frontend can
+be served as static files from anywhere; the backend runs as its own HTTP server. Treat
+that HTTP API as the entire frontend↔backend contract.
+
+The core data model to understand on both sides: each checkpoint's `state` is a
+**BigInt bitmask** (one bit per participant in `teilnehmer.csv`). Check-ins flip a bit
+locally; sync sends the BigInt and the backend **OR**-merges it. States cross the wire
+and localStorage as **strings** — never coerce to JS `Number` (precision loss).
 
 `AGENTS.md` lives at the workspace root. Frontend and backend have separate
 toolchains — cd into the right one before running commands. During local dev you must
@@ -37,8 +43,12 @@ the full app.
   (no `../`, no `src/` prefix).
 - Routing uses **`HashRouter`** and `homepage: "./"` so the build works from any
   static subpath. Don't switch to `BrowserRouter` without fixing deployment.
-- Backend URL comes from `process.env.REACT_APP_WEBSERVICE_URL` (see `.env`), with a
-  hardcoded `https://www2.in.tum.de/check/backend/` fallback in `ChecklistApp.jsx`.
+- Backend URL comes from `process.env.REACT_APP_WEBSERVICE_URL`. The checked-in `.env` is
+  tracked in git and points to **production** (`https://www2.in.tum.de/check/backend/`),
+  which is also the hardcoded fallback in `ChecklistApp.jsx`. To test against the local
+  backend, override it (e.g. gitignored `.env.local` with
+  `REACT_APP_WEBSERVICE_URL=http://localhost:5000/`) or set it in the in-app Settings
+  page (persisted to `localStorage`). Otherwise a local dev server silently hits prod.
 - Participant roster is loaded at runtime via `fetch(process.env.PUBLIC_URL + '/teilnehmer.csv')`.
 
 ## Backend (`rest/`)

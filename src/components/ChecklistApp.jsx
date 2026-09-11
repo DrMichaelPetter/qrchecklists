@@ -85,6 +85,17 @@ const ChecklistApp = () => {
     },[lists,settings])
 
     useEffect(() => {
+        const handleOnline = () => showNotice("Back online");
+        const handleOffline = () => showError("You are offline");
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+        return () => {
+            window.removeEventListener("online", handleOnline);
+            window.removeEventListener("offline", handleOffline);
+        };
+    },[showNotice,showError])
+
+    useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch(process.env.PUBLIC_URL+'/teilnehmer.csv');
@@ -164,6 +175,7 @@ const ChecklistApp = () => {
                 body: jsonstringify({ tag, state: lists[key].state }),
             });
             setLists((lsts)=>({ ...lsts, [key]: { ...lsts[key], state: toBig(data.state) } }));
+            showNotice(`Synced #${tag}`);
         } catch (e) {
             showError(e.status === 404 ? `#${tag} is gone - re-share it.` : e.message);
         }
