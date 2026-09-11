@@ -32,8 +32,8 @@ const Settings = ({settings,setSettings,clearState}) => {
            { !isOnline &&<FaHiking  className={styles.connectionicon}/> }
              </td></tr>
          <tr height="100px"></tr>
-          <tr><td className={styles.center} colspan="2"><div onClick={()=>{clearState();navigate("/");}}><RxReset  className={styles.icon}/> Reset app</div></td></tr>
-          <tr><td className={styles.center} colspan="2"><div onClick={evictCache}><MdOutlineCloudDownload  className={styles.icon}/> Reload APP/CSV from web</div></td></tr>
+          <tr><td className={styles.center} colspan="2"><div onClick={()=>{clearState();navigate("/");}}><RxReset  className={styles.icon}/> Wipe local data/lists</div></td></tr>
+          <tr><td className={styles.center} colspan="2"><div onClick={evictCache}><MdOutlineCloudDownload  className={styles.icon}/> Reload App and people database from web</div></td></tr>
      </table>
      
      </>
