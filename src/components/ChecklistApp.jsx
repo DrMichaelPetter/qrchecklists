@@ -231,7 +231,7 @@ const ChecklistApp = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
-                    <Route path="/checkpoint" element={<ChecklistWithTitle />} />
+                    <Route path="/checkpoint" element={ChecklistWithTitle()} />
                     <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} showError={showError} showNotice={showNotice} />} />
                     <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} showNotice={showNotice} showError={showError} />} />
