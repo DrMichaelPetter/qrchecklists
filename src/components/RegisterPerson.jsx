@@ -41,6 +41,7 @@ const RegisterPerson = ( { handleChange , people, settings, isCurrent, showNotic
                 console.log("unknown person id " + scannedID);
                 showError("Unknown participant");
                 beep(330,190,25);
+                toggleQR(false);
                 return;
             }
             const wasChecked = isCurrent(person.key);
@@ -51,11 +52,13 @@ const RegisterPerson = ( { handleChange , people, settings, isCurrent, showNotic
             handleChange(scannedID);
             beep(880,190,25);
             showNotice(`${wasChecked ? "Unregistered" : "Checked"} ${messages[2] ?? person.name}`);
+            toggleQR(false);
 
         } else {
             console.log("unrecognized strange QR code " + qrCodeMessage);
             showError("Unrecognized QR code");
             beep(330,190,25);
+            toggleQR(false);
         }
     };
 

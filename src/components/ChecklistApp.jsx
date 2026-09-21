@@ -15,6 +15,14 @@ import ShareCheckpoint from './ShareCheckpoint.component';
 import Toast from 'components/Toast';
 import { api, toBig } from 'services/api';
 
+const ChecklistWithTitle = (props) => {
+    const current = props.lists[props.lists.__current] ?? props.lists.all;
+    return (<><div className={styles.titlebar}>
+        <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {current.name}</h1>
+     </div><Checklist {...props} />
+   </>);
+}
+
 const ChecklistApp = () => {
     /* global BigInt */
 
@@ -202,24 +210,6 @@ const ChecklistApp = () => {
         switchTo('all');
         if (tag) showNotice(`Unlinked #${tag} (kept locally)`);
     }
-    const ChecklistWithTitle = () => {
-        const current = lists[lists.__current] ?? lists.all;
-        return (<><div className={styles.titlebar}>
-            <h1 className={styles.title}>FA Checkpoint: <VscChecklist className={styles.icon} /> {current.name}</h1>
-         </div><Checklist 
-            settings={settings} 
-            sync={sync} 
-            reset={reset} 
-            lists={lists} 
-            toggleCurrent={toggleCurrent} 
-            isCurrent={isCurrent} 
-             isPrevious={isPrevious} 
-             branchOff={branchOff} 
-             showNotice={showNotice} 
-             showError={showError} 
-             />
-       </>);
-    }
 
     return (
         <div className={styles.wrapper}>
@@ -231,7 +221,7 @@ const ChecklistApp = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/yesno" element={<YesNoDialog />} />
                     <Route path="/settings" element={<Settings settings={settings} setSettings={setSettings} clearState={clearLists}/>} />
-                    <Route path="/checkpoint" element={<ChecklistWithTitle />} />
+                    <Route path="/checkpoint" element={<ChecklistWithTitle settings={settings} sync={sync} reset={reset} lists={lists} toggleCurrent={toggleCurrent} isCurrent={isCurrent} isPrevious={isPrevious} branchOff={branchOff} showNotice={showNotice} showError={showError} />} />
                     <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} showError={showError} showNotice={showNotice} />} />
                     <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} showNotice={showNotice} showError={showError} />} />
