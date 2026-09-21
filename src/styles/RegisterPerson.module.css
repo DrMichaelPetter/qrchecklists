@@ -21,3 +21,9 @@
     background: var(--tum-pink-4);
     color: var(--tum-pink-dark);
 }
+.scanerror {
+    text-align: center;
+    color: var(--tum-pink-dark);
+    font-weight: bold;
+    margin-bottom: 10px;
+}

@@ -35,50 +35,73 @@ const QRScanner = (props) => {
     const html5QrCodeRef = useRef(null);
     useEffect(() => {
         // when component mounts
+        let cancelled = false;
         const config = createConfig(props);
         const verbose = props.verbose === true;
         // Suceess callback is required.
         if (!(props.qrCodeSuccessCallback)) {
             throw new Error("qrCodeSuccessCallback is required callback.");
         }
+        const failAndClose = (err) => {
+            console.error("QRScanner failed to start camera. ", err);
+            if (props.showError) props.showError("Could not start the camera.");
+            if (props.onScanError) props.onScanError(err);
+            props.toggleQR(false);
+        };
         Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                //const cameraId = devices[0].id;
-                let configuration = {
-                    formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-                    verbose: verbose,
-                };
-                const html5QrCode = new Html5Qrcode(qrcodeRegionId,configuration);
-                html5QrCodeRef.current = html5QrCode;
-                var lastsnap = null;
-                html5QrCode.start(
-                    //cameraId,
-                    { facingMode: "environment" },
-                    config,
-                    qrCodeMessage => {
-                        if (qrCodeMessage === lastsnap) return;
-                        lastsnap = qrCodeMessage;
-                        props.qrCodeSuccessCallback(qrCodeMessage);
-                        props.toggleQR(false);
-                       
-                    },
-                    errorMessage => {
-//                        console.log(errorMessage);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-                
+            // component unmounted before the camera list arrived
+            if (cancelled) return;
+            if (!(devices && devices.length)) {
+                failAndClose(new Error("No camera available"));
+                return;
             }
+            //const cameraId = devices[0].id;
+            let configuration = {
+                formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+                verbose: verbose,
+            };
+            const html5QrCode = new Html5Qrcode(qrcodeRegionId,configuration);
+            html5QrCodeRef.current = html5QrCode;
+            var lastsnap = null;
+            return html5QrCode.start(
+                //cameraId,
+                { facingMode: "environment" },
+                config,
+                qrCodeMessage => {
+                    if (qrCodeMessage === lastsnap) return;
+                    lastsnap = qrCodeMessage;
+                    try {
+                        props.qrCodeSuccessCallback(qrCodeMessage);
+                    } catch (callbackError) {
+                        console.error("qrCodeSuccessCallback threw. ", callbackError);
+                        if (props.showError) props.showError("Something went wrong during check-in.");
+                    }
+                    props.toggleQR(false);
+                },
+                errorMessage => {
+//                    console.log(errorMessage);
+                })
+                .then(() => {
+                    // camera opened only after unmount: release the stream at once
+                    if (cancelled) {
+                        html5QrCode.stop().catch(() => {});
+                    }
+                })
+                .catch(err => {
+                    if (!cancelled) failAndClose(err);
+                });
+        }).catch(err => {
+            if (!cancelled) failAndClose(err);
         });
 
-
-
         return () => {
-            if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
-                html5QrCodeRef.current.stop().catch(error => {
+            cancelled = true;
+            const html5QrCode = html5QrCodeRef.current;
+            html5QrCodeRef.current = null;
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().catch(error => {
                     console.error("Failed to stop html5QrCode. ", error);
-                    props.toggleQR(false);
+                    if (props.showError) props.showError("Failed to release the camera.");
                 });
             }
         };

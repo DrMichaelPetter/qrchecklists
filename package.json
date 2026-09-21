@@ -14,8 +14,8 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "GENERATE_SOURCEMAP=false REACT_APP_BUILD_ID=$(git rev-parse --short HEAD)@$(date -u +%Y%m%d%H%M%S) react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false REACT_APP_BUILD_ID=$(git rev-parse --short HEAD)@$(date -u +%Y%m%d%H%M%S) react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

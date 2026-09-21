@@ -109,6 +109,7 @@ const ChecklistApp = () => {
                 return mymapping;
             } catch (error) {
                 console.error('Error:',error);
+                showError("Could not load the participant list.");
                 return [];
             }
 
@@ -119,7 +120,7 @@ const ChecklistApp = () => {
             setLists((lsts)=>({ ...lsts, all: {name: 'all' , state: state, prevstate: state } }));
 
         });
-    }, []);
+    }, [showError]);
 
     const switchTo = (key) => {
         setLists((lsts)=>({ ...lsts, __current: key }));

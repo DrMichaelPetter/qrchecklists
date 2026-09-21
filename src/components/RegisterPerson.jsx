@@ -5,6 +5,16 @@ import { useState } from 'react';
 
 const RegisterPerson = ( { handleChange , people, settings, isCurrent, showNotice, showError}) => {
     const [qractive,toggleQR] = useState(false);
+    const [cameraError,setCameraError] = useState(null);
+
+    const openScanner = () => {
+        setCameraError(null);
+        toggleQR(true);
+    };
+
+    const handleScanError = () => {
+        setCameraError("Camera unavailable. Close other camera apps or check browser permissions, then tap to retry.");
+    };
 
     const beep = (freq = 440, duration= 90, vol=50) => {
         var context = new (window.AudioContext || window.webkitAudioContext)();
@@ -58,8 +68,13 @@ const RegisterPerson = ( { handleChange , people, settings, isCurrent, showNotic
         disableFlip={false}
         qrCodeSuccessCallback={onNewScanResult}
         toggleQR={toggleQR} 
+        onScanError={handleScanError}
+        showError={showError}
         //aspectRatio={1.0}
-        /> : <button className={styles.scanbutton} onClick={()=> toggleQR((prev)=> true)}><BsQrCodeScan /></button>}
+        /> : <>
+        {cameraError && <p className={styles.scanerror}>{cameraError}</p>}
+        <button className={styles.scanbutton} onClick={openScanner}><BsQrCodeScan /></button>
+        </>}
         </>
     );
     //size: '180px'

@@ -29,8 +29,9 @@ const Settings = ({settings,setSettings,clearState}) => {
      <tr><td>QR Prefix: </td><td><input type="text" className={styles.input} onChange={(e)=>setSettings((setting)=>({...setting,"qrprefix":e.target.value}))} value={settings.qrprefix} /></td></tr>
         <tr><td>Online mode: </td><td>
            { isOnline && <MdOutlineSignalWifi4Bar  className={styles.connectionicon}/> }
-           { !isOnline &&<FaHiking  className={styles.connectionicon}/> }
-             </td></tr>
+            { !isOnline &&<FaHiking  className={styles.connectionicon}/> }
+              </td></tr>
+          <tr><td>Build:   </td><td>{process.env.REACT_APP_BUILD_ID || "dev"}</td></tr>
          <tr height="100px"></tr>
           <tr><td className={styles.center} colspan="2"><div onClick={()=>{clearState();navigate("/");}}><RxReset  className={styles.icon}/> Wipe local data/lists</div></td></tr>
           <tr><td className={styles.center} colspan="2"><div onClick={evictCache}><MdOutlineCloudDownload  className={styles.icon}/> Reload App and people database from web</div></td></tr>
