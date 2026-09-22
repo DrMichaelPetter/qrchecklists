@@ -52,7 +52,7 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     const Breadcrumbbar = () => {
         const onlineStatus = useOnlineStatus();
         return (<nav className={styles.navbar}>
-            <button className={styles.btn} title="Start a new empty checkpoint" onClick={()=>reset()}><GrUserNew /></button>
+            <button className={styles.btn} title="Wipe the selections for this checkpoint clear" onClick={()=>reset()}><GrUserNew /></button>
             <Link to="/newcheckpoint" state={{prev: lists.__current}}><div className={styles.btn} title="Derive a new local selection list from currently selected persons"><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div></Link>
             {false&&<div className={styles.btn}><InstaName branchOff={branchOff} pred={lists.__current} /></div>}
             <div className={styles.breadcrumbspacer}></div>
