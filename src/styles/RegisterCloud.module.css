@@ -65,3 +65,73 @@
 .listpoint:nth-child(even)  {
     background-color: var(--tum-blue-light-4);
 }
+.modal {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: var(--tum-grey-1);
+    overflow-x: hidden;
+    text-align: center;
+}
+.message {
+    position: relative;
+    top: 15%;
+    margin: 2rem;
+    padding: 2rem;
+    font-size: 2rem;
+    color: var(--tum-white);
+}
+.inputwrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+.input {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--tum-blue-dark-4);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--tum-blue-dark-6);
+}
+.toggle {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--tum-white);
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+.choice {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem;
+}
+.delBtn {
+    border: none;
+    background: none;
+    color: var(--tum-white);
+    font-size: 2rem;
+    padding: 1rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+.delBtn:hover {
+    color: var(--tum-red-dark);
+}
+.cancelBtn {
+    border: none;
+    background: none;
+    color: var(--tum-white);
+    font-size: 2rem;
+    padding: 1rem;
+    margin: 1rem;
+    cursor: pointer;
+}
+.cancelBtn:hover {
+    color: var(--tum-green);
+}
