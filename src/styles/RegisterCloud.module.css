@@ -96,7 +96,10 @@
     border: 1px solid var(--tum-blue-dark-4);
     border-radius: 4px;
     background: #fff;
-    color: var(--tum-blue-dark-6);
+    color: var(--tum-blue-dark-4);
+}
+.input::placeholder {
+    color: var(--tum-grey-4);
 }
 .toggle {
     border: none;
