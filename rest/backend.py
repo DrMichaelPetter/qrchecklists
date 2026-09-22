@@ -225,7 +225,7 @@ def delete_checkpoint(tag):
     pwd = (request.get_json(silent=True) or {}).get("password", "")
     if (
         hashlib.sha256(pwd.encode()).hexdigest()
-        != "d7dbaf19d9827ff39ac45e9ac5b2a8275577bb94c2556d22b2c6a1736ba8f1db"
+        != "9c425255a926b3223edf04d2283059c6b40ddac3029386e7fb6e85b166258f7c" 
     ):
         logger.warning(
             f"Failed deletion attempt on '{tag}' due to incorrect password."
