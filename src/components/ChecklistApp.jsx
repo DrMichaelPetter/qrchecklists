@@ -99,7 +99,7 @@ const ChecklistApp = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch(process.env.PUBLIC_URL+'/teilnehmer.csv');
+                const response = await fetch('./teilnehmer.csv');
                 const data = await response.text();
                 var i = 1;
                 const mymapping=data.split('\n').slice(1).map((line) => {

@@ -9,7 +9,7 @@ const Home = () => {
     const isOnline = useOnlineStatus();
     return (
         <div className={styles.content}>
-            <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
+            <img className={styles.logo} src="./logo.svg" alt="logo" />
             <h1 className={styles.title}>Ferienakademie Checkpoint Checker</h1>
             <div className={styles.contentItem}>
                 <Link to="/newcheckpoint" state={{ prev: "all"}}><BsClipboardPlusFill className={styles.megaicon}/>Start Fresh</Link>

@@ -36,7 +36,7 @@ const SideBar = ({lists,switchTo,clearState}) => {
         <nav className={styles.sidebar} style={ {width:(minscreen?('440px'):(showBar?'100%':'0px'))}}>
             <button className={styles.closebtn} onClick={()=> setShowBar((bar) =>!bar)}>&times;</button>
             <div className={styles.overlayContent}>
-              <img className={styles.logo} src={process.env.PUBLIC_URL + '/logo.svg'} alt="logo" />
+              <img className={styles.logo} src="./logo.svg" alt="logo" />
               <div className={styles.majorItems} onClick={()=>{navigate("/");endSidebar();}}><HiOutlineHome  className={styles.icon}/> Home</div>
               {Object.keys(lists).filter((k)=>((!(["all","__current"].includes(k))&&lists[k].tag!==undefined))).length>0 && <><div className={styles.majorItems} onClick={()=>setTags((s)=>!s)}><BsCloud  className={styles.icon}/> Subscriptions {tags && <GoTriangleDown />}{!tags && <GoTriangleLeft />}</div>
                 {tags && <ul  className={styles.minorMenu}>
