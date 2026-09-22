@@ -29,7 +29,7 @@ const sortPeople = (a,b) => {
 const GoTop = (props) => {
     return (
         <div className={props.showGoTop} onClick={props.scrollUp}>
-        <button className={styles.goTop} >
+        <button className={styles.goTop} title="Scroll to top">
           <FaChevronUp  className={styles.goTop_text} />
         </button>
       </div>
@@ -41,7 +41,7 @@ const HofNav = ({people}) => {
         <ul className={styles.hofnav}>
             {
                 hoefe.map((hof) => (
-                    <li key={hof} ><button className={styles.hofbutton} onClick={() => document.getElementById(hof).scrollIntoView({ behavior: 'smooth' })}>{hof.slice(0,4)}...</button></li>
+                    <li key={hof} ><button className={styles.hofbutton} title={`Jump to ${hof}`} onClick={() => document.getElementById(hof).scrollIntoView({ behavior: 'smooth' })}>{hof.slice(0,4)}...</button></li>
                 ))
             }
         </ul>
@@ -52,12 +52,12 @@ const Checklist = ({reset,isCurrent,isPrevious,lists,toggleCurrent,branchOff,syn
     const Breadcrumbbar = () => {
         const onlineStatus = useOnlineStatus();
         return (<nav className={styles.navbar}>
-            <button className={styles.btn} onClick={()=>reset()}><GrUserNew /></button>
-            <Link to="/newcheckpoint" state={{prev: lists.__current}}><div className={styles.btn}><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div></Link>
+            <button className={styles.btn} title="Start a new empty checkpoint" onClick={()=>reset()}><GrUserNew /></button>
+            <Link to="/newcheckpoint" state={{prev: lists.__current}}><div className={styles.btn} title="Derive a new local selection list from currently selected persons"><FaRegClone /> <IoMdArrowRoundForward className={styles.add}/> <BsClipboardPlus /></div></Link>
             {false&&<div className={styles.btn}><InstaName branchOff={branchOff} pred={lists.__current} /></div>}
             <div className={styles.breadcrumbspacer}></div>
-            {(lists[lists["__current"]].tag !== undefined) && <button className={styles.btn} disabled={!onlineStatus} onClick={()=>{sync(lists["__current"]);}}><MdRefresh /></button>}
-            {(lists[lists["__current"]].tag === undefined) && <Link to="/share" state={{prev: lists.__current}}><div className={styles.btn} disabled={!onlineStatus}><FiShare2 /></div></Link>}
+            {(lists[lists["__current"]].tag !== undefined) && <button className={styles.btn} title="Sync with server -- committed changes cannot be undone" disabled={!onlineStatus} onClick={()=>{sync(lists["__current"]);}}><MdRefresh /></button>}
+            {(lists[lists["__current"]].tag === undefined) && <Link to="/share" state={{prev: lists.__current}}><div className={styles.btn} disabled={!onlineStatus} title="Share this checkpoint"><FiShare2 /></div></Link>}
         </nav>);
     }
     useEffect(() => {

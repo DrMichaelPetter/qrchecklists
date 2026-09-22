@@ -45,9 +45,9 @@ const SideBar = ({lists,switchTo,clearState}) => {
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag!==undefined)
                       .map((key) =>
-                  <li><div key={key} className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag className={styles.icon}/> {lists[key].tag}</div></li>
+                  <li><div key={key} className={styles.minorItems} title={`Open subscription #${lists[key].tag}`} aria-label={`Open subscription #${lists[key].tag}`} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><FaHashtag className={styles.icon}/> {lists[key].tag}</div></li>
                   )}
-                  <li><div className={styles.minorItems} onClick={()=>{endSidebar();navigate("/cloud");}}><FaHashtag  className={styles.icon}/>  &middot; &middot; &middot; <TbCloudPlus  className={styles.icon}/></div></li>
+                  <li><div className={styles.minorItems} title="Manage cloud subscriptions" aria-label="Manage cloud subscriptions" onClick={()=>{endSidebar();navigate("/cloud");}}><FaHashtag  className={styles.icon}/>  &middot; &middot; &middot; <TbCloudPlus  className={styles.icon}/></div></li>
                 </ul>}</>}
               {Object.keys(lists).filter((k)=>((!(["all","__current"].includes(k))&&lists[k].tag===undefined))).length>0 && <><div  className={styles.majorItems} onClick={()=>setCheckpoints((s)=>!s)}><LuClipboard  className={styles.icon}/> My checkpoints {checkpoints && <GoTriangleDown  className={styles.icon}/>}{!checkpoints && <GoTriangleLeft  className={styles.icon}/>}</div>
                 {checkpoints && <ul className={styles.minorMenu}>
@@ -57,9 +57,9 @@ const SideBar = ({lists,switchTo,clearState}) => {
                       .filter((k)=>!(["all","__current"].includes(k)))
                       .filter((k)=>lists[k].tag===undefined)
                       .map((key) =>
-                  <li><div key={key} className={styles.minorItems} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><LuClipboardList className={styles.icon}/> {lists[key].name}</div></li>
+                  <li><div key={key} className={styles.minorItems} title={`Open checkpoint ${lists[key].name}`} aria-label={`Open checkpoint ${lists[key].name}`} onClick={()=>{switchTo(key);endSidebar();navigate("/checkpoint")}}><LuClipboardList className={styles.icon}/> {lists[key].name}</div></li>
                   )}
-                  <li><div className={styles.minorItems} onClick={()=>{navigate("/managecheckpoints");endSidebar();}}> <LuClipboardList className={styles.icon}/> &middot; &middot; &middot; <PiListMagnifyingGlassLight className={styles.icon}/></div></li>
+                  <li><div className={styles.minorItems} title="Manage checkpoints" aria-label="Manage checkpoints" onClick={()=>{navigate("/managecheckpoints");endSidebar();}}> <LuClipboardList className={styles.icon}/> &middot; &middot; &middot; <PiListMagnifyingGlassLight className={styles.icon}/></div></li>
                 </ul>}</>}
               <div  className={styles.majorItems} onClick={()=>setSettings((s)=>!s)}><HiCog  className={styles.icon}/> Settings {settings && <GoTriangleDown  className={styles.icon}/>}{!settings && <GoTriangleLeft  className={styles.icon}/>}</div>
                 {settings && <ul className={styles.minorMenu}>

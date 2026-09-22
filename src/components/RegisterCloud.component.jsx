@@ -74,15 +74,15 @@ return (<>
     <h1 className={styles.title}>Manage Cloud Subscriptions</h1>
     <ul>{
          Object.keys(servertags).map((tag) => <li className={styles.listpoint} key={tag}>
-            {(findTag(tag)===null) &&   <div className={styles.btn}>     <TbLinkPlus className={styles.icon} onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}</div>}
-            {(findTag(tag)!==null) && <><div className={styles.btndel}><TbLinkMinus className={styles.icon} onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><TbLinkOff onClick={()=>{deleteFromServer(tag);}} className={styles.additionaldel} /><MdRefresh onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
+            {(findTag(tag)===null) &&   <div className={styles.btn}>     <TbLinkPlus className={styles.icon} title="Subscribe to this cloud checkpoint" aria-label="Subscribe to this cloud checkpoint" onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}</div>}
+            {(findTag(tag)!==null) && <><div className={styles.btndel}><TbLinkMinus className={styles.icon} title="Unsubscribe from this checkpoint (still kept on the server)" aria-label="Unsubscribe from this checkpoint (still kept on the server)" onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><TbLinkOff title="Delete this checkpoint from the server (permanent, requires password)" aria-label="Delete this checkpoint from the server (permanent, requires password)" onClick={()=>{deleteFromServer(tag);}} className={styles.additionaldel} /><MdRefresh title="Sync with server -- committed changes cannot be undone" aria-label="Sync with server -- committed changes cannot be undone" onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
             </li>)
     }</ul>
     {orphans.length!==0 && <h1 className={styles.title}>Orphaned Checkpoints</h1>}
     <ul>
     {
         orphans.map((tag) => <li className={styles.listpoint} key={tag}>
-            <div className={styles.btn}>     <FaRecycle className={styles.icon} onClick={()=>{remove(tag)}}/> #{lists[tag].tag}</div>
+            <div className={styles.btn}>     <FaRecycle className={styles.icon} title="Unlink this lost checkpoint (kept locally)" aria-label="Turn this orphaned checkpoint subscription into a local checkpoint" onClick={()=>{remove(tag)}}/> #{lists[tag].tag}</div>
             </li>)
     }</ul></>);
 }

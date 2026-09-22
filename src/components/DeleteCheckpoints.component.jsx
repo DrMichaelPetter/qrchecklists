@@ -20,10 +20,10 @@ const DeleteCheckpoints = ({lists,removeCheckpoint,switchTo,renameCheckpoint}) =
                        .filter((k)=>(!(["all","__current"].includes(k))) && (lists[k].tag === undefined))
                        .map((key) => 
                         <li key={key} className={styles.checkpointItem} >
-                            <FaRegTrashAlt className={styles.icon} onClick={()=>removeCheckpoint(key)}/>
-                            <div  className={styles.checkpointname} onClick={()=>{switchTo(key);navigate("/checkpoint")}}> {lists[key].name} </div>
-                            <FiEdit3 className={styles.editicon} onClick={()=>{rename(key)}}/>
-                            <Link to="/newcheckpoint" state={{prev: key}}><FaRegClone className={styles.cloneicon}/></Link>
+                            <FaRegTrashAlt className={styles.icon} title="Delete this checkpoint (cannot be undone)" aria-label="Delete this checkpoint (cannot be undone)" onClick={()=>removeCheckpoint(key)}/>
+                            <div  className={styles.checkpointname} title="Open this checkpoint" aria-label="Open this checkpoint" onClick={()=>{switchTo(key);navigate("/checkpoint")}}> {lists[key].name} </div>
+                            <FiEdit3 className={styles.editicon} title="Rename this checkpoint" aria-label="Rename this checkpoint" onClick={()=>{rename(key)}}/>
+                            <Link to="/newcheckpoint" state={{prev: key}} title="Derive a new selection list from currently selected persons of this list" aria-label="Derive a new selection list from currently selected persons of this list"><FaRegClone className={styles.cloneicon}/></Link>
                         </li>
                     )}
             </ul>
