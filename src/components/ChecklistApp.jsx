@@ -12,6 +12,7 @@ import DeleteCheckpoints from 'components/DeleteCheckpoints.component';
 import RegisterCloud from 'components/RegisterCloud.component';
 import Settings from './Settings.component';
 import ShareCheckpoint from './ShareCheckpoint.component';
+import SubscribeCheckpoint from './SubscribeCheckpoint.component';
 import Toast from 'components/Toast';
 import { api, toBig } from 'services/api';
 
@@ -140,6 +141,12 @@ const ChecklistApp = () => {
         return newkey;
     }
 
+    const findKeyByTag = (tag) => {
+        for (const key in lists)
+            if (lists[key] && lists[key].tag === tag) return key;
+        return null;
+    }
+
     const branchOff = (newname,key) => {
         let newkey = createCheckpoint(newname,key);
         switchTo(newkey);
@@ -234,6 +241,7 @@ const ChecklistApp = () => {
                     <Route path="/checkpoint" element={ChecklistWithTitle()} />
                     <Route path="/cloud" element={<RegisterCloud  removeTag={removeTag} settings={settings} sync={sync} lists={lists} delCheckpoint={delCheckpoint} subscribeTo={subscribeTo} switchTo={switchTo} showError={showError} showNotice={showNotice} />} />
                     <Route path="/share" element={<ShareCheckpoint lists={lists} switchTo={switchTo} share={share} />} />
+                    <Route path="/subscribe/:tag" element={<SubscribeCheckpoint settings={settings} subscribeTo={subscribeTo} switchTo={switchTo} findKeyByTag={findKeyByTag} showError={showError} showNotice={showNotice} />} />
                     <Route path="/newcheckpoint" element={<CreateCheckpoint lists={lists} switchTo={switchTo} createCheckpoint={createCheckpoint} showNotice={showNotice} showError={showError} />} />
                     <Route path="/managecheckpoints" element={<DeleteCheckpoints renameCheckpoint={rename}  switchTo={switchTo}  lists={lists} removeCheckpoint={delCheckpoint}/>} />
                 </Routes>

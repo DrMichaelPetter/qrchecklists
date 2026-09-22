@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { BsCloudDownload } from 'react-icons/bs';
 import { MdRefresh } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { TbLinkMinus, TbLinkOff, TbLinkPlus } from 'react-icons/tb';
+import { TbExternalLink, TbLinkMinus, TbLinkOff, TbLinkPlus, TbLink } from 'react-icons/tb';
 import { FaRecycle } from 'react-icons/fa';
 import { api, toBig } from 'services/api';
 
@@ -47,6 +47,19 @@ const RegisterCloud = ({lists,settings,delCheckpoint,subscribeTo,sync,removeTag,
         navigate('/managecheckpoints');
     }
 
+    const shareLink = (tag) => `${window.location.origin}${window.location.pathname}#/subscribe/${encodeURIComponent(tag)}`;
+    const copyLink = (tag) => {
+        const link = shareLink(tag);
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(link).then(
+                () => showNotice(`Link for #${tag} copied`),
+                () => showError("Could not copy link.")
+            );
+        } else {
+            window.prompt("Copy this subscription link:", link);
+        }
+    }
+
     const syncTo = async (tag) => {
         try {
             const data = await api(baseurl, tag);
@@ -74,8 +87,8 @@ return (<>
     <h1 className={styles.title}>Manage Cloud Subscriptions</h1>
     <ul>{
          Object.keys(servertags).map((tag) => <li className={styles.listpoint} key={tag}>
-            {(findTag(tag)===null) &&   <div className={styles.btn}>     <TbLinkPlus className={styles.icon} title="Subscribe to this cloud checkpoint" aria-label="Subscribe to this cloud checkpoint" onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}</div>}
-            {(findTag(tag)!==null) && <><div className={styles.btndel}><TbLinkMinus className={styles.icon} title="Unsubscribe from this checkpoint (still kept on the server)" aria-label="Unsubscribe from this checkpoint (still kept on the server)" onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><TbLinkOff title="Delete this checkpoint from the server (permanent, requires password)" aria-label="Delete this checkpoint from the server (permanent, requires password)" onClick={()=>{deleteFromServer(tag);}} className={styles.additionaldel} /><MdRefresh title="Sync with server -- committed changes cannot be undone" aria-label="Sync with server -- committed changes cannot be undone" onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
+            {(findTag(tag)===null) &&   <div className={styles.btn}>     <TbLinkPlus className={styles.icon} title="Subscribe to this cloud checkpoint" aria-label="Subscribe to this cloud checkpoint" onClick={()=>{syncTo(tag)}}/> #{servertags[tag].tag}<TbExternalLink className={styles.additionalicon} title="Copy subscription link for this checkpoint" aria-label="Copy subscription link for this checkpoint" onClick={()=>{copyLink(tag)}}/></div>}
+            {(findTag(tag)!==null) && <><div className={styles.btndel}><TbLinkMinus className={styles.icon} title="Unsubscribe from this checkpoint (still kept on the server)" aria-label="Unsubscribe from this checkpoint (still kept on the server)" onClick={()=>{delCheckpoint(findTag(tag))}}/> #{tag}</div><TbExternalLink title="Copy subscription link for this checkpoint" aria-label="Copy subscription link for this checkpoint" onClick={()=>{copyLink(tag);}} className={styles.additionalicon} /><TbLinkOff title="Delete this checkpoint from the server (permanent, requires password)" aria-label="Delete this checkpoint from the server (permanent, requires password)" onClick={()=>{deleteFromServer(tag);}} className={styles.additionaldel} /><MdRefresh title="Sync with server -- committed changes cannot be undone" aria-label="Sync with server -- committed changes cannot be undone" onClick={() => {sync(findTag(tag));}} className={styles.additionalicon}/></>}
             </li>)
     }</ul>
     {orphans.length!==0 && <h1 className={styles.title}>Orphaned Checkpoints</h1>}
